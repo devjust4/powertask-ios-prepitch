@@ -3,30 +3,49 @@
 //  Powertask
 //
 //  Created by Andrea Martinez Bartolome on 6/2/22.
+//  Eddited by Daniel Torres on 15/2/22.
 //
 
 import UIKit
-class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class AddPeriodController: UIViewController {
     var period: Period?
     var subject: [Subject]?
-    var UserIsEditing: Bool?
+    var userIsEditing: Bool?
     var indexSubject: Int?
     
-    @IBOutlet weak var PeriodTableView: UITableView!
-    
+    @IBOutlet weak var periodTableView: UITableView!
     @IBOutlet weak var editPeriod: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        subject = [Subject(name: "iOS", color: .red), Subject(name: "Acceso a datos", color: .blue), Subject(name: "ingles", color: .green)]
+        subject = MockUser.user.subjects
         
-        PeriodTableView.dataSource = self
-        PeriodTableView.delegate = self
-        PeriodTableView.reloadData()
-        UserIsEditing = false
-    
+        periodTableView.dataSource = self
+        periodTableView.delegate = self
+        periodTableView.reloadData()
+        userIsEditing = false
     }
 
+   
+    
+    @IBAction func editPeriod(_ sender: Any) {
+        if let editing = userIsEditing {
+            if editing {
+                userIsEditing = false
+                periodTableView.reloadData()
+                editPeriod.title = "Editar"
+                periodTableView.reloadData()
+            } else {
+                userIsEditing =  true
+                periodTableView.reloadData()
+                editPeriod.title = "Guardar"
+                periodTableView.reloadData()
+            }
+        }
+    }
+}
+
+extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     func numberOfSections(in tableView: UITableView) -> Int {
        return 3
    }
@@ -41,30 +60,22 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
                 return subject.count
             }
         }
-        
        return 0
    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        var name = ""
         switch (section){
             case 0:
-                name = "Details"
-                break
+                return "Detalles"
             case 2:
-                name = "Subjects"
-                break
+                return "Asignaturas"
             default:
-                name = ""
-                break
+                return ""
         }
-        return name
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         indexSubject = indexPath.row
-       
    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,12 +84,12 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameTableViewCell
             
-            cell.setPeriodName.isEnabled = UserIsEditing! ? true : false
+            cell.setPeriodName.isEnabled = userIsEditing! ? true : false
             cell.setPeriodName.text = period?.name
             return cell
         }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
-            cell.datePicker.isEnabled = UserIsEditing! ? true : false
+            cell.datePicker.isEnabled = userIsEditing! ? true : false
             if indexPath.row == 0{
                 cell.periodTime.text =  "Inicio"
                 cell.datePicker.setDate((period?.startDate)!, animated: false)
@@ -95,39 +106,37 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
                 cell.subjectName.text = subject.name
                 cell.subjectColor.backgroundColor = subject.color
                 cell.checkSubject.isHidden = false
-                cell.subjectName.isEditable = UserIsEditing! ? true : false
-                cell.delegate = self
+                cell.subjectName.isEditable = userIsEditing! ? true : false
+                cell.subjectColorDelegate = self
+                if let editing = userIsEditing, editing == true {
+                    cell.subjectName.isEditable = true
+                    cell.subjectColor.isEnabled = true
+                    cell.checkSubject.isEnabled = true
+                } else {
+                    cell.subjectName.isEditable = false
+                    cell.subjectColor.isEnabled = false
+                    cell.checkSubject.isEnabled = false
+                }
             }
             return cell
         }
         return cell
    }
-    
-    @IBAction func editPeriod(_ sender: Any) {
-        if editPeriod.title == "Edit"{
-            UserIsEditing =  true
-            PeriodTableView.reloadData()
-            editPeriod.title = "Save"
-        }else if editPeriod.title == "Save"{
-            UserIsEditing = false
-            PeriodTableView.reloadData()
-            editPeriod.title = "Edit"
-        }
-        
-    }
-    
-    @IBAction func subjectColor(_ sender: Any) {
-//            if let viewController = storyboard?.instantiateViewController(withIdentifier: "selectColorSubject") as? SubjectSelectorViewController {
-//                viewController.subject = subject?[indexSubject!]
-//                self.present(viewController, animated: true, completion: nil)
-//        }
-        
-        
-    }
-    
 }
 
-extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate {
+extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate {
+    func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool) {
+        if let index = periodTableView.indexPath(for: cell)?.row {
+            // marcar asignatura como perteneciente al periodo en el que se está
+        }
+    }
+    
+    func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
+        if let index = periodTableView.indexPath(for: cell)?.row {
+            MockUser.subjects[index].color = color
+        }
+    }
+    
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
         colorViewController.delegate = cell
