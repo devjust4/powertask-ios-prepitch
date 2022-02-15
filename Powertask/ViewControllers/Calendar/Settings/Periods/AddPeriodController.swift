@@ -6,27 +6,42 @@
 //
 
 import UIKit
-class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class AddPeriodController: UIViewController {
     var period: Period?
     var subject: [Subject]?
     var UserIsEditing: Bool?
     var indexSubject: Int?
     
-    @IBOutlet weak var PeriodTableView: UITableView!
-    
+    @IBOutlet weak var periodTableView: UITableView!
     @IBOutlet weak var editPeriod: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        subject = [Subject(name: "iOS", color: .red), Subject(name: "Acceso a datos", color: .blue), Subject(name: "ingles", color: .green)]
+        subject = MockUser.user.subjects
         
-        PeriodTableView.dataSource = self
-        PeriodTableView.delegate = self
-        PeriodTableView.reloadData()
+        periodTableView.dataSource = self
+        periodTableView.delegate = self
+        periodTableView.reloadData()
         UserIsEditing = false
     
     }
 
+   
+    
+    @IBAction func editPeriod(_ sender: Any) {
+        if editPeriod.title == "Editar"{
+            UserIsEditing =  true
+            periodTableView.reloadData()
+            editPeriod.title = "Guardar"
+        }else if editPeriod.title == "Guardar"{
+            UserIsEditing = false
+            periodTableView.reloadData()
+            editPeriod.title = "Editar"
+        }
+    }
+}
+
+extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     func numberOfSections(in tableView: UITableView) -> Int {
        return 3
    }
@@ -41,7 +56,6 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
                 return subject.count
             }
         }
-        
        return 0
    }
     
@@ -49,10 +63,10 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
         var name = ""
         switch (section){
             case 0:
-                name = "Details"
+                name = "Detalles"
                 break
             case 2:
-                name = "Subjects"
+                name = "Asignaturas"
                 break
             default:
                 name = ""
@@ -102,32 +116,17 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
         }
         return cell
    }
-    
-    @IBAction func editPeriod(_ sender: Any) {
-        if editPeriod.title == "Edit"{
-            UserIsEditing =  true
-            PeriodTableView.reloadData()
-            editPeriod.title = "Save"
-        }else if editPeriod.title == "Save"{
-            UserIsEditing = false
-            PeriodTableView.reloadData()
-            editPeriod.title = "Edit"
-        }
-        
-    }
-    
-    @IBAction func subjectColor(_ sender: Any) {
-//            if let viewController = storyboard?.instantiateViewController(withIdentifier: "selectColorSubject") as? SubjectSelectorViewController {
-//                viewController.subject = subject?[indexSubject!]
-//                self.present(viewController, animated: true, completion: nil)
-//        }
-        
-        
-    }
-    
 }
 
 extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate {
+    func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
+        let indexPath = periodTableView.indexPath(for: cell)
+        if let index = indexPath?.row {
+            MockUser.subjects[index].color = color
+            print(MockUser.subjects[index].color)
+        }
+    }
+    
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
         colorViewController.delegate = cell

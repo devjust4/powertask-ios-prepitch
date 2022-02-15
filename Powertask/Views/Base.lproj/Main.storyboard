@@ -1234,7 +1234,6 @@
                                                     <buttonConfiguration key="configuration" style="plain"/>
                                                     <connections>
                                                         <action selector="selectColor:" destination="CL8-0L-G0w" eventType="touchUpInside" id="5MZ-kv-XJo"/>
-                                                        <action selector="subjectColor:" destination="KS9-av-QHg" eventType="touchUpInside" id="O6G-Es-K2m"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -1288,8 +1287,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="uuK-1d-7dc"/>
                     <connections>
-                        <outlet property="PeriodTableView" destination="Fip-Rt-z33" id="hRt-ZO-fOT"/>
                         <outlet property="editPeriod" destination="PAM-91-AaS" id="tal-Ou-cqe"/>
+                        <outlet property="periodTableView" destination="Fip-Rt-z33" id="hRt-ZO-fOT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jGT-Nd-64T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

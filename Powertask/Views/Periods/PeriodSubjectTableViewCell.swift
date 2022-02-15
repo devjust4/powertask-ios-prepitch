@@ -7,6 +7,7 @@
 
 protocol ColorButtonPushedProtocol {
     func instanceColorPicker(_ cell: SubjectTableViewCell)
+    func colorPicked(_ cell: SubjectTableViewCell, color: UIColor)
 }
 
 import UIKit
@@ -38,7 +39,7 @@ class SubjectTableViewCell: UITableViewCell {
 
 extension SubjectTableViewCell: UIColorPickerViewControllerDelegate {
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
-        subjectColor.tintColor = color
-        
+        subjectColor.backgroundColor = color
+        delegate?.colorPicked(self, color: color)
     }
 }
