@@ -16,7 +16,6 @@
 		790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */; };
 		790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */; };
 		790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */; };
-		790BE66D27BC34FA009D2706 /* SubjectDropZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66C27BC34FA009D2706 /* SubjectDropZone.swift */; };
 		7911F32127A9AEDA007036DA /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7911F32027A9AEDA007036DA /* OnboardingViewController.swift */; };
 		7911F32327A9AF02007036DA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7911F32227A9AF02007036DA /* Event.swift */; };
 		79168CE627BA885700BBA389 /* AllDayEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */; };
@@ -65,7 +64,6 @@
 		790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
 		790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableTableViewCell.swift; sourceTree = "<group>"; };
 		790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
-		790BE66C27BC34FA009D2706 /* SubjectDropZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectDropZone.swift; sourceTree = "<group>"; };
 		7911F32027A9AEDA007036DA /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = Powertask/Views/Tasks/OnboardingViewController.swift; sourceTree = SOURCE_ROOT; };
 		7911F32227A9AF02007036DA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllDayEventTableViewCell.swift; path = Powertask/Views/Calendars/Cells/CalendarEventCells/AllDayEventTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -130,7 +128,6 @@
 			children = (
 				790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */,
 				790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */,
-				790BE66C27BC34FA009D2706 /* SubjectDropZone.swift */,
 			);
 			path = TimeTableCells;
 			sourceTree = "<group>";
@@ -466,7 +463,6 @@
 				B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */,
 				7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */,
 				79168CEA27BA885700BBA389 /* TextFieldTableViewCell.swift in Sources */,
-				790BE66D27BC34FA009D2706 /* SubjectDropZone.swift in Sources */,
 				B6D9640327B08BBF00F8259D /* PeriodNameTableViewCell.swift in Sources */,
 				B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */,
 				79DEE2CB2797256700F79E83 /* AddTaskViewController.swift in Sources */,
