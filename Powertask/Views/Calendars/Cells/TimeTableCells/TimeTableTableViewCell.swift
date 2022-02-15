@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TImeTableTableViewCell: UITableViewCell {
+class TimeTableTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

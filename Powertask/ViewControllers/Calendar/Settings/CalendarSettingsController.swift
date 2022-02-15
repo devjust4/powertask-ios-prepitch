@@ -15,7 +15,6 @@ class CalendarSettingsController: UIViewController{
     @IBOutlet weak var PeriodView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
-//        TODO: Boton de volver navigation
     }
     @IBAction func SegmentedSettings(_ sender: UISegmentedControl) {
         if SettingsOptions.selectedSegmentIndex == 0{
