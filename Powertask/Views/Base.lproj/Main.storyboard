@@ -1097,23 +1097,18 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ndf-8o-OZP">
-                                <rect key="frame" x="372" y="44" width="29" height="24"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mMl-MB-y0X">
+                                <rect key="frame" x="374" y="44" width="20" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="73" id="JX6-yh-uto"/>
-                                    <constraint firstAttribute="height" constant="24" id="XNu-XS-pab"/>
+                                    <constraint firstAttribute="height" constant="20" id="BXb-72-P7N"/>
+                                    <constraint firstAttribute="width" constant="20" id="rJf-2g-pLn"/>
                                 </constraints>
-                                <menu key="menu" id="j3D-a5-fl6">
-                                    <children>
-                                        <command title="Item 1" id="5SP-vj-ggo"/>
-                                        <command title="Item 2" id="8qp-9g-Jgg"/>
-                                    </children>
-                                </menu>
-                                <state key="normal">
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
                                     <imageReference key="image" image="plus.circle" catalog="system" symbolScale="large"/>
-                                </state>
+                                </buttonConfiguration>
                                 <connections>
-                                    <action selector="newPeriod:" destination="BrK-tl-cFn" eventType="touchUpInside" id="oow-aC-mWu"/>
+                                    <action selector="newPeriod:" destination="BrK-tl-cFn" eventType="touchUpInside" id="f9w-Mc-cab"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1121,11 +1116,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EPe-1U-1Kl" firstAttribute="top" secondItem="RQY-Rn-7tu" secondAttribute="top" id="3Ri-vp-WlH"/>
-                            <constraint firstItem="ndf-8o-OZP" firstAttribute="top" secondItem="sLr-sd-BYy" secondAttribute="top" id="Dyq-kz-yRx"/>
+                            <constraint firstItem="mMl-MB-y0X" firstAttribute="top" secondItem="sLr-sd-BYy" secondAttribute="top" id="Hsz-Al-368"/>
                             <constraint firstAttribute="bottom" secondItem="EPe-1U-1Kl" secondAttribute="bottom" id="NE5-sq-RCA"/>
                             <constraint firstItem="EPe-1U-1Kl" firstAttribute="leading" secondItem="RQY-Rn-7tu" secondAttribute="leading" id="RFw-jj-FF5"/>
-                            <constraint firstItem="ndf-8o-OZP" firstAttribute="leading" secondItem="sLr-sd-BYy" secondAttribute="leading" constant="372" id="c50-Zu-R37"/>
                             <constraint firstAttribute="trailing" secondItem="EPe-1U-1Kl" secondAttribute="trailing" id="wJm-U6-ega"/>
+                            <constraint firstItem="sLr-sd-BYy" firstAttribute="trailing" secondItem="mMl-MB-y0X" secondAttribute="trailing" constant="20" id="y8h-7D-Pje"/>
                         </constraints>
                     </view>
                     <connections>

@@ -96,6 +96,7 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
                 cell.subjectColor.backgroundColor = subject.color
                 cell.checkSubject.isHidden = false
                 cell.subjectName.isEditable = UserIsEditing! ? true : false
+                cell.delegate = self
             }
             return cell
         }
@@ -122,6 +123,14 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
 //        }
     }
     
+}
+
+extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate {
+    func instanceColorPicker(_ cell: SubjectTableViewCell) {
+        let colorViewController = UIColorPickerViewController()
+        //colorViewController.delegate = cell
+        self.present(colorViewController, animated: true, completion: nil)
+    }
 }
     
 

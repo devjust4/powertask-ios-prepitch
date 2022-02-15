@@ -126,7 +126,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showPeriodsDetail" {
+        if segue.identifier == "showPeriodDetail" {
             if let indexpath = periodsTableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddPeriodController
                 controller?.period = sender as? Periods
@@ -136,7 +136,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func newPeriod(_ sender: UIButton) {
-        performSegue(withIdentifier: "showPeriodsDetail", sender: Any?.self)
+        performSegue(withIdentifier: "showPeriodDetail", sender: Any?.self)
     }
     
     

@@ -5,6 +5,10 @@
 //  Created by Andrea Martinez Bartolome on 6/2/22.
 //
 
+protocol ColorButtonPushedProtocol {
+    func instanceColorPicker(_ cell: SubjectTableViewCell)
+}
+
 import UIKit
 class SubjectTableViewCell: UITableViewCell {
     
@@ -12,6 +16,7 @@ class SubjectTableViewCell: UITableViewCell {
     @IBOutlet weak var subjectName: UITextView!
     @IBOutlet weak var checkSubject: UIButton!
     @IBOutlet weak var subjectColor: UIButton!
+    var delegate: ColorButtonPushedProtocol?
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -255,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				79708FA62791F64900E42731 /* CalendarsViewController.swift */,
+				79168CF327BAF14F00BBA389 /* NewEventViewController.swift */,
 				79168CED27BA899900BBA389 /* Settings */,
 			);
 			path = Calendar;
@@ -288,7 +289,6 @@
 			isa = PBXGroup;
 			children = (
 				79168CEC27BA88F500BBA389 /* Cells */,
-				79168CF327BAF14F00BBA389 /* NewEventViewController.swift */,
 			);
 			path = Calendars;
 			sourceTree = "<group>";
@@ -307,8 +307,8 @@
 		B6D963FB27B03DE700F8259D /* Periods */ = {
 			isa = PBXGroup;
 			children = (
-				B6D963F127AB121100F8259D /* PeriodsController.swift */,
 				B6D963FC27B03DFE00F8259D /* AddPeriodController.swift */,
+				B6D963F127AB121100F8259D /* PeriodsController.swift */,
 				B6D9641027B5C8E500F8259D /* ColorSubjectSelectorViewController.swift */,
 			);
 			path = Periods;
