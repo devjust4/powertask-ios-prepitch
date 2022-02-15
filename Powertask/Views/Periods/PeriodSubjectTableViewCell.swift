@@ -23,6 +23,9 @@ class SubjectTableViewCell: UITableViewCell {
         subjectColor.layer.cornerRadius = 8
         
     }
+    @IBAction func selectColor(_ sender: Any) {
+        delegate?.instanceColorPicker(self)
+    }
     @IBAction func checkSubject(_ sender: UIButton) {
         if checkSubject.imageView?.alpha == 1{
             checkSubject.imageView?.alpha = 0
@@ -31,6 +34,11 @@ class SubjectTableViewCell: UITableViewCell {
             checkSubject.imageView?.alpha = 1
         }
     }
-    
-    
+}
+
+extension SubjectTableViewCell: UIColorPickerViewControllerDelegate {
+    func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
+        subjectColor.tintColor = color
+        
+    }
 }

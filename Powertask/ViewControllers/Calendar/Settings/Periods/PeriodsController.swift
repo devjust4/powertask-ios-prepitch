@@ -8,16 +8,16 @@
 import UIKit
 
 class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-    var period: [Periods]?
+    var period: [Period]?
     var deleteindexpath: IndexPath?
-    var actualPeriod: [Periods]?
-    var previousPeriod: [Periods]?
+    var actualPeriod: [Period]?
+    var previousPeriod: [Period]?
     var indexPeriod: Int?
     @IBOutlet var periodsTableView: UITableView!
     let confirmationAction = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .actionSheet)
     override func viewDidLoad() {
         super.viewDidLoad()
-        period = [Periods(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690)), Periods(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690))]
+        period = [Period(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690)), Period(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690))]
 //        TODO: comprobar fechas periodos
         periodsTableView.dataSource = self
         periodsTableView.delegate = self
@@ -57,9 +57,9 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
 
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          if indexPath.section == 0{
-             performSegue(withIdentifier: "showPeriodsDetail", sender: actualPeriod![indexPath.row])
+             performSegue(withIdentifier: "showPeriodDetail", sender: actualPeriod![indexPath.row])
          }else if indexPath.section == 1{
-             performSegue(withIdentifier: "showPeriodsDetail", sender: previousPeriod![indexPath.row])
+             performSegue(withIdentifier: "showPeriodDetail", sender: previousPeriod![indexPath.row])
          }
          
     }
@@ -129,7 +129,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         if segue.identifier == "showPeriodDetail" {
             if let indexpath = periodsTableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddPeriodController
-                controller?.period = sender as? Periods
+                controller?.period = sender as? Period
                 print("ok")
             }
         }

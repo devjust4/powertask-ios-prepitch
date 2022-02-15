@@ -7,7 +7,7 @@
 // probando
 import Foundation
 
-class UserTask {
+struct UserTask {
     var classroomId: Int?
     var studentId: Int?
     var id: Int?
@@ -19,28 +19,9 @@ class UserTask {
     var handoverDate: Date?
     var startDate: Date?
     var subtasks: [UserSubtask]?
-    
-    init(completed: Bool, name: String, subject: Subject, description: String, mark: Float, startDate: Date) {
-        self.completed = completed
-        self.name = name
-        self.subject = subject
-        self.description = description
-        self.mark = mark
-        self.startDate = startDate
-    }
-    
-    init(completed: Bool, name: String, subject: Subject, description: String, mark: Float, startDate: Date, subtasks: [UserSubtask]) {
-        self.completed = completed
-        self.name = name
-        self.subject = subject
-        self.description = description
-        self.mark = mark
-        self.startDate = startDate
-        self.subtasks = subtasks
-    }
 }
 
-class UserSubtask {
+struct UserSubtask {
     var name: String?
     var done: Bool
     

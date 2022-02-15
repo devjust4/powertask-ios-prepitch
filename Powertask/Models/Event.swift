@@ -7,27 +7,29 @@
 
 import Foundation
 
-class Event {
+struct Event {
     var id: Int?
     var name: String
     var type: EventType
+    var allDay: Bool?
     var startDate: Date
     var endDate: Date?
     var subject: Subject?
+    var notes: String?
     
-    init(name: String, type: EventType, startDate: Date, endDate: Date) {
-        self.name = name
-        self.type = type
-        self.startDate = startDate
-        self.endDate = endDate
-    }
-    
-    init(name: String, type: EventType, startDate: Date, subject: Subject) {
-        self.name = name
-        self.type = type
-        self.startDate = startDate
-        self.subject = subject
-    }
+//    init(name: String, type: EventType, startDate: Date, endDate: Date) {
+//        self.name = name
+//        self.type = type
+//        self.startDate = startDate
+//        self.endDate = endDate
+//    }
+//    
+//    init(name: String, type: EventType, startDate: Date, subject: Subject) {
+//        self.name = name
+//        self.type = type
+//        self.startDate = startDate
+//        self.subject = subject
+//    }
     
 }
 

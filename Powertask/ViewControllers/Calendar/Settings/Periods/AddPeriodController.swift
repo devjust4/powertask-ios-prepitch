@@ -7,7 +7,7 @@
 
 import UIKit
 class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-    var period: Periods?
+    var period: Period?
     var subject: [Subject]?
     var UserIsEditing: Bool?
     var indexSubject: Int?
@@ -121,6 +121,8 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
 //                viewController.subject = subject?[indexSubject!]
 //                self.present(viewController, animated: true, completion: nil)
 //        }
+        
+        
     }
     
 }
@@ -128,7 +130,7 @@ class AddPeriodController: UIViewController, UITableViewDataSource, UITableViewD
 extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate {
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
-        //colorViewController.delegate = cell
+        colorViewController.delegate = cell
         self.present(colorViewController, animated: true, completion: nil)
     }
 }

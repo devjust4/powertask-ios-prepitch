@@ -1233,6 +1233,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain"/>
                                                     <connections>
+                                                        <action selector="selectColor:" destination="CL8-0L-G0w" eventType="touchUpInside" id="5MZ-kv-XJo"/>
                                                         <action selector="subjectColor:" destination="KS9-av-QHg" eventType="touchUpInside" id="O6G-Es-K2m"/>
                                                     </connections>
                                                 </button>

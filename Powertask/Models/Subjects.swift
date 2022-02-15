@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Subject {
+struct Subject {
     var id: Int?
     var name: String
     var color: UIColor

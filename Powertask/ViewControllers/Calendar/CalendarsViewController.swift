@@ -19,6 +19,7 @@ class CalendarsViewController: UIViewController {
     
     var selectedDateEvents: [Event]?
     let eventStore = EKEventStore()
+   //TODO:  transformar todo a los nuevos datos
     var events = [Event(name: "Examen 1",
                         type: EventType.exam,
                         startDate: Date.now,

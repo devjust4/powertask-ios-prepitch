@@ -128,17 +128,19 @@ class AddTaskViewController: UIViewController {
     
     // MARK: - Navigation
     @IBAction func setTaskDone(_ sender: Any) {
-        if let task = userTask {
-            if task.completed {
-                doneButton.setImage(Constants.taskUndoneImage, for: .normal)
-                doneButton.tintColor = .black
-                task.completed = false
-            } else {
-                doneButton.setImage(Constants.taskDoneImage, for: .normal)
-                doneButton.tintColor = Constants.appColor
-                task.completed = true
-            }
+        guard let task = userTask else {
+            return
         }
+        if task.completed {
+            doneButton.setImage(Constants.taskUndoneImage, for: .normal)
+            doneButton.tintColor = .black
+            userTask!.completed = false
+        } else {
+            doneButton.setImage(Constants.taskDoneImage, for: .normal)
+            doneButton.tintColor = Constants.appColor
+            userTask!.completed = true
+        }
+
     }
     
     @IBAction func editTask(_ sender: Any) {
@@ -192,15 +194,15 @@ class AddTaskViewController: UIViewController {
     }
     
     func saveData(){
-        if let userTask = userTask {
-            userTask.name = taskNameTextField.text ?? "Tarea sin nombre"
-            userTask.description = descriptionTextView.text
+        if let task = userTask {
+            userTask!.name = taskNameTextField.text ?? "Tarea sin nombre"
+            userTask!.description = descriptionTextView.text
             // TODO: Controlar nota FLOAT?
-            userTask.mark = Float(markTextField.text ?? "00")
-            userTask.handoverDate = handoverDatePicker.date
+            userTask!.mark = Float(markTextField.text ?? "00")
+            userTask!.handoverDate = handoverDatePicker.date
             
             if !startDatePicker.isHidden {
-                userTask.startDate = startDatePicker.date
+                userTask!.startDate = startDatePicker.date
             }
             // TODO: falta perform date
         } else {

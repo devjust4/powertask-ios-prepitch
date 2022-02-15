@@ -20,18 +20,7 @@ class TasksListController: UITableViewController {
         super.viewDidLoad()
         // MARK: - Mock data
         subjects = [Subject(name: "iOS", color: .red), Subject(name: "Acceso a datos", color: .blue), Subject(name: "ingles", color: .green)]
-        userTasks = [UserTask(completed: true,
-                              name: "P03: Lorem ipsum",
-                              subject: subjects![0],
-                              description: "Una prueba genial que me gustaría llevarme a mi casa de paseo",
-                              mark: 5,
-                              startDate: Date(timeIntervalSince1970: 234234234)),
-                     UserTask(completed: false,
-                              name: "Gestor de empleados",
-                              subject: subjects![1],
-                              description: "Una prueba genial que me gustaría llevarme a mi casa de paseo",
-                              mark: 10,
-                              startDate: Date(timeIntervalSince1970: 234234253523), subtasks: [UserSubtask(name: "Subtarea 1", done: true), UserSubtask(name: "Subtarea 2", done: false)])]
+        userTasks = MockUser.user.tasks
     }
     
             
