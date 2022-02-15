@@ -3,13 +3,14 @@
 //  Powertask
 //
 //  Created by Andrea Martinez Bartolome on 6/2/22.
+//  Eddited by Daniel Torres on 15/2/22.
 //
 
 import UIKit
 class AddPeriodController: UIViewController {
     var period: Period?
     var subject: [Subject]?
-    var UserIsEditing: Bool?
+    var userIsEditing: Bool?
     var indexSubject: Int?
     
     @IBOutlet weak var periodTableView: UITableView!
@@ -22,21 +23,24 @@ class AddPeriodController: UIViewController {
         periodTableView.dataSource = self
         periodTableView.delegate = self
         periodTableView.reloadData()
-        UserIsEditing = false
-    
+        userIsEditing = false
     }
 
    
     
     @IBAction func editPeriod(_ sender: Any) {
-        if editPeriod.title == "Editar"{
-            UserIsEditing =  true
-            periodTableView.reloadData()
-            editPeriod.title = "Guardar"
-        }else if editPeriod.title == "Guardar"{
-            UserIsEditing = false
-            periodTableView.reloadData()
-            editPeriod.title = "Editar"
+        if let editing = userIsEditing {
+            if editing {
+                userIsEditing = false
+                periodTableView.reloadData()
+                editPeriod.title = "Editar"
+                periodTableView.reloadData()
+            } else {
+                userIsEditing =  true
+                periodTableView.reloadData()
+                editPeriod.title = "Guardar"
+                periodTableView.reloadData()
+            }
         }
     }
 }
@@ -60,25 +64,18 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        var name = ""
         switch (section){
             case 0:
-                name = "Detalles"
-                break
+                return "Detalles"
             case 2:
-                name = "Asignaturas"
-                break
+                return "Asignaturas"
             default:
-                name = ""
-                break
+                return ""
         }
-        return name
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         indexSubject = indexPath.row
-       
    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -87,12 +84,12 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameTableViewCell
             
-            cell.setPeriodName.isEnabled = UserIsEditing! ? true : false
+            cell.setPeriodName.isEnabled = userIsEditing! ? true : false
             cell.setPeriodName.text = period?.name
             return cell
         }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
-            cell.datePicker.isEnabled = UserIsEditing! ? true : false
+            cell.datePicker.isEnabled = userIsEditing! ? true : false
             if indexPath.row == 0{
                 cell.periodTime.text =  "Inicio"
                 cell.datePicker.setDate((period?.startDate)!, animated: false)
@@ -109,8 +106,17 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                 cell.subjectName.text = subject.name
                 cell.subjectColor.backgroundColor = subject.color
                 cell.checkSubject.isHidden = false
-                cell.subjectName.isEditable = UserIsEditing! ? true : false
-                cell.delegate = self
+                cell.subjectName.isEditable = userIsEditing! ? true : false
+                cell.subjectColorDelegate = self
+                if let editing = userIsEditing, editing == true {
+                    cell.subjectName.isEditable = true
+                    cell.subjectColor.isEnabled = true
+                    cell.checkSubject.isEnabled = true
+                } else {
+                    cell.subjectName.isEditable = false
+                    cell.subjectColor.isEnabled = false
+                    cell.checkSubject.isEnabled = false
+                }
             }
             return cell
         }
@@ -118,12 +124,16 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
    }
 }
 
-extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate {
+extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate {
+    func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool) {
+        if let index = periodTableView.indexPath(for: cell)?.row {
+            // marcar asignatura como perteneciente al periodo en el que se está
+        }
+    }
+    
     func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
-        let indexPath = periodTableView.indexPath(for: cell)
-        if let index = indexPath?.row {
+        if let index = periodTableView.indexPath(for: cell)?.row {
             MockUser.subjects[index].color = color
-            print(MockUser.subjects[index].color)
         }
     }
     
