@@ -1377,33 +1377,21 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8xH-5R-jHv">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="571"/>
-                                <color key="backgroundColor" red="0.67058825489999996" green="0.73725497719999999" blue="0.4588235021" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Yw2-ah-VyQ" customClass="TimeTableTableViewCell" customModule="Powertask" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeBlockCell" id="Yw2-ah-VyQ" customClass="TimeTableTableViewCell" customModule="Powertask" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="47.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Yw2-ah-VyQ" id="kLi-zs-luu">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="47.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NeZ-rZ-SH5">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NeZ-rZ-SH5" customClass="SubjectDropZone" customModule="Powertask" customModuleProvider="target">
                                                     <rect key="frame" x="248" y="8" width="146" height="31.5"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asignatura" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kd8-YH-qYo">
-                                                            <rect key="frame" x="5" y="3" width="136" height="25.5"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
-                                                        <constraint firstItem="Kd8-YH-qYo" firstAttribute="leading" secondItem="NeZ-rZ-SH5" secondAttribute="leading" constant="5" id="92x-cK-EO8"/>
-                                                        <constraint firstAttribute="bottom" secondItem="Kd8-YH-qYo" secondAttribute="bottom" constant="3" id="DJ2-bM-2lq"/>
                                                         <constraint firstAttribute="height" constant="31" id="DN2-Ap-XV2"/>
                                                         <constraint firstAttribute="width" constant="146" id="Iy5-lS-uTu"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Kd8-YH-qYo" secondAttribute="trailing" constant="5" id="OTq-Y2-2MK"/>
-                                                        <constraint firstItem="Kd8-YH-qYo" firstAttribute="top" secondItem="NeZ-rZ-SH5" secondAttribute="top" constant="3" id="yuA-Yz-05C"/>
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="de horaA a horaB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jD2-4U-gAH">
@@ -1423,12 +1411,15 @@
                                                 <constraint firstItem="NeZ-rZ-SH5" firstAttribute="top" secondItem="kLi-zs-luu" secondAttribute="top" constant="8" id="tp1-cx-lq9"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="subjectDropZone" destination="NeZ-rZ-SH5" id="by5-Ky-HoO"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vQv-Si-6iC">
                                 <rect key="frame" x="0.0" y="571" width="414" height="200"/>
-                                <color key="backgroundColor" red="0.99607843139999996" green="0.58039215690000001" blue="0.75294117650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="hQB-ZK-9mT"/>
                                 </constraints>
