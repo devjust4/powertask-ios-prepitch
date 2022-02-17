@@ -9,8 +9,8 @@ import Foundation
 
 struct Block {
     var id: Int?
-    var timeStart: DateComponents?
-    var timeEnd: DateComponents?
-    //var day : Int?
+    var timeStart: Date?
+    var timeEnd: Date?
+    var day : Int?
     var subject: Subject?
 }

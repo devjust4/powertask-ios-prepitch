@@ -23,6 +23,28 @@ final class Constants {
 
    static let taskUndoneImage = UIImage(systemName: "circle", withConfiguration: taskButtonConfig)
     static let subTaskUndoneImage = UIImage(systemName: "circle", withConfiguration: subTaskButtonConfig)
+    
+}
 
+// MARK:- Date Extensions
+extension DateFormatter {
+   static let monthYear: DateFormatter = {
+      let formatter = DateFormatter()
+      formatter.timeZone = TimeZone(abbreviation: "GMT")
+      formatter.dateFormat = "MMMM 'de' Y"
+      return formatter
+   }()
+    
+    static let justDay: DateFormatter = {
+        let formatter = DateFormatter()
+        //formatter.timeZone = TimeZone(abbreviation: "GMT")
+        formatter.dateFormat = "d M Y"
+        return formatter
+    }()
+}
 
+extension Date {
+   func formatToString(using formatter: DateFormatter) -> String {
+      return formatter.string(from: self)
+   }
 }

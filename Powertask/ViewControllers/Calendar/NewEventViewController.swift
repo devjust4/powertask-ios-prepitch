@@ -19,7 +19,7 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     var isNewEvent: Bool?
-    var event: Event?
+    var event: PTEvent?
     var delegate: NewEventProtocol?
     var eventName: String?
     var eventType: EventType?

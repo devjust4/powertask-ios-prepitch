@@ -17,32 +17,32 @@ class CalendarsViewController: UIViewController {
     @IBOutlet weak var calendarTitle: UILabel!
     @IBOutlet weak var calendarViewHeightConstraint: NSLayoutConstraint!
     
-    var selectedDateEvents: [Event]?
+    var selectedDateEvents: [PTEvent]?
     let eventStore = EKEventStore()
    //TODO:  transformar todo a los nuevos datos
-    var events = [Event(name: "Examen 1",
+    var events = [PTEvent(name: "Examen 1",
                         type: EventType.exam,
                         startDate: Date.now,
                         subject: Subject(name: "iOS", color: .purple)),
-                  Event(name: "Evento Personal 1",
+                  PTEvent(name: "Evento Personal 1",
                         type: EventType.personal,
                         startDate: Date.now.addingTimeInterval(234),
                         endDate: Date.now.addingTimeInterval(456)),
-                  Event(name: "San Isidro",
+                  PTEvent(name: "San Isidro",
                         type: EventType.vacation,
                         startDate: Date.now.addingTimeInterval(214),
                         endDate: Date.now.addingTimeInterval(234)),
-                  Event(name: "Día de la Almudena", type: EventType.vacation, startDate: Date.now.addingTimeInterval(20343), subject: Subject(name: "Acceso a datos", color: .systemIndigo)),
-                  Event(name:"Examen de mates", type: EventType.exam, startDate: Date.now.addingTimeInterval(86400), subject: Subject(name: "Acceso a datos", color: .green)),
-                  Event(name: "Examen 2",
+                  PTEvent(name: "Día de la Almudena", type: EventType.vacation, startDate: Date.now.addingTimeInterval(20343), subject: Subject(name: "Acceso a datos", color: .systemIndigo)),
+                  PTEvent(name:"Examen de mates", type: EventType.exam, startDate: Date.now.addingTimeInterval(86400), subject: Subject(name: "Acceso a datos", color: .green)),
+                  PTEvent(name: "Examen 2",
                                       type: EventType.exam,
                                       startDate: Date.now.addingTimeInterval(8640),
                         subject: Subject(name: "iOS", color: .orange)),
-                    Event(name: "Evento Personal 2",
+                    PTEvent(name: "Evento Personal 2",
                           type: EventType.personal,
                           startDate: Date.now,
                           endDate: Date.now.addingTimeInterval(202830)),
-                    Event(name: "Festivo 2",
+                    PTEvent(name: "Festivo 2",
                           type: EventType.vacation,
                           startDate: Date.now.addingTimeInterval(172900),
                           endDate: Date.now.addingTimeInterval(173000))
@@ -101,7 +101,7 @@ class CalendarsViewController: UIViewController {
         addEventPullDownButton.showsMenuAsPrimaryAction = true
     }
     
-    func instantiateNewEventController(eventType: EventType, isNewEvent: Bool, event: Event?) {
+    func instantiateNewEventController(eventType: EventType, isNewEvent: Bool, event: PTEvent?) {
         if let viewController = storyboard?.instantiateViewController(withIdentifier: "newEventView") as? NewEventViewController {
                    //vc.delegate = self
             viewController.isNewEvent = isNewEvent
@@ -112,7 +112,7 @@ class CalendarsViewController: UIViewController {
             self.present(viewController, animated: true, completion: nil)
         }
     }
-    func getEventForDate(date: Date, events: [Event]) -> [Event]{
+    func getEventForDate(date: Date, events: [PTEvent]) -> [PTEvent]{
         let selectedEvents = events.filter { event in
             // si el dia de hoy esta entre inicio y fin, devuelvo el evento
             if let endDate = event.endDate {
@@ -291,25 +291,4 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-// MARK:- Date Extensions
-extension DateFormatter {
-   static let monthYear: DateFormatter = {
-      let formatter = DateFormatter()
-      formatter.timeZone = TimeZone(abbreviation: "GMT")
-      formatter.dateFormat = "MMMM 'de' Y"
-      return formatter
-   }()
-    
-    static let justDay: DateFormatter = {
-        let formatter = DateFormatter()
-        //formatter.timeZone = TimeZone(abbreviation: "GMT")
-        formatter.dateFormat = "d M Y"
-        return formatter
-    }()
-}
 
-extension Date {
-   func formatToString(using formatter: DateFormatter) -> String {
-      return formatter.string(from: self)
-   }
-}

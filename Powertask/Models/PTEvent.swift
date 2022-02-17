@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Event {
+struct PTEvent {
     var id: Int?
     var name: String
     var type: EventType

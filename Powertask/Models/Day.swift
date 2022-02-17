@@ -8,7 +8,7 @@
 import Foundation
 
 struct Day {
-    var vacation: [Event]?
-    var exam: [Event]?
-    var personal: [Event]?
+    var vacation: [PTEvent]?
+    var exam: [PTEvent]?
+    var personal: [PTEvent]?
 }
