@@ -8,9 +8,9 @@
 import Foundation
 
 struct SPTResponse: Decodable {
-    var tasks: [SPTTask]?
-    var courses: [SPTCourse]?
-    var sessions: [SPTSession]?
-    var events: [String : SPTDay]?
+    var tasks: [PTTask]?
+    var courses: [PTCourse]?
+    var sessions: [PTSession]?
+    var events: [String : PTDay]?
     var response: String?
 }

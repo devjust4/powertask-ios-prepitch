@@ -18,6 +18,7 @@
 		7908767D27BFB5ED00E9D0A4 /* SPTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767C27BFB5ED00E9D0A4 /* SPTSession.swift */; };
 		7908767F27BFB5FF00E9D0A4 /* SPTBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767E27BFB5FF00E9D0A4 /* SPTBlock.swift */; };
 		7908768127BFB61100E9D0A4 /* SPTEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908768027BFB61100E9D0A4 /* SPTEvent.swift */; };
+		7908768327BFC2DA00E9D0A4 /* PTSubtask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908768227BFC2DA00E9D0A4 /* PTSubtask.swift */; };
 		790BE65527BBBC24009D2706 /* PTUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65427BBBC24009D2706 /* PTUser.swift */; };
 		790BE65727BC008E009D2706 /* PTCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65627BC008E009D2706 /* PTCourse.swift */; };
 		790BE65927BC00A8009D2706 /* PTDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65827BC00A8009D2706 /* PTDay.swift */; };
@@ -76,6 +77,7 @@
 		7908767C27BFB5ED00E9D0A4 /* SPTSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTSession.swift; sourceTree = "<group>"; };
 		7908767E27BFB5FF00E9D0A4 /* SPTBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTBlock.swift; sourceTree = "<group>"; };
 		7908768027BFB61100E9D0A4 /* SPTEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTEvent.swift; sourceTree = "<group>"; };
+		7908768227BFC2DA00E9D0A4 /* PTSubtask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSubtask.swift; sourceTree = "<group>"; };
 		790BE65427BBBC24009D2706 /* PTUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTUser.swift; sourceTree = "<group>"; };
 		790BE65627BC008E009D2706 /* PTCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTCourse.swift; sourceTree = "<group>"; };
 		790BE65827BC00A8009D2706 /* PTDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTDay.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				790BE65827BC00A8009D2706 /* PTDay.swift */,
 				790BE65A27BC00BA009D2706 /* PTBlock.swift */,
 				790BE65C27BC00CA009D2706 /* PTSession.swift */,
+				7908768227BFC2DA00E9D0A4 /* PTSubtask.swift */,
 			);
 			path = "PT Models";
 			sourceTree = "<group>";
@@ -489,6 +492,7 @@
 				790BE65527BBBC24009D2706 /* PTUser.swift in Sources */,
 				B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */,
 				7911F32127A9AEDA007036DA /* OnboardingViewController.swift in Sources */,
+				7908768327BFC2DA00E9D0A4 /* PTSubtask.swift in Sources */,
 				B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */,
 				7911F32327A9AF02007036DA /* PTEvent.swift in Sources */,
 				790BE65D27BC00CA009D2706 /* PTSession.swift in Sources */,

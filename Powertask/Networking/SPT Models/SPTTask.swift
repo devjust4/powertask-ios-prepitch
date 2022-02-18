@@ -15,7 +15,7 @@ struct SPTTask: Decodable, Encodable {
     var mark: Int?
     var description: String?
     var completed: Int?
-    var subject_id: Int?
+    var subject: PTSubject?
     var student_id: Int?
     var subtasks: [SPTSubtask]?
 }

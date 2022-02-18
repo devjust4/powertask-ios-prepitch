@@ -17,7 +17,7 @@ class AddTaskViewController: UIViewController {
     var userIsEdditing = false
     var userTask: PTTask?
     var subject: PTSubject?
-    var subtasks: [UserSubtask]?
+    var subtasks: [PTSubtask]?
     var delegate: SaveNewTaskProtocol?
     
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -67,7 +67,7 @@ class AddTaskViewController: UIViewController {
         // MARK: - Data injection
         if let task = userTask {
             
-            if task.classroomId == nil {
+            if task.googleId == nil {
                 handoverDatePicker.isHidden = true
                 handoverDateLabel.isHidden = true
                 handoverDateLabelToSubjectLabel.isActive = false
@@ -156,15 +156,15 @@ class AddTaskViewController: UIViewController {
     
     @IBAction func addSubtask(_ sender: Any) {
         if let subtasks = userTask?.subtasks{
-            userTask?.subtasks?.append(UserSubtask(name: nil, done: false))
+            userTask?.subtasks?.append(PTSubtask(name: nil, done: false))
             subtaskTable.beginUpdates()
             subtaskTable.insertRows(at: [IndexPath(row: subtasks.count, section: 0)], with: .automatic)
             subtaskTable.endUpdates()
         } else {
             if let _ = subtasks {
-                subtasks?.append(UserSubtask(name: nil, done: false))
+                subtasks?.append(PTSubtask(name: nil, done: false))
             } else {
-                subtasks = [UserSubtask(name: nil, done: false)]
+                subtasks = [PTSubtask(name: nil, done: false)]
             }
             subtaskTable.reloadData()
         }
@@ -207,7 +207,8 @@ class AddTaskViewController: UIViewController {
             // TODO: falta perform date
         } else {
 
-            userTask = PTTask(completed: false, name: taskNameTextField.text ?? "Tarea sin nombre", subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
+            //userTask = PTTask(name: taskNameTextField.text ?? "Tarea sin nombre", completed: false, subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
+            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: false, subject: subject, studentId: nil, subtasks: subtasks ?? [], serverHandoverDate: nil, serverStartDate: nil)
             delegate?.appendNewTask(newTask: userTask!)
         }
     }

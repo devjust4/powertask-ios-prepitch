@@ -6,37 +6,45 @@
 //
 // probando
 import Foundation
+import UIKit
 
-struct PTTask {
-    var classroomId: Int?
-    var studentId: Int?
+struct PTTask: Codable {
     var id: Int?
-    var completed: Bool
+    var googleId: Int?
     var name: String
-    var subject: PTSubject?
-    var description: String?
-    var mark: Float?
-    var handoverDate: Date? {
-        didSet {
-            serverHandoverDate = handoverDate?.formatToString(using: .serverDate)
-        }
-    }
-    var serverHandoverDate: String?
-    var startDate: Date? {
+    var startDate: Date?
+    {
         didSet {
             serverStartDate = startDate?.formatToString(using: .serverDate)
         }
     }
+    var handoverDate: Date?
+    {
+        didSet {
+            serverHandoverDate = handoverDate?.formatToString(using: .serverDate)
+        }
+    }
+    var mark: Float?
+    var description: String?
+    var completed: Bool
+    var subject: PTSubject?
+    var studentId: Int?
+    var subtasks: [PTSubtask]?
+    
+    var serverHandoverDate: String?
     var serverStartDate: String?
-    var subtasks: [UserSubtask]?
 }
 
-struct UserSubtask {
-    var name: String?
-    var done: Bool
-    
-    init(name: String?, done: Bool) {
-        self.name = name
-        self.done = done
-    }
+enum CodingKeys: String, CodingKey {
+    case id
+    case googleId = "google_id"
+    case name
+    case startDate = "date_start"
+    case endDate = "date_handover"
+    case mark
+    case description
+    case completed
+    case subject
+    case studendId = "student_id"
+    case subtasks
 }

@@ -38,26 +38,9 @@ class MockUser {
     
     // las tareas y los eventos tienen que devolver el id al crearlos en el servidor
     
-    static var tasks = [PTTask(classroomId: nil, studentId: 1, id: 1, completed: false, name: "Ejercicio 1", subject: subjects[0], description: "Descripción", mark: nil, handoverDate: nil, startDate: nil, subtasks: nil), PTTask(classroomId: 3, studentId: 1, id: 3, completed: false, name: "Prueba", subject: subjects[0], description: "Descripcion de tarea", mark: nil, handoverDate: Date(timeIntervalSince1970: 1645632000), startDate: Date(timeIntervalSince1970: 1645200000), subtasks: [UserSubtask(name: "prueba", done: false), UserSubtask(name: "Prueba 2", done: true)])]
+//    static var tasks = [PTTask(googleId: nil, studentId: 1, id: 1, completed: false, name: "Ejercicio 1", subject: subjects[0], description: "Descripción", mark: nil, handoverDate: nil, startDate: nil, subtasks: nil), PTTask(googleId: 3, studentId: 1, id: 3, completed: false, name: "Prueba", subject: subjects[0], description: "Descripcion de tarea", mark: nil, handoverDate: Date(timeIntervalSince1970: 1645632000), startDate: Date(timeIntervalSince1970: 1645200000), subtasks: [PTUserSubtask(name: "prueba", done: false), PTUserSubtask(name: "Prueba 2", done: true)])]
+//    
+    static var sessions = [PTSession(id: 1, quantity: 3, duration: 4, task: nil)]
     
-    static var sessions = [PTSession(id: 1, quantity: 3, duration: 4, task: tasks[0])]
-    
-    static var user = PTUser(id: 1, name: "Daniel", email: "prueba@cev.com", imageUrl: "asdfgfh", course: course, subjects: subjects, periods: periods, blocks: blocks, events: days, tasks: tasks, sessions: sessions)
+    static var user = PTUser(id: 1, name: "Daniel", email: "prueba@cev.com", imageUrl: "asdfgfh", course: course, subjects: subjects, periods: periods, blocks: blocks, events: days, tasks: nil, sessions: sessions)
 }
-
-/*
- class PowerTaskUser {
- var id: Int?
- var name: String?
- var email: String?
- var imageUrl: String?
- var course: Course?
- var subjects: [Subject]?
- var periods: [Period]?
- var blocks: [Block]?
- var events: [String : Day]?
- var tasks: [UserTask]?
- var sessions: [Session]?
- }
-
- */
