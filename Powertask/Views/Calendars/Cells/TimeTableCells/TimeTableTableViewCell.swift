@@ -7,9 +7,9 @@
 
 protocol TimeTableDelegate {
     func deleteBlock(_ cell: TimeTableTableViewCell)
-    func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: Subject?)
+    func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?)
     func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?)
-    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: Subject)
+    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject)
 }
 
 import UIKit
@@ -25,7 +25,7 @@ class TimeTableTableViewCell: UITableViewCell {
     @IBOutlet weak var endDatePicker: UIDatePicker!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBOutlet weak var deleteSubjectButton: UIButton!
-    var cellSubject: Subject? {
+    var cellSubject: PTSubject? {
         didSet {
             self.subjectDropZone.backgroundColor = cellSubject?.color
             self.subjectNameLabel.text = cellSubject?.name
@@ -108,7 +108,7 @@ extension TimeTableTableViewCell: UIDropInteractionDelegate {
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return session.canLoadObjects(ofClass: Subject.self)
+        return session.canLoadObjects(ofClass: PTSubject.self)
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
@@ -116,8 +116,8 @@ extension TimeTableTableViewCell: UIDropInteractionDelegate {
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        session.loadObjects(ofClass: Subject.self) { subjectDragItem in
-            if let subjects = subjectDragItem as? [Subject], let subject = subjects.first {
+        session.loadObjects(ofClass: PTSubject.self) { subjectDragItem in
+            if let subjects = subjectDragItem as? [PTSubject], let subject = subjects.first {
                 // TODO: Y si la ha borrado?
                 if self.cellSubject == nil {
                     self.blockEditDelegate?.addNewBlock(self, newSubject: subject)

@@ -10,13 +10,13 @@ import UIKit
 // TODO: Validar campos de texto y poner limite de caracteres a la descripcion
 
 protocol SaveNewTaskProtocol: AnyObject {
-    func appendNewTask(newTask: UserTask)
+    func appendNewTask(newTask: PTTask)
 }
 
 class AddTaskViewController: UIViewController {
     var userIsEdditing = false
-    var userTask: UserTask?
-    var subject: Subject?
+    var userTask: PTTask?
+    var subject: PTSubject?
     var subtasks: [UserSubtask]?
     var delegate: SaveNewTaskProtocol?
     
@@ -185,7 +185,7 @@ class AddTaskViewController: UIViewController {
         }
     }
     
-    func setSubject(subject: Subject){
+    func setSubject(subject: PTSubject){
         if let _ = userTask {
             userTask!.subject = subject
             subjectButton.setTitle(subject.name, for: .normal)
@@ -207,7 +207,7 @@ class AddTaskViewController: UIViewController {
             // TODO: falta perform date
         } else {
 
-            userTask = UserTask(completed: false, name: taskNameTextField.text ?? "Tarea sin nombre", subject: subject ?? Subject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
+            userTask = PTTask(completed: false, name: taskNameTextField.text ?? "Tarea sin nombre", subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
             delegate?.appendNewTask(newTask: userTask!)
         }
     }
@@ -241,7 +241,7 @@ extension AddTaskViewController: SubjectDelegate, SubtaskCellTextDelegate, Subta
         }
     }
     
-    func subjectWasChosen(_ newSubject: Subject) {
+    func subjectWasChosen(_ newSubject: PTSubject) {
         print("elegido")
         subjectButton.setTitle(newSubject.name, for: .normal)
         subjectButton.tintColor = newSubject.color

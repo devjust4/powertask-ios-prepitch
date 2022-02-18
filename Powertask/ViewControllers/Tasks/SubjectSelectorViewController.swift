@@ -11,14 +11,14 @@ class SubjectSelectorViewController: UIViewController {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var subjectPicker: UIPickerView!
     
-    var subjects: [Subject]?
-    var subject: Subject?
+    var subjects: [PTSubject]?
+    var subject: PTSubject?
     weak var delegate: SubjectDelegate?
   
     override func viewDidLoad() {
         super.viewDidLoad()
         cardView.layer.cornerRadius = 30
-        subjects = [Subject(name: "iOS", color: .red), Subject(name: "Acceso a datos", color: .blue), Subject(name: "ingles", color: .green)]
+        subjects = [PTSubject(name: "iOS", color: .red), PTSubject(name: "Acceso a datos", color: .blue), PTSubject(name: "ingles", color: .green)]
         
         subjectPicker.delegate = self
         subjectPicker.dataSource = self
@@ -67,5 +67,5 @@ extension SubjectSelectorViewController: UIPickerViewDelegate, UIPickerViewDataS
 }
 
 protocol SubjectDelegate: AnyObject {
-    func subjectWasChosen(_ subject: Subject)
+    func subjectWasChosen(_ subject: PTSubject)
 }

@@ -12,7 +12,7 @@ protocol CellButtonPushedDelegate: AnyObject {
 }
 
 protocol CellButtonSubjectDelegate: AnyObject {
-    func subjectSelected(_ subject: Subject)
+    func subjectSelected(_ subject: PTSubject)
 }
 
 class ButtonTableViewCell: UITableViewCell {
@@ -21,7 +21,7 @@ class ButtonTableViewCell: UITableViewCell {
     @IBOutlet weak var button: UIButton!
     var buttonDelegate: CellButtonPushedDelegate?
     var subjectDelegate: CellButtonSubjectDelegate?
-    var subject: Subject?
+    var subject: PTSubject?
     
     
     override func awakeFromNib() {
@@ -39,7 +39,7 @@ class ButtonTableViewCell: UITableViewCell {
 }
 
 extension ButtonTableViewCell: SubjectDelegate {
-    func subjectWasChosen(_ subject: Subject) {
+    func subjectWasChosen(_ subject: PTSubject) {
         self.button.setTitle(subject.name, for: .normal)
         self.button.setTitleColor(subject.color, for: .normal)
         subjectDelegate?.subjectSelected(subject)

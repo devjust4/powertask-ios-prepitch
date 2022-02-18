@@ -11,8 +11,8 @@ class TimeTableViewController: UIViewController {
 
     @IBOutlet weak var timeTable: UITableView!
     @IBOutlet weak var subjectsCollection: UICollectionView!
-    var subjects: [Subject]?
-    var blocks:  [Int : [Block]]?
+    var subjects: [PTSubject]?
+    var blocks:  [Int : [PTBlock]]?
     var colors: [UIColor]?
     let weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     override func viewDidLoad() {
@@ -28,13 +28,13 @@ class TimeTableViewController: UIViewController {
         
     }
     
-    func filterBlockByDay(blocks: [Block] ,weekDay: Int) -> [Block]{
+    func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
             block.day == weekDay
         }
     }
     
-    func filterAllBlocks(blocks: [Block]?) -> [Int : [Block]]? {
+    func filterAllBlocks(blocks: [PTBlock]?) -> [Int : [PTBlock]]? {
         if let blocks = blocks {
             let monday = filterBlockByDay(blocks: blocks, weekDay: 1)
             let thuesday = filterBlockByDay(blocks: blocks, weekDay: 2)
@@ -123,7 +123,7 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension TimeTableViewController: TimeTableDelegate {
-    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: Subject) {
+    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
                 blocks![indexPath.section]![indexPath.row].subject = newSubject
         }
@@ -142,9 +142,9 @@ extension TimeTableViewController: TimeTableDelegate {
         }
     }
     
-    func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: Subject?) {
+    func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section], let subject = newSubject {
-            blocks?[indexPath.section]?.append(Block(id: nil, timeStart: nil, timeEnd: nil, day: indexPath.section, subject: subject))
+            blocks?[indexPath.section]?.append(PTBlock(id: nil, timeStart: nil, timeEnd: nil, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()

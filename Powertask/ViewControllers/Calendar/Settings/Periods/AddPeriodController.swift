@@ -8,8 +8,8 @@
 
 import UIKit
 class AddPeriodController: UIViewController {
-    var period: Period?
-    var subject: [Subject]?
+    var period: PTPeriod?
+    var subject: [PTSubject]?
     var userIsEditing: Bool?
     var indexSubject: Int?
     

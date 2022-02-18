@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol NewEventProtocol: AnyObject {
-    func SaveNewEvent(eventTitle: String, startDate: Date?, endDate: Date?, subject: Subject?,  notes: String?)
+    func SaveNewEvent(eventTitle: String, startDate: Date?, endDate: Date?, subject: PTSubject?,  notes: String?)
 }
 
 class NewEventViewController: UIViewController {
@@ -25,7 +25,7 @@ class NewEventViewController: UIViewController {
     var eventType: EventType?
     var eventStartDate: Date?
     var eventEndDate: Date?
-    var eventSubject: Subject?
+    var eventSubject: PTSubject?
     var eventNotes: String?
     
     override func viewDidLoad() {
@@ -169,7 +169,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegate, CellDatePickerProtocol, CellTextViewProtocol, CellButtonSubjectDelegate {
-    func subjectSelected(_ subject: Subject) {
+    func subjectSelected(_ subject: PTSubject) {
         eventSubject = subject
     }
     

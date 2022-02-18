@@ -9,8 +9,8 @@ import UIKit
 
 class TasksListController: UITableViewController {
 
-    var userTasks: [UserTask]?
-    var subjects: [Subject]?
+    var userTasks: [PTTask]?
+    var subjects: [PTSubject]?
 
     @IBOutlet var tasksTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
@@ -19,7 +19,7 @@ class TasksListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: - Mock data
-        subjects = [Subject(name: "iOS", color: .red), Subject(name: "Acceso a datos", color: .blue), Subject(name: "ingles", color: .green)]
+        subjects = [PTSubject(name: "iOS", color: .red), PTSubject(name: "Acceso a datos", color: .blue), PTSubject(name: "ingles", color: .green)]
         userTasks = MockUser.user.tasks
     }
     
@@ -58,7 +58,7 @@ extension TasksListController: SaveNewTaskProtocol, TaskCellDoneDelegate {
         }
     }
     
-    func appendNewTask(newTask: UserTask) {
+    func appendNewTask(newTask: PTTask) {
         if let _ = userTasks {
             userTasks!.append(newTask)
         } else {

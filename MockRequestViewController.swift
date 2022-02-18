@@ -25,5 +25,17 @@ class MockRequestViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func signIn(_ sender: Any) {
+        
+    }
+    
+    @IBAction func signOut(_ sender: Any) {
+        
+    }
+    @IBAction func getTaskList(_ sender: Any) {
+        
+    }
+    @IBAction func getSubjects(_ sender: Any) {
+        
+    }
 }

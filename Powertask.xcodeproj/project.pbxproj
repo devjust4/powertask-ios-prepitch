@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		790BE65527BBBC24009D2706 /* PowerTaskUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65427BBBC24009D2706 /* PowerTaskUser.swift */; };
-		790BE65727BC008E009D2706 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65627BC008E009D2706 /* Course.swift */; };
-		790BE65927BC00A8009D2706 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65827BC00A8009D2706 /* Day.swift */; };
-		790BE65B27BC00BA009D2706 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65A27BC00BA009D2706 /* Block.swift */; };
-		790BE65D27BC00CA009D2706 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65C27BC00CA009D2706 /* Session.swift */; };
+		7908766B27BFA7FA00E9D0A4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 7908766A27BFA7FA00E9D0A4 /* GoogleSignIn */; };
+		7908766E27BFA8B300E9D0A4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7908766D27BFA8B300E9D0A4 /* Alamofire */; };
+		7908767127BFAA3E00E9D0A4 /* SPTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767027BFAA3E00E9D0A4 /* SPTTask.swift */; };
+		7908767327BFAA5F00E9D0A4 /* SPTResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767227BFAA5F00E9D0A4 /* SPTResponse.swift */; };
+		7908767527BFB25800E9D0A4 /* MockRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767427BFB25800E9D0A4 /* MockRequestViewController.swift */; };
+		7908767727BFB4D100E9D0A4 /* SPTDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767627BFB4D100E9D0A4 /* SPTDay.swift */; };
+		7908767927BFB5C200E9D0A4 /* SPTPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767827BFB5C200E9D0A4 /* SPTPeriod.swift */; };
+		7908767B27BFB5D900E9D0A4 /* SPTCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767A27BFB5D900E9D0A4 /* SPTCourse.swift */; };
+		7908767D27BFB5ED00E9D0A4 /* SPTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767C27BFB5ED00E9D0A4 /* SPTSession.swift */; };
+		7908767F27BFB5FF00E9D0A4 /* SPTBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908767E27BFB5FF00E9D0A4 /* SPTBlock.swift */; };
+		7908768127BFB61100E9D0A4 /* SPTEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7908768027BFB61100E9D0A4 /* SPTEvent.swift */; };
+		790BE65527BBBC24009D2706 /* PTUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65427BBBC24009D2706 /* PTUser.swift */; };
+		790BE65727BC008E009D2706 /* PTCourse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65627BC008E009D2706 /* PTCourse.swift */; };
+		790BE65927BC00A8009D2706 /* PTDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65827BC00A8009D2706 /* PTDay.swift */; };
+		790BE65B27BC00BA009D2706 /* PTBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65A27BC00BA009D2706 /* PTBlock.swift */; };
+		790BE65D27BC00CA009D2706 /* PTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65C27BC00CA009D2706 /* PTSession.swift */; };
 		790BE65F27BC00E9009D2706 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65E27BC00E9009D2706 /* MockData.swift */; };
 		790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */; };
 		790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */; };
@@ -27,7 +38,7 @@
 		79168CEB27BA885700BBA389 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */; };
 		79168CF027BA8E9700BBA389 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 79168CEF27BA8E9700BBA389 /* FSCalendar */; };
 		79168CF427BAF14F00BBA389 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CF327BAF14F00BBA389 /* NewEventViewController.swift */; };
-		7953C32C27A8359400ADE027 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32B27A8359400ADE027 /* Subject.swift */; };
+		7953C32C27A8359400ADE027 /* PTSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32B27A8359400ADE027 /* PTSubject.swift */; };
 		7953C32E27A8469100ADE027 /* SubjectSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */; };
 		7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */; };
 		79708FA72791F64900E42731 /* CalendarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79708FA62791F64900E42731 /* CalendarsViewController.swift */; };
@@ -42,12 +53,12 @@
 		797849262791866000EB8C4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797849242791866000EB8C4C /* LaunchScreen.storyboard */; };
 		79DEE2C92797002C00F79E83 /* UserTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2C82797002C00F79E83 /* UserTaskTableViewCell.swift */; };
 		79DEE2CB2797256700F79E83 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2CA2797256700F79E83 /* AddTaskViewController.swift */; };
-		79DEE2CF27972F4A00F79E83 /* UserTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2CE27972F4A00F79E83 /* UserTask.swift */; };
+		79DEE2CF27972F4A00F79E83 /* PTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2CE27972F4A00F79E83 /* PTTask.swift */; };
 		79DEE2D12797399D00F79E83 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2D02797399D00F79E83 /* Constants.swift */; };
 		B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */; };
 		B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F127AB121100F8259D /* PeriodsController.swift */; };
 		B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F327AB123F00F8259D /* OtherCalendarsController.swift */; };
-		B6D963F627ABD05200F8259D /* Period.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F527ABD05200F8259D /* Period.swift */; };
+		B6D963F627ABD05200F8259D /* PTPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F527ABD05200F8259D /* PTPeriod.swift */; };
 		B6D963F827ABEB2700F8259D /* PeriodsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F727ABEB2700F8259D /* PeriodsTableViewCell.swift */; };
 		B6D963FD27B03DFE00F8259D /* AddPeriodController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963FC27B03DFE00F8259D /* AddPeriodController.swift */; };
 		B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963FE27B049C500F8259D /* PeriodSubjectTableViewCell.swift */; };
@@ -56,16 +67,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		790BE65427BBBC24009D2706 /* PowerTaskUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerTaskUser.swift; sourceTree = "<group>"; };
-		790BE65627BC008E009D2706 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
-		790BE65827BC00A8009D2706 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
-		790BE65A27BC00BA009D2706 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		790BE65C27BC00CA009D2706 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		7908767027BFAA3E00E9D0A4 /* SPTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTTask.swift; sourceTree = "<group>"; };
+		7908767227BFAA5F00E9D0A4 /* SPTResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTResponse.swift; sourceTree = "<group>"; };
+		7908767427BFB25800E9D0A4 /* MockRequestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRequestViewController.swift; sourceTree = "<group>"; };
+		7908767627BFB4D100E9D0A4 /* SPTDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTDay.swift; sourceTree = "<group>"; };
+		7908767827BFB5C200E9D0A4 /* SPTPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTPeriod.swift; sourceTree = "<group>"; };
+		7908767A27BFB5D900E9D0A4 /* SPTCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTCourse.swift; sourceTree = "<group>"; };
+		7908767C27BFB5ED00E9D0A4 /* SPTSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTSession.swift; sourceTree = "<group>"; };
+		7908767E27BFB5FF00E9D0A4 /* SPTBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTBlock.swift; sourceTree = "<group>"; };
+		7908768027BFB61100E9D0A4 /* SPTEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SPTEvent.swift; sourceTree = "<group>"; };
+		790BE65427BBBC24009D2706 /* PTUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTUser.swift; sourceTree = "<group>"; };
+		790BE65627BC008E009D2706 /* PTCourse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTCourse.swift; sourceTree = "<group>"; };
+		790BE65827BC00A8009D2706 /* PTDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTDay.swift; sourceTree = "<group>"; };
+		790BE65A27BC00BA009D2706 /* PTBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTBlock.swift; sourceTree = "<group>"; };
+		790BE65C27BC00CA009D2706 /* PTSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSession.swift; sourceTree = "<group>"; };
 		790BE65E27BC00E9009D2706 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
 		790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableTableViewCell.swift; sourceTree = "<group>"; };
 		790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
-		790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkingProvider.swift; path = Powertask/Views/Calendars/Cells/TimeTableCells/NetworkingProvider.swift; sourceTree = SOURCE_ROOT; };
+		790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkingProvider.swift; path = Powertask/Networking/NetworkingProvider.swift; sourceTree = SOURCE_ROOT; };
 		7911F32027A9AEDA007036DA /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = Powertask/Views/Tasks/OnboardingViewController.swift; sourceTree = SOURCE_ROOT; };
 		7911F32227A9AF02007036DA /* PTEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTEvent.swift; sourceTree = "<group>"; };
 		79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllDayEventTableViewCell.swift; path = Powertask/Views/Calendars/Cells/CalendarEventCells/AllDayEventTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -75,7 +95,7 @@
 		79168CE427BA885700BBA389 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/TextFieldTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextViewTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/TextViewTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CF327BAF14F00BBA389 /* NewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
-		7953C32B27A8359400ADE027 /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		7953C32B27A8359400ADE027 /* PTSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSubject.swift; sourceTree = "<group>"; };
 		7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSelectorViewController.swift; sourceTree = "<group>"; };
 		7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSubtaskTableViewCell.swift; sourceTree = "<group>"; };
 		79708FA62791F64900E42731 /* CalendarsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsViewController.swift; sourceTree = "<group>"; };
@@ -92,12 +112,12 @@
 		797849272791866000EB8C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79DEE2C82797002C00F79E83 /* UserTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTaskTableViewCell.swift; sourceTree = "<group>"; };
 		79DEE2CA2797256700F79E83 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
-		79DEE2CE27972F4A00F79E83 /* UserTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTask.swift; sourceTree = "<group>"; };
+		79DEE2CE27972F4A00F79E83 /* PTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTask.swift; sourceTree = "<group>"; };
 		79DEE2D02797399D00F79E83 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsController.swift; sourceTree = "<group>"; };
 		B6D963F127AB121100F8259D /* PeriodsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodsController.swift; sourceTree = "<group>"; };
 		B6D963F327AB123F00F8259D /* OtherCalendarsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCalendarsController.swift; sourceTree = "<group>"; };
-		B6D963F527ABD05200F8259D /* Period.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Period.swift; sourceTree = "<group>"; };
+		B6D963F527ABD05200F8259D /* PTPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTPeriod.swift; sourceTree = "<group>"; };
 		B6D963F727ABEB2700F8259D /* PeriodsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodsTableViewCell.swift; sourceTree = "<group>"; };
 		B6D963FC27B03DFE00F8259D /* AddPeriodController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPeriodController.swift; sourceTree = "<group>"; };
 		B6D963FE27B049C500F8259D /* PeriodSubjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSubjectTableViewCell.swift; sourceTree = "<group>"; };
@@ -110,13 +130,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7908766E27BFA8B300E9D0A4 /* Alamofire in Frameworks */,
 				79168CF027BA8E9700BBA389 /* FSCalendar in Frameworks */,
+				7908766B27BFA7FA00E9D0A4 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7908766F27BFAA2B00E9D0A4 /* SPT Models */ = {
+			isa = PBXGroup;
+			children = (
+				7908767027BFAA3E00E9D0A4 /* SPTTask.swift */,
+				7908767227BFAA5F00E9D0A4 /* SPTResponse.swift */,
+				7908767627BFB4D100E9D0A4 /* SPTDay.swift */,
+				7908767827BFB5C200E9D0A4 /* SPTPeriod.swift */,
+				7908767A27BFB5D900E9D0A4 /* SPTCourse.swift */,
+				7908767C27BFB5ED00E9D0A4 /* SPTSession.swift */,
+				7908767E27BFB5FF00E9D0A4 /* SPTBlock.swift */,
+				7908768027BFB61100E9D0A4 /* SPTEvent.swift */,
+			);
+			path = "SPT Models";
+			sourceTree = "<group>";
+		};
 		790BE66027BC1DD3009D2706 /* TimeTable */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,6 +225,7 @@
 		7978490A2791865F00EB8C4C = {
 			isa = PBXGroup;
 			children = (
+				7908767427BFB25800E9D0A4 /* MockRequestViewController.swift */,
 				790BE65E27BC00E9009D2706 /* MockData.swift */,
 				797849152791865F00EB8C4C /* Powertask */,
 				797849142791865F00EB8C4C /* Products */,
@@ -207,7 +245,7 @@
 			children = (
 				7978492E2791868100EB8C4C /* ViewControllers */,
 				7978492D2791866C00EB8C4C /* Views */,
-				797849312791869E00EB8C4C /* Models */,
+				797849312791869E00EB8C4C /* PT Models */,
 				7978492F2791868E00EB8C4C /* Networking */,
 				79784932279186AC00EB8C4C /* Supporting Files */,
 				797849222791866000EB8C4C /* Assets.xcassets */,
@@ -243,33 +281,26 @@
 		7978492F2791868E00EB8C4C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				7908766F27BFAA2B00E9D0A4 /* SPT Models */,
 				790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */,
-				797849302791869800EB8C4C /* Models */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		797849302791869800EB8C4C /* Models */ = {
+		797849312791869E00EB8C4C /* PT Models */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		797849312791869E00EB8C4C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				79DEE2CE27972F4A00F79E83 /* UserTask.swift */,
-				7953C32B27A8359400ADE027 /* Subject.swift */,
+				79DEE2CE27972F4A00F79E83 /* PTTask.swift */,
+				7953C32B27A8359400ADE027 /* PTSubject.swift */,
 				7911F32227A9AF02007036DA /* PTEvent.swift */,
-				B6D963F527ABD05200F8259D /* Period.swift */,
-				790BE65427BBBC24009D2706 /* PowerTaskUser.swift */,
-				790BE65627BC008E009D2706 /* Course.swift */,
-				790BE65827BC00A8009D2706 /* Day.swift */,
-				790BE65A27BC00BA009D2706 /* Block.swift */,
-				790BE65C27BC00CA009D2706 /* Session.swift */,
+				B6D963F527ABD05200F8259D /* PTPeriod.swift */,
+				790BE65427BBBC24009D2706 /* PTUser.swift */,
+				790BE65627BC008E009D2706 /* PTCourse.swift */,
+				790BE65827BC00A8009D2706 /* PTDay.swift */,
+				790BE65A27BC00BA009D2706 /* PTBlock.swift */,
+				790BE65C27BC00CA009D2706 /* PTSession.swift */,
 			);
-			path = Models;
+			path = "PT Models";
 			sourceTree = "<group>";
 		};
 		79784932279186AC00EB8C4C /* Supporting Files */ = {
@@ -372,6 +403,8 @@
 			name = Powertask;
 			packageProductDependencies = (
 				79168CEF27BA8E9700BBA389 /* FSCalendar */,
+				7908766A27BFA7FA00E9D0A4 /* GoogleSignIn */,
+				7908766D27BFA8B300E9D0A4 /* Alamofire */,
 			);
 			productName = Powertask;
 			productReference = 797849132791865F00EB8C4C /* Powertask.app */;
@@ -403,6 +436,8 @@
 			mainGroup = 7978490A2791865F00EB8C4C;
 			packageReferences = (
 				79168CEE27BA8E9700BBA389 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				7908766927BFA7FA00E9D0A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				7908766C27BFA8B300E9D0A4 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 797849142791865F00EB8C4C /* Products */;
 			projectDirPath = "";
@@ -431,41 +466,49 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				790BE65727BC008E009D2706 /* Course.swift in Sources */,
+				790BE65727BC008E009D2706 /* PTCourse.swift in Sources */,
 				790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */,
+				7908767B27BFB5D900E9D0A4 /* SPTCourse.swift in Sources */,
 				79168CE827BA885700BBA389 /* ButtonTableViewCell.swift in Sources */,
 				B6D963FD27B03DFE00F8259D /* AddPeriodController.swift in Sources */,
-				7953C32C27A8359400ADE027 /* Subject.swift in Sources */,
-				79DEE2CF27972F4A00F79E83 /* UserTask.swift in Sources */,
+				7953C32C27A8359400ADE027 /* PTSubject.swift in Sources */,
+				79DEE2CF27972F4A00F79E83 /* PTTask.swift in Sources */,
 				79DEE2D12797399D00F79E83 /* Constants.swift in Sources */,
 				79168CE627BA885700BBA389 /* AllDayEventTableViewCell.swift in Sources */,
+				7908767727BFB4D100E9D0A4 /* SPTDay.swift in Sources */,
 				790BE66F27BF9C4A009D2706 /* NetworkingProvider.swift in Sources */,
 				79DEE2C92797002C00F79E83 /* UserTaskTableViewCell.swift in Sources */,
 				B6D9640127B04E4C00F8259D /* PeriodDateTableViewCell.swift in Sources */,
+				7908767127BFAA3E00E9D0A4 /* SPTTask.swift in Sources */,
 				797849172791865F00EB8C4C /* AppDelegate.swift in Sources */,
 				7953C32E27A8469100ADE027 /* SubjectSelectorViewController.swift in Sources */,
-				790BE65927BC00A8009D2706 /* Day.swift in Sources */,
+				790BE65927BC00A8009D2706 /* PTDay.swift in Sources */,
 				79708FA72791F64900E42731 /* CalendarsViewController.swift in Sources */,
 				B6D963F827ABEB2700F8259D /* PeriodsTableViewCell.swift in Sources */,
 				790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */,
-				790BE65527BBBC24009D2706 /* PowerTaskUser.swift in Sources */,
+				790BE65527BBBC24009D2706 /* PTUser.swift in Sources */,
 				B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */,
 				7911F32127A9AEDA007036DA /* OnboardingViewController.swift in Sources */,
 				B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */,
 				7911F32327A9AF02007036DA /* PTEvent.swift in Sources */,
-				790BE65D27BC00CA009D2706 /* Session.swift in Sources */,
+				790BE65D27BC00CA009D2706 /* PTSession.swift in Sources */,
 				797849212791865F00EB8C4C /* Powertask.xcdatamodeld in Sources */,
 				790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */,
-				790BE65B27BC00BA009D2706 /* Block.swift in Sources */,
+				790BE65B27BC00BA009D2706 /* PTBlock.swift in Sources */,
 				79708FAD2791F83100E42731 /* TasksListController.swift in Sources */,
 				79708FA92791F65800E42731 /* ProfileViewController.swift in Sources */,
+				7908768127BFB61100E9D0A4 /* SPTEvent.swift in Sources */,
+				7908767F27BFB5FF00E9D0A4 /* SPTBlock.swift in Sources */,
 				79708FAB2791F67300E42731 /* SessionsViewController.swift in Sources */,
+				7908767327BFAA5F00E9D0A4 /* SPTResponse.swift in Sources */,
 				797849192791865F00EB8C4C /* SceneDelegate.swift in Sources */,
-				B6D963F627ABD05200F8259D /* Period.swift in Sources */,
+				B6D963F627ABD05200F8259D /* PTPeriod.swift in Sources */,
 				79168CE927BA885700BBA389 /* EventTableViewCell.swift in Sources */,
+				7908767927BFB5C200E9D0A4 /* SPTPeriod.swift in Sources */,
 				790BE65F27BC00E9009D2706 /* MockData.swift in Sources */,
 				B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */,
 				7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */,
+				7908767D27BFB5ED00E9D0A4 /* SPTSession.swift in Sources */,
 				79168CEA27BA885700BBA389 /* TextFieldTableViewCell.swift in Sources */,
 				B6D9640327B08BBF00F8259D /* PeriodNameTableViewCell.swift in Sources */,
 				B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */,
@@ -473,6 +516,7 @@
 				79168CF427BAF14F00BBA389 /* NewEventViewController.swift in Sources */,
 				79168CE727BA885700BBA389 /* DatePickerTableViewCell.swift in Sources */,
 				79168CEB27BA885700BBA389 /* TextViewTableViewCell.swift in Sources */,
+				7908767527BFB25800E9D0A4 /* MockRequestViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +738,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7908766927BFA7FA00E9D0A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		7908766C27BFA8B300E9D0A4 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		79168CEE27BA8E9700BBA389 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WenchaoD/FSCalendar.git";
@@ -705,6 +765,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7908766A27BFA7FA00E9D0A4 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7908766927BFA7FA00E9D0A4 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		7908766D27BFA8B300E9D0A4 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7908766C27BFA8B300E9D0A4 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		79168CEF27BA8E9700BBA389 /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 79168CEE27BA8E9700BBA389 /* XCRemoteSwiftPackageReference "FSCalendar" */;

@@ -8,16 +8,16 @@
 import UIKit
 
 class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDelegate{
-    var period: [Period]?
+    var period: [PTPeriod]?
     var deleteindexpath: IndexPath?
-    var actualPeriod: [Period]?
-    var previousPeriod: [Period]?
+    var actualPeriod: [PTPeriod]?
+    var previousPeriod: [PTPeriod]?
     var indexPeriod: Int?
     @IBOutlet var periodsTableView: UITableView!
     let confirmationAction = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .actionSheet)
     override func viewDidLoad() {
         super.viewDidLoad()
-        period = [Period(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690)), Period(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690))]
+        period = [PTPeriod(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690)), PTPeriod(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690))]
 //        TODO: comprobar fechas periodos
         periodsTableView.dataSource = self
         periodsTableView.delegate = self
@@ -129,7 +129,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         if segue.identifier == "showPeriodDetail" {
             if let indexpath = periodsTableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddPeriodController
-                controller?.period = sender as? Period
+                controller?.period = sender as? PTPeriod
                 print("ok")
             }
         }

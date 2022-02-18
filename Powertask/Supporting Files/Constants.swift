@@ -31,6 +31,7 @@ extension DateFormatter {
    static let monthYear: DateFormatter = {
       let formatter = DateFormatter()
       formatter.timeZone = TimeZone(abbreviation: "GMT")
+       formatter.locale = Locale(identifier: "ES")
       formatter.dateFormat = "MMMM 'de' Y"
       return formatter
    }()
@@ -39,6 +40,12 @@ extension DateFormatter {
         let formatter = DateFormatter()
         //formatter.timeZone = TimeZone(abbreviation: "GMT")
         formatter.dateFormat = "d M Y"
+        return formatter
+    }()
+    
+    static let serverDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
 }
