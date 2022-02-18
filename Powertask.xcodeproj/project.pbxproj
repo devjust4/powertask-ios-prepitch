@@ -16,6 +16,7 @@
 		790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */; };
 		790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */; };
 		790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */; };
+		790BE66F27BF9C4A009D2706 /* NetworkingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */; };
 		7911F32127A9AEDA007036DA /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7911F32027A9AEDA007036DA /* OnboardingViewController.swift */; };
 		7911F32327A9AF02007036DA /* PTEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7911F32227A9AF02007036DA /* PTEvent.swift */; };
 		79168CE627BA885700BBA389 /* AllDayEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 		790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
 		790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableTableViewCell.swift; sourceTree = "<group>"; };
 		790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
+		790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkingProvider.swift; path = Powertask/Views/Calendars/Cells/TimeTableCells/NetworkingProvider.swift; sourceTree = SOURCE_ROOT; };
 		7911F32027A9AEDA007036DA /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OnboardingViewController.swift; path = Powertask/Views/Tasks/OnboardingViewController.swift; sourceTree = SOURCE_ROOT; };
 		7911F32227A9AF02007036DA /* PTEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTEvent.swift; sourceTree = "<group>"; };
 		79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllDayEventTableViewCell.swift; path = Powertask/Views/Calendars/Cells/CalendarEventCells/AllDayEventTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -241,6 +243,7 @@
 		7978492F2791868E00EB8C4C /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */,
 				797849302791869800EB8C4C /* Models */,
 			);
 			path = Networking;
@@ -436,6 +439,7 @@
 				79DEE2CF27972F4A00F79E83 /* UserTask.swift in Sources */,
 				79DEE2D12797399D00F79E83 /* Constants.swift in Sources */,
 				79168CE627BA885700BBA389 /* AllDayEventTableViewCell.swift in Sources */,
+				790BE66F27BF9C4A009D2706 /* NetworkingProvider.swift in Sources */,
 				79DEE2C92797002C00F79E83 /* UserTaskTableViewCell.swift in Sources */,
 				B6D9640127B04E4C00F8259D /* PeriodDateTableViewCell.swift in Sources */,
 				797849172791865F00EB8C4C /* AppDelegate.swift in Sources */,

@@ -75,18 +75,13 @@ class TimeTableTableViewCell: UITableViewCell {
         if let subject = cellSubject {
             self.subjectDropZone.backgroundColor = subject.color
             self.subjectNameLabel.text = subject.name
+            setSubjectNil()
         }
     }
     
     @IBAction func deleteSubject(_ sender: Any) {
         blockEditDelegate?.deleteBlock(self)
         setSubjectNil()
-        self.startDatePicker.isHidden = true
-        self.startDateLabel.isHidden = true
-        self.endDatePicker.isHidden = true
-        self.endDateLabel.isHidden = true
-        self.arrowImage.isHidden = true
-        deleteSubjectButton.isHidden = true
     }
     
     func setSubjectNil() {
@@ -94,6 +89,12 @@ class TimeTableTableViewCell: UITableViewCell {
         subjectDropZone.backgroundColor = UIColor.systemGray6
         subjectDropZone.layer.borderWidth = 2
         subjectDropZone.layer.borderColor = UIColor.systemGray4.cgColor
+        self.startDatePicker.isHidden = true
+        self.startDateLabel.isHidden = true
+        self.endDatePicker.isHidden = true
+        self.endDateLabel.isHidden = true
+        self.arrowImage.isHidden = true
+        deleteSubjectButton.isHidden = true
     }
     
     func addBlock(){

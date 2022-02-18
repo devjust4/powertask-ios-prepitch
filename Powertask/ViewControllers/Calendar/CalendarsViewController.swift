@@ -50,13 +50,13 @@ class CalendarsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        selectedDateEvents = getEventForDate(date: Date.now, events: events)
-        eventStore.requestAccess(to: .event) { success, error in
-            if success, error == nil {
-                print("autorizado")
-                
-            }
-        }
+//        selectedDateEvents = getEventForDate(date: Date.now, events: events)
+//        eventStore.requestAccess(to: .event) { success, error in
+//            if success, error == nil {
+//                print("autorizado")
+//
+//            }
+//        }
         calendarView.delegate = self
         calendarView.dataSource = self
         eventListTable.delegate = self
