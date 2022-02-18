@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Course {
+struct PTCourse {
     var id: Int?
     var name: String?
 }

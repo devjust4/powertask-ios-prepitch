@@ -7,17 +7,27 @@
 // probando
 import Foundation
 
-struct UserTask {
+struct PTTask {
     var classroomId: Int?
     var studentId: Int?
     var id: Int?
     var completed: Bool
     var name: String
-    var subject: Subject?
+    var subject: PTSubject?
     var description: String?
     var mark: Float?
-    var handoverDate: Date?
-    var startDate: Date?
+    var handoverDate: Date? {
+        didSet {
+            serverHandoverDate = handoverDate?.formatToString(using: .serverDate)
+        }
+    }
+    var serverHandoverDate: String?
+    var startDate: Date? {
+        didSet {
+            serverStartDate = startDate?.formatToString(using: .serverDate)
+        }
+    }
+    var serverStartDate: String?
     var subtasks: [UserSubtask]?
 }
 

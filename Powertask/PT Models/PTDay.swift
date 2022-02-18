@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Day {
+struct PTDay {
     var vacation: [PTEvent]?
     var exam: [PTEvent]?
     var personal: [PTEvent]?

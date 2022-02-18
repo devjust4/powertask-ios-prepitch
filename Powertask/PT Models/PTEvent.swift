@@ -14,7 +14,7 @@ struct PTEvent {
     var allDay: Bool?
     var startDate: Date
     var endDate: Date?
-    var subject: Subject?
+    var subject: PTSubject?
     var notes: String?
     
 //    init(name: String, type: EventType, startDate: Date, endDate: Date) {

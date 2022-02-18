@@ -6,13 +6,13 @@
 //
 
 import Foundation
-struct Period {
+struct PTPeriod {
     var id: Int?
     var name: String
     var startDate: Date?
     var endDate: Date?
-    var subjects: [Subject]?
-    var blocks: [Block]?
+    var subjects: [PTSubject]?
+    var blocks: [PTBlock]?
     
     
     init(name: String, startDate: Date, endDate: Date){

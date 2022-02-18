@@ -13,16 +13,16 @@ import UniformTypeIdentifiers
 import CoreServices
 
 
-final class Subject: NSObject, NSItemProviderReading, NSItemProviderWriting, Codable {
+final class PTSubject: NSObject, NSItemProviderReading, NSItemProviderWriting, Codable {
     static var readableTypeIdentifiersForItemProvider: [String] {
         return [(UTType.data.identifier as String)]
     }
     
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Subject {
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> PTSubject {
         let decoder = JSONDecoder()
             do {
               //Here we decode the object back to it's class representation and return it
-                let subject = try decoder.decode(Subject.self, from: data)
+                let subject = try decoder.decode(PTSubject.self, from: data)
                 print(subject)
               return subject
             } catch {

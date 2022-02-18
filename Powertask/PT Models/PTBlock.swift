@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct Block {
+struct PTBlock {
     var id: Int?
     var timeStart: Date?
     var timeEnd: Date?
     var day : Int?
-    var subject: Subject?
+    var subject: PTSubject?
 }

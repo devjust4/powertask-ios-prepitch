@@ -8,10 +8,10 @@
 import Foundation
 
 
-struct Session {
+struct PTSession {
     var id: Int?
     var quantity: Int? // que es quantity
     var duration: Int?
-    var task: UserTask?
+    var task: PTTask?
     
 }
