@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct PTSession {
+struct PTSession: Codable {
     var id: Int?
     var quantity: Int? // que es quantity
     var duration: Int?

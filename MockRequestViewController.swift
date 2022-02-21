@@ -11,9 +11,10 @@ import GoogleSignIn
 class MockRequestViewController: UIViewController {
     let signInConfig = GIDConfiguration.init(clientID: "399583491262-t0eqglos49o9iau47dker4v27bm2mt0j.apps.googleusercontent.com")
     var superUser: GIDGoogleUser? = GIDGoogleUser()
+    let apiToken: String = "$2y$10$gyMzuSL41tG/9u/ToCRWWepV4AYsB5VmpoWiwi5iRXvslNzf4kN9e"
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -49,22 +50,14 @@ class MockRequestViewController: UIViewController {
     }
     
     func requestTest(user: GIDGoogleUser) {
-        NetworkingProvider.shared.listTasks(success: { tasks in
-            print(tasks)
-        }, failure: { msg in
-            print(msg)
-        }, token: user.authentication.accessToken)
-        
         user.authentication.do { authentication, error in
                guard error == nil else { return }
                guard let authentication = authentication else { return }
-
-               let idToken = authentication.idToken
-            NetworkingProvider.shared.listTasks(success: { tasks in
+            NetworkingProvider.shared.listTasks(apiToken: self.apiToken, googleToken: user.authentication.accessToken, success: { tasks in
                 print(tasks)
             }, failure: { msg in
                 print(msg)
-            }, token: user.authentication.accessToken)
+            })
            }
     }
 
@@ -83,11 +76,7 @@ class MockRequestViewController: UIViewController {
         }
     }
     @IBAction func getSubjects(_ sender: Any) {
-        NetworkingProvider.shared.createTask(success: { msg in
-            print(msg)
-        }, failure: { msg in
-            print(msg)
-        }, task: PTTask(id: 2, googleId: nil, name: "Prueba", startDate: Date(timeIntervalSince1970: 234234234), handoverDate: nil, mark: nil, description: "Prueba", completed: true, subject: MockUser.subjects[0], studentId: 2, subtasks: nil, serverHandoverDate: nil, serverStartDate: nil), token: "prueba")
+       
     }
     
     

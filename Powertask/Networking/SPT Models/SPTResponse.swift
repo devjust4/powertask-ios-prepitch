@@ -12,5 +12,7 @@ struct SPTResponse: Decodable {
     var courses: [PTCourse]?
     var sessions: [PTSession]?
     var events: [String : PTDay]?
+    var subjects: [PTSubject]?
     var response: String?
+    var token: String?
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PTCourse {
+struct PTCourse: Codable {
     var id: Int?
     var name: String?
 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct PTPeriod {
+struct PTPeriod: Codable {
     var id: Int?
     var name: String
     var startDate: Date?

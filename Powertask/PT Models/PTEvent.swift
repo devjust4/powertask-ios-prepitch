@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PTEvent {
+struct PTEvent: Codable {
     var id: Int?
     var name: String
     var type: EventType
@@ -33,7 +33,7 @@ struct PTEvent {
     
 }
 
-enum EventType: String, Comparable  {
+enum EventType: String, Comparable, Codable  {
     static func < (lhs: EventType, rhs: EventType) -> Bool {
         switch lhs {
         case .personal, .exam:

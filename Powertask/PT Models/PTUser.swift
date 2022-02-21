@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PTUser {
+struct PTUser: Codable {
     var id: Int?
     var name: String?
     var email: String?

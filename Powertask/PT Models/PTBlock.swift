@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PTBlock {
+struct PTBlock: Codable {
     var id: Int?
     var timeStart: Date?
     var timeEnd: Date?

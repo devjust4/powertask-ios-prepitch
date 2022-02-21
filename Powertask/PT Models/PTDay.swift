@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PTDay {
+struct PTDay: Codable {
     var vacation: [PTEvent]?
     var exam: [PTEvent]?
     var personal: [PTEvent]?
