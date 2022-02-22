@@ -20,7 +20,7 @@ protocol PeriodSubjectTextViewProtocol: AnyObject{
 }
 
 import UIKit
-class SubjectTableViewCell: UITableViewCell {
+class SubjectTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var subjectName: UITextView!
     @IBOutlet weak var checkSubject: UIButton!
     @IBOutlet weak var subjectColor: UIButton!
@@ -31,6 +31,7 @@ class SubjectTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         subjectColor.layer.cornerRadius = 8
+        subjectName?.delegate = self
     }
     
     @IBAction func selectColor(_ sender: Any) {

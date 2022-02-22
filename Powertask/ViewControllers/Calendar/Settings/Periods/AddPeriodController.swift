@@ -12,7 +12,6 @@ class AddPeriodController: UIViewController {
     var period: Period?
     var subject: [Subject]?
     var userIsEditing: Bool?
-    var indexSubject: Int?
     var periodName: String?
     var endDate: Date?
     var startDate: Date?
@@ -51,70 +50,76 @@ class AddPeriodController: UIViewController {
 
 extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     func numberOfSections(in tableView: UITableView) -> Int {
-       return 3
+       return 2
    }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
-            return 1
+            return 3
         }else if section == 1{
-            return 2
-        }else if section == 2{
             if let subject = subject {
                 return subject.count
             }
         }
+        
        return 0
    }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var name = ""
         switch (section){
             case 0:
-                return "Detalles"
-            case 2:
-                return "Asignaturas"
+                name = "Details"
+                break
+            case 1:
+                name = "Subjects"
+                break
             default:
-                return ""
+                name = ""
+                break
         }
+        return name
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        indexSubject = indexPath.row
    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
+//        indexDate = indexPath
         if indexPath.section == 0{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameTableViewCell
-            
-            cell.setPeriodName.isEnabled = userIsEditing! ? true : false
-            cell.setPeriodName.text = period?.name
-            cell.delegate = self
-            return cell
-        }else if indexPath.section == 1{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
-            cell.datePicker.isEnabled = userIsEditing! ? true : false
             if indexPath.row == 0{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameTableViewCell
+                
+                cell.setPeriodName.isEnabled = userIsEditing! ? true : false
+                cell.setPeriodName.text = period?.name
+                cell.delegate = self
+                return cell
+            }else if indexPath.row == 1{
+                print(indexPath.row)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
                 cell.periodTime.text =  "Inicio"
+                cell.datePicker.isEnabled = userIsEditing! ? true : false
                 cell.delegate = self
                 if period?.startDate == nil{
                     cell.datePicker.setDate(Date.now, animated: false)
                 }else{
                     cell.datePicker.setDate((period?.startDate)!, animated: false)
                 }
-            }else if indexPath.row == 1{
+                return cell
+            }else if indexPath.row == 2{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
                 cell.periodTime.text = "Fin"
+                cell.datePicker.isEnabled = userIsEditing! ? true : false
                 cell.delegate = self
                 if period?.endDate == nil{
                     cell.datePicker.setDate(Date.now, animated: false)
                 }else{
                     cell.datePicker.setDate((period?.endDate)!, animated: false)
                 }
+                return cell
             }
-            
-            return cell
-        }else if indexPath.section == 2{
+        }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectCell", for: indexPath) as! SubjectTableViewCell
             
             if let subject = subject?[indexPath.row] {
@@ -149,10 +154,6 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
         if endDate != nil{
             period?.endDate = endDate
         }
-        
-        if let subjectName = subjectName{
-            subject?[indexSubject!].name = subjectName
-        }
     }
 }
 
@@ -165,7 +166,7 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
     
     func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
         if let index = periodTableView.indexPath(for: cell)?.row {
-            MockUser.subjects[index].color = color
+            subject?[index].color = color
         }
     }
     
@@ -179,12 +180,22 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
 extension AddPeriodController: PeriodNameTextFieldProtocol, PeriodDatePickerProtocol, PeriodSubjectTextViewProtocol{
     
     func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?) {
-        subjectName = editingText
+        let indexPath = periodTableView.indexPath(for: cell)
+        if let index = indexPath?.row, let text = editingText{
+            subject?[index].name = text
+        }
     }
     
     func didDateEndEditing(_ cell: DateTableViewCell, editingDate: Date?) {
-            startDate = editingDate
-            endDate = editingDate
+        let indexPath = periodTableView.indexPath(for: cell)
+        if let index = indexPath?.row {
+            if index == 1{
+                startDate = editingDate
+            }
+            if index == 2{
+                endDate = editingDate
+            }
+        }
     }
     
     func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
