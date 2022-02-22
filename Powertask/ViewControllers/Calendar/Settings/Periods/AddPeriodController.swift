@@ -8,10 +8,15 @@
 
 import UIKit
 class AddPeriodController: UIViewController {
+    
     var period: Period?
     var subject: [Subject]?
     var userIsEditing: Bool?
     var indexSubject: Int?
+    var periodName: String?
+    var endDate: Date?
+    var startDate: Date?
+    var subjectName: String?
     
     @IBOutlet weak var periodTableView: UITableView!
     @IBOutlet weak var editPeriod: UIBarButtonItem!
@@ -20,10 +25,10 @@ class AddPeriodController: UIViewController {
         super.viewDidLoad()
         subject = MockUser.user.subjects
         
+        userIsEditing = false
         periodTableView.dataSource = self
         periodTableView.delegate = self
         periodTableView.reloadData()
-        userIsEditing = false
     }
 
    
@@ -32,12 +37,11 @@ class AddPeriodController: UIViewController {
         if let editing = userIsEditing {
             if editing {
                 userIsEditing = false
-                periodTableView.reloadData()
+                saveData()
                 editPeriod.title = "Editar"
                 periodTableView.reloadData()
             } else {
                 userIsEditing =  true
-                periodTableView.reloadData()
                 editPeriod.title = "Guardar"
                 periodTableView.reloadData()
             }
@@ -86,16 +90,27 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
             
             cell.setPeriodName.isEnabled = userIsEditing! ? true : false
             cell.setPeriodName.text = period?.name
+            cell.delegate = self
             return cell
         }else if indexPath.section == 1{
             let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
             cell.datePicker.isEnabled = userIsEditing! ? true : false
             if indexPath.row == 0{
                 cell.periodTime.text =  "Inicio"
-                cell.datePicker.setDate((period?.startDate)!, animated: false)
+                cell.delegate = self
+                if period?.startDate == nil{
+                    cell.datePicker.setDate(Date.now, animated: false)
+                }else{
+                    cell.datePicker.setDate((period?.startDate)!, animated: false)
+                }
             }else if indexPath.row == 1{
                 cell.periodTime.text = "Fin"
-                cell.datePicker.setDate((period?.endDate)!, animated: false)
+                cell.delegate = self
+                if period?.endDate == nil{
+                    cell.datePicker.setDate(Date.now, animated: false)
+                }else{
+                    cell.datePicker.setDate((period?.endDate)!, animated: false)
+                }
             }
             
             return cell
@@ -108,6 +123,7 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                 cell.checkSubject.isHidden = false
                 cell.subjectName.isEditable = userIsEditing! ? true : false
                 cell.subjectColorDelegate = self
+                cell.delegate = self
                 if let editing = userIsEditing, editing == true {
                     cell.subjectName.isEditable = true
                     cell.subjectColor.isEnabled = true
@@ -122,6 +138,22 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
         }
         return cell
    }
+    
+    func saveData(){
+        if let periodName = periodName{
+            period?.name = periodName
+        }
+        if startDate != nil{
+            period?.startDate = startDate
+        }
+        if endDate != nil{
+            period?.endDate = endDate
+        }
+        
+        if let subjectName = subjectName{
+            subject?[indexSubject!].name = subjectName
+        }
+    }
 }
 
 extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate {
@@ -141,6 +173,22 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
         let colorViewController = UIColorPickerViewController()
         colorViewController.delegate = cell
         self.present(colorViewController, animated: true, completion: nil)
+    }
+}
+
+extension AddPeriodController: PeriodNameTextFieldProtocol, PeriodDatePickerProtocol, PeriodSubjectTextViewProtocol{
+    
+    func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?) {
+        subjectName = editingText
+    }
+    
+    func didDateEndEditing(_ cell: DateTableViewCell, editingDate: Date?) {
+            startDate = editingDate
+            endDate = editingDate
+    }
+    
+    func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
+        periodName = editingText
     }
 }
     

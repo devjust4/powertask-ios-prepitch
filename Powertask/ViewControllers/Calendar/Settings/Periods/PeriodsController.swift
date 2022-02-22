@@ -129,8 +129,8 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         if segue.identifier == "showPeriodDetail" {
             if let indexpath = periodsTableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddPeriodController
+                controller?.userIsEditing = true
                 controller?.period = sender as? Period
-                print("ok")
             }
         }
     }

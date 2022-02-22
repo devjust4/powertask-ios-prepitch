@@ -15,6 +15,10 @@ protocol SubjectSelectedDelegate {
     func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool)
 }
 
+protocol PeriodSubjectTextViewProtocol: AnyObject{
+    func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?)
+}
+
 import UIKit
 class SubjectTableViewCell: UITableViewCell {
     @IBOutlet weak var subjectName: UITextView!
@@ -22,6 +26,7 @@ class SubjectTableViewCell: UITableViewCell {
     @IBOutlet weak var subjectColor: UIButton!
     var subjectColorDelegate: ColorButtonPushedProtocol?
     var selectedSubjectDelegate: SubjectSelectedDelegate?
+    var delegate: PeriodSubjectTextViewProtocol?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,6 +45,10 @@ class SubjectTableViewCell: UITableViewCell {
             checkSubject.imageView?.alpha = 1
             selectedSubjectDelegate?.markSubjectSelected(self, selected: true)
         }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView){
+        delegate?.didTextEndEditing(self, editingText: textView.text)
     }
 }
 
