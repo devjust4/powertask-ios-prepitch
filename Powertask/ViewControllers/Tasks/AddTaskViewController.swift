@@ -208,7 +208,7 @@ class AddTaskViewController: UIViewController {
         } else {
 
             //userTask = PTTask(name: taskNameTextField.text ?? "Tarea sin nombre", completed: false, subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
-            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: false, subject: subject, studentId: nil, subtasks: subtasks ?? [], serverHandoverDate: nil, serverStartDate: nil)
+            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: false, subject: subject, studentId: nil, subtasks: subtasks ?? [])
             delegate?.appendNewTask(newTask: userTask!)
         }
     }

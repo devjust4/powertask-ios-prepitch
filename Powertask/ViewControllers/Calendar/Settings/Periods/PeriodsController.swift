@@ -4,7 +4,6 @@
 //
 //  Created by Andrea Martinez Bartolome on 2/2/22.
 //
-
 import UIKit
 
 class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDelegate{
@@ -129,8 +128,8 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         if segue.identifier == "showPeriodDetail" {
             if let indexpath = periodsTableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddPeriodController
+                controller?.userIsEditing = true
                 controller?.period = sender as? PTPeriod
-                print("ok")
             }
         }
     }

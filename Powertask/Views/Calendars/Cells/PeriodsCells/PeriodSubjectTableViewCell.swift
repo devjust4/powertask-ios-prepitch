@@ -5,7 +5,6 @@
 //  Created by Andrea Martinez Bartolome on 6/2/22.
 //  Eddited by Daniel Torres on 15/2/22.
 //
-
 protocol ColorButtonPushedProtocol {
     func instanceColorPicker(_ cell: SubjectTableViewCell)
     func colorPicked(_ cell: SubjectTableViewCell, color: UIColor)
@@ -15,17 +14,23 @@ protocol SubjectSelectedDelegate {
     func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool)
 }
 
+protocol PeriodSubjectTextViewProtocol: AnyObject{
+    func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?)
+}
+
 import UIKit
-class SubjectTableViewCell: UITableViewCell {
+class SubjectTableViewCell: UITableViewCell, UITextViewDelegate {
     @IBOutlet weak var subjectName: UITextView!
     @IBOutlet weak var checkSubject: UIButton!
     @IBOutlet weak var subjectColor: UIButton!
     var subjectColorDelegate: ColorButtonPushedProtocol?
     var selectedSubjectDelegate: SubjectSelectedDelegate?
+    var delegate: PeriodSubjectTextViewProtocol?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         subjectColor.layer.cornerRadius = 8
+        subjectName?.delegate = self
     }
     
     @IBAction func selectColor(_ sender: Any) {
@@ -40,6 +45,10 @@ class SubjectTableViewCell: UITableViewCell {
             checkSubject.imageView?.alpha = 1
             selectedSubjectDelegate?.markSubjectSelected(self, selected: true)
         }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView){
+        delegate?.didTextEndEditing(self, editingText: textView.text)
     }
 }
 
