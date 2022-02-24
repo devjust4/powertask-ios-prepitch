@@ -56,7 +56,7 @@ class NetworkingProvider {
         }
     }
     
-    public func editTask(apiToken: String, subject: PTSubject, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+    public func editSubject(apiToken: String, subject: PTSubject, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
         
         let headers: HTTPHeaders = [
             "api-token" : apiToken

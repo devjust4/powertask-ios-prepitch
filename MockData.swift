@@ -42,5 +42,5 @@ class MockUser {
 //    
     static var sessions = [PTSession(id: 1, quantity: 3, duration: 4, task: nil)]
     
-    static var user = PTUser(id: 1, name: "Daniel", email: "prueba@cev.com", imageUrl: "asdfgfh", course: course, subjects: subjects, periods: periods, blocks: blocks, events: days, tasks: nil, sessions: sessions)
+//    static var user = PTUser(id: 1, name: "Daniel", email: "prueba@cev.com", imageUrl: "asdfgfh", course: course, subjects: subjects, periods: periods, blocks: blocks, events: days, tasks: nil, sessions: sessions)
 }
