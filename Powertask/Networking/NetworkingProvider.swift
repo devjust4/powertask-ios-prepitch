@@ -280,8 +280,8 @@ class NetworkingProvider {
         ]
         let parameters: Parameters = ["name": event.name,
                                       "type": event.type,
-                                      "date_start": event.startDate.formatToString(using: .serverDate),
-                                      "date_end": event.endDate?.formatToString(using: .serverDate),
+                                      "date_start": event.startDate,
+                                      "date_end": event.endDate,
                                       "subject_id": event.subject?.id
         ]
         
@@ -313,8 +313,8 @@ class NetworkingProvider {
         let parameters: Parameters = [
             "name": event.name,
             "type": event.type,
-            "date_start": event.startDate.formatToString(using: .serverDate),
-            "date_end": event.endDate?.formatToString(using: .serverDate),
+            "date_start": event.startDate,
+            "date_end": event.endDate,
             "subject_id": event.subject?.id
         ]
         
@@ -373,17 +373,22 @@ class NetworkingProvider {
             "api-token" : apiToken
         ]
         
-        AF.request("\(kBaseUrl)event/list/", method: .get).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        AF.request("\(kBaseUrl)event/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let events = response.value?.events {
                         success(events)
+                    } else {
+                        failure("There is a problem connecting to the server")
                     }
                 case 404:
                     if let error = response.value?.response {
                         // "User doesn't have events"
                         failure(error)
+                    } else {
+                        failure("There is a problem connecting to the server")
                     }
                 default:
                     failure("There is a problem connecting to the server")

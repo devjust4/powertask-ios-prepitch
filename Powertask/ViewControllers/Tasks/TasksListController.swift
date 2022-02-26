@@ -20,7 +20,7 @@ class TasksListController: UITableViewController {
         super.viewDidLoad()
         // MARK: - Mock data
         subjects = [PTSubject(name: "iOS", color: .red), PTSubject(name: "Acceso a datos", color: .blue), PTSubject(name: "ingles", color: .green)]
-        userTasks = MockUser.user.tasks
+        //userTasks = MockUser.user.tasks
     }
     
             
@@ -118,7 +118,7 @@ extension TasksListController {
                 cell.taskDueDateLabel.text = date.formatted(date: .long, time: .omitted)
             }
             // TODO: Pensar manera de diferenciar asignaturas
-            cell.courseColorImage.backgroundColor = task.subject?.color
+            cell.courseColorImage.backgroundColor = UIColor(hex: task.subject!.color!) 
         }
         return cell
     }

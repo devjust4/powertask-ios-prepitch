@@ -22,7 +22,7 @@ class AddPeriodController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        subjects = MockUser.user.subjects
+        //subjects = MockUser.user.subjects
         subjectArray = []
         if let subjects = subjects {
             for subject in subjects {
@@ -138,7 +138,7 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
             
             if let subject = subjects?[indexPath.row] {
                 cell.subjectName.text = subject.name
-                cell.subjectColor.backgroundColor = subject.color
+                cell.subjectColor.backgroundColor = UIColor(hex: subject.color!)
                 if let booledSubject = subjectArray?[indexPath.row] {
                     if booledSubject.0 {
                         cell.checkSubject.alpha = 0
@@ -198,7 +198,8 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
     
     func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
         if let index = periodTableView.indexPath(for: cell)?.row {
-            subjects?[index].color = color
+            // TODO: Convertir esto a string
+            subjects?[index].color = "#234234"
         }
     }
     

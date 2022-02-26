@@ -60,9 +60,9 @@ extension SubjectSelectorViewController: UIPickerViewDelegate, UIPickerViewDataS
 
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: subjects![row].color,
+            .foregroundColor: UIColor(hex: subjects![row].color!) ,
         ]
-        return NSAttributedString(string: subjects![row].name, attributes: attributes)
+        return NSAttributedString(string: subjects![row].name!, attributes: attributes)
     }
 }
 

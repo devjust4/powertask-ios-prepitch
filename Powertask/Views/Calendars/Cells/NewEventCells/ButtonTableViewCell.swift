@@ -41,7 +41,7 @@ class ButtonTableViewCell: UITableViewCell {
 extension ButtonTableViewCell: SubjectDelegate {
     func subjectWasChosen(_ subject: PTSubject) {
         self.button.setTitle(subject.name, for: .normal)
-        self.button.setTitleColor(subject.color, for: .normal)
+        self.button.setTitleColor(UIColor(hex: subject.color!), for: .normal)
         subjectDelegate?.subjectSelected(subject)
     }
 }

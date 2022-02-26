@@ -91,7 +91,7 @@ class AddTaskViewController: UIViewController {
             
             if let subject = task.subject {
                 subjectButton.setTitle(subject.name, for: .normal)
-                subjectButton.tintColor = subject.color
+                subjectButton.tintColor = UIColor(hex: subject.color!)
             }
             if let dueDate = task.startDate {
                 startDatePicker.setDate(dueDate, animated: false)
@@ -189,7 +189,7 @@ class AddTaskViewController: UIViewController {
         if let _ = userTask {
             userTask!.subject = subject
             subjectButton.setTitle(subject.name, for: .normal)
-            subjectButton.tintColor = subject.color
+            subjectButton.tintColor = UIColor(hex: subject.color!)
         }
     }
     
@@ -245,7 +245,7 @@ extension AddTaskViewController: SubjectDelegate, SubtaskCellTextDelegate, Subta
     func subjectWasChosen(_ newSubject: PTSubject) {
         print("elegido")
         subjectButton.setTitle(newSubject.name, for: .normal)
-        subjectButton.tintColor = newSubject.color
+        subjectButton.tintColor = UIColor(hex: newSubject.color!) 
         subject = newSubject
         if let _ = userTask {
             userTask!.subject = newSubject

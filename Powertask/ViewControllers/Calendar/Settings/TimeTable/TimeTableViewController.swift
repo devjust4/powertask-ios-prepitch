@@ -22,9 +22,11 @@ class TimeTableViewController: UIViewController {
         subjectsCollection.dataSource = self
         timeTable.dataSource = self
         timeTable.delegate = self
-        subjects = MockUser.user.subjects
-        blocks = filterAllBlocks(blocks: MockUser.user.blocks)
+        //subjects = MockUser.user.subjects
+        //blocks = filterAllBlocks(blocks: MockUser.user.blocks)
         colors = [UIColor.red, UIColor.green, UIColor.yellow, UIColor.blue]
+        
+        PTUser.shared.blocks =  [PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 1, subject: PTUser.shared.subjects![1]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 7, subject: PTUser.shared.subjects![0]), PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 3, subject: PTUser.shared.subjects![2]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 5, subject: PTUser.shared.subjects![0])]
         
     }
     
@@ -72,9 +74,11 @@ extension TimeTableViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let subjects = subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
+        if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
-            cell.subjectBackground.backgroundColor = subjects[indexPath.row].color
+            if let color = subjects[indexPath.row].color {
+                cell.subjectBackground.backgroundColor = UIColor(color)
+            }
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
         } else {

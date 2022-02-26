@@ -23,7 +23,13 @@ class MockRequestViewController: UIViewController {
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
             guard error == nil else { return }
             guard let user = user else { return }
-            self.requestScopes()
+            let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootScreen")
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true) {
+                self.presentingViewController?.dismiss(animated: false, completion: nil)
+            }
+            //self.present(vc, animated: true, completion: nil)
+//            self.requestScopes()
         }
     }
     

@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol NewEventProtocol: AnyObject {
-    func SaveNewEvent(eventTitle: String, startDate: Date?, endDate: Date?, subject: PTSubject?,  notes: String?)
+    func SaveNewEvent(eventTitle: String, startDate: Date?, endDate: Date?, subject: PTSubject?,  notes: String?, eventType: EventType, indexpath: IndexPath?)
 }
 
 class NewEventViewController: UIViewController {
@@ -27,6 +27,7 @@ class NewEventViewController: UIViewController {
     var eventEndDate: Date?
     var eventSubject: PTSubject?
     var eventNotes: String?
+    var indexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,13 +38,23 @@ class NewEventViewController: UIViewController {
         // TODO: Controlar el ancho de las filas según el contenido para que el texto pueda fluir
         if let event = event {
             eventName = event.name
-            eventType = event.type
-            eventStartDate = event.startDate
-            if let endDate = event.endDate {
-                eventEndDate = endDate
+            switch event.type {
+            case EventType.exam.rawValue:
+                eventType = EventType.exam
+            case EventType.vacation.rawValue:
+                eventType = EventType.vacation
+            case EventType.personal.rawValue:
+                eventType = EventType.personal
+            default:
+                eventType = EventType.personal
             }
+            eventStartDate = Date(timeIntervalSince1970: event.startDate)
+            eventEndDate = Date(timeIntervalSince1970: event.endDate)
             if let subject = event.subject {
                 eventSubject = subject
+            }
+            if let notes = event.notes {
+                eventNotes = notes
             }
             // TODO: NOTAS!!!
         }
@@ -57,7 +68,10 @@ class NewEventViewController: UIViewController {
         }
     }
     @IBAction func saveEvent(_ sender: Any) {
-        
+        if let eventName = eventName, let eventType = eventType {
+            delegate?.SaveNewEvent(eventTitle: eventName, startDate: eventStartDate, endDate: eventEndDate, subject: eventSubject, notes: eventNotes, eventType: eventType, indexpath: indexPath)
+
+        }
     }
     
     @objc func openSubjectSelectorVC(_ sender: UIButton) {
@@ -137,6 +151,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
             if eventType == EventType.personal {
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "textViewTableViewCell", for: indexPath) as? TextViewTableViewCell {
                     cell.delegate = self
+                    cell.textField.text = eventNotes
                     return cell
                 }
             } else {
@@ -144,7 +159,9 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.label.text = eventType == EventType.exam ? "Asignatura" : "Calendario"
                     if let subject = eventSubject {
                         cell.button.setTitle(subject.name, for: .normal)
-                        cell.button.tintColor = subject.color
+                        if let stringColor =  subject.color{
+                            cell.button.tintColor = UIColor(hex: stringColor)
+                        }
                     }
                     cell.buttonDelegate = self
                     return cell
@@ -154,6 +171,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
         case 2:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "textViewTableViewCell", for: indexPath) as? TextViewTableViewCell{
                 cell.delegate = self
+                cell.textField.text = eventNotes
                 return cell
             }
         default:
@@ -197,7 +215,6 @@ extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegat
                 eventEndDate = dateSelected
             }
         }
-        print("inicio: \(eventStartDate) fin: \(eventEndDate)")
     }
     
     func textviewCellEndEditing(_ cell: TextViewTableViewCell, editChangedWithText: String) {

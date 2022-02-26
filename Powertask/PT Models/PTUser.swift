@@ -21,7 +21,7 @@ class PTUser: Codable {
     var subjects: [PTSubject]?
     var periods: [PTPeriod]?
     var blocks: [PTBlock]?
-    var events: [[String : PTDay]]?
+    var events: [String : PTDay]?
     var tasks: [PTTask]?
     var sessions: [PTSession]?
     

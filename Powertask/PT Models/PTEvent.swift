@@ -10,28 +10,27 @@ import Foundation
 struct PTEvent: Codable {
     var id: Int?
     var name: String
-    var type: EventType
-    var allDay: Bool?
-    var startDate: Date
-    var endDate: Date?
-    var subject: PTSubject?
+    var type: EventType.RawValue
+    var all_Day: Int
     var notes: String?
-    
-//    init(name: String, type: EventType, startDate: Date, endDate: Date) {
-//        self.name = name
-//        self.type = type
-//        self.startDate = startDate
-//        self.endDate = endDate
-//    }
-//    
-//    init(name: String, type: EventType, startDate: Date, subject: Subject) {
-//        self.name = name
-//        self.type = type
-//        self.startDate = startDate
-//        self.subject = subject
-//    }
-    
+    var startDate: Double
+    var endDate: Double
+    var subject: PTSubject?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case type
+        case all_Day = "all_day"
+        case startDate = "timestamp_start"
+        case endDate = "timestamp_end"
+        case subject
+        case notes
+    }
 }
+
+
+
 
 enum EventType: String, Comparable, Codable  {
     static func < (lhs: EventType, rhs: EventType) -> Bool {
@@ -47,7 +46,7 @@ enum EventType: String, Comparable, Codable  {
         }
     }
     
-    case vacation = "festivo"
-    case exam = "examen"
-    case personal = "evento"
+    case vacation = "vacation"
+    case exam = "exam"
+    case personal = "personal"
 }

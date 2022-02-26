@@ -11,6 +11,7 @@ class AllDayEventTableViewCell: UITableViewCell {
 
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var eventColorImage: UIImageView!
+    @IBOutlet weak var eventImage: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
