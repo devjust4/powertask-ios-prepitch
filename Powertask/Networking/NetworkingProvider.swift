@@ -13,6 +13,14 @@ class NetworkingProvider {
     private let kBaseUrl = "http://powertask.kurokiji.com/public/api/"
     let statusOk = 200...499
     
+    let sessionManager: Session = {
+        let configuration = URLSessionConfiguration.af.default
+        configuration.timeoutIntervalForRequest = 30
+        let networkLogger = PTRequestLogger()
+        let interceptor = PTRequestInterceptor()
+        return Session(configuration: configuration, interceptor: interceptor, eventMonitors: [networkLogger])
+    }()
+    
     // MARK: - Register Request
     func registerOrLogin(googleToken: String, success: @escaping (_ token: String) -> (), failure: @escaping (_ error: String) ->()) {
         let kBaseUrl = "\(kBaseUrl)loginRegister"
@@ -37,12 +45,15 @@ class NetworkingProvider {
             "token" : googleToken
         ]
         
-        AF.request(kBaseUrl, method: .put, encoding: JSONEncoding.default, headers: headers).responseDecodable (of: SPTResponse.self) { response in
+        AF.request(kBaseUrl, method: .get, encoding: JSONEncoding.default, headers: headers).responseDecodable (of: SPTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let subjects = response.value?.subjects {
                         success(subjects)
+                    } else {
+                        failure("There is a problem connecting to the server")
                     }
                 case 404:
                     if let error = response.value?.response {
@@ -763,7 +774,7 @@ class NetworkingProvider {
         let headers: HTTPHeaders = [
             "api-token" : apiToken
         ]
-        AF.request("\(kBaseUrl)course/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        AF.request("\(kBaseUrl)session/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
