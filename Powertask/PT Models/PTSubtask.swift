@@ -8,6 +8,7 @@
 import Foundation
 
 struct PTSubtask: Codable {
+    var id: Int?
     var name: String?
     var done: Bool
     

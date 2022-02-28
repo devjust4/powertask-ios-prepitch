@@ -9,8 +9,8 @@ import Foundation
 struct PTPeriod: Codable {
     var id: Int?
     var name: String
-    var startDate: Date?
-    var endDate: Date?
+    var startDate: Date
+    var endDate: Date
     var subjects: [PTSubject]?
     var blocks: [PTBlock]?
     

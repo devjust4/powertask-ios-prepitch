@@ -27,7 +27,7 @@ class TimeTableViewController: UIViewController {
         colors = [UIColor.red, UIColor.green, UIColor.yellow, UIColor.blue]
         let google = "ya29.A0ARrdaM8SgCCsaoD5A5fUbgY7nRSqrQ_uMA4FJ0YaUvRe93wF44DGnzRAotJESTukOx0--25t4txinHckIe-zUx7yqeaPqQ4y4jkBKBRtWsIlzKZQ2ChjUWrIZjk_kjdZqqKA_ac-mfCjU088sBH-u2VEK-kN1w"
         PTUser.shared.apiToken = "$2y$10$2FOy9mkxyAq5AEfbz02gIO.IIhNN0sQ7hfas8/n0wEBQGpBfiuLI2"
-        NetworkingProvider.shared.getSubjects(googleToken: google, apiToken: PTUser.shared.apiToken!) { subjects in
+        NetworkingProvider.shared.listSubjects() { subjects in
             PTUser.shared.subjects = subjects
             PTUser.shared.blocks =  [PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 1, subject: PTUser.shared.subjects![1]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 7, subject: PTUser.shared.subjects![0]), PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 3, subject: PTUser.shared.subjects![2]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 5, subject: PTUser.shared.subjects![0])]
             self.blocks = self.filterAllBlocks(blocks: PTUser.shared.blocks)
@@ -88,9 +88,7 @@ extension TimeTableViewController: UICollectionViewDataSource {
         // carga cada una de las celdas con la info necesaria
         if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
-            if let color = subjects[indexPath.row].color {
-                cell.subjectBackground.backgroundColor = UIColor(color)
-            }
+            cell.subjectBackground.backgroundColor = UIColor(subjects[indexPath.row].color)
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
         } else {
@@ -125,10 +123,8 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
             if let selectedBlocks = blocks?[indexPath.section], selectedBlocks.indices.contains(indexPath.row), let subject = selectedBlocks[indexPath.row].subject {
                 let block = selectedBlocks[indexPath.row]
                 cell.cellSubject = subject
-                if let _ = block.timeStart, let _ = block.timeEnd {
-                    cell.startDatePicker.date = block.timeStart!
-                    cell.endDatePicker.date = block.timeEnd!
-                }
+                cell.startDatePicker.date = block.timeStart
+                cell.endDatePicker.date = block.timeEnd
             } else {
                 cell.setSubjectNil()
             }
@@ -161,7 +157,7 @@ extension TimeTableViewController: TimeTableDelegate {
     
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section], let subject = newSubject {
-            blocks?[indexPath.section]?.append(PTBlock(id: nil, timeStart: nil, timeEnd: nil, day: indexPath.section, subject: subject))
+            blocks?[indexPath.section]?.append(PTBlock(id: nil, timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()

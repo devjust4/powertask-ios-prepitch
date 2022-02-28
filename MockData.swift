@@ -10,12 +10,12 @@ import UIKit
 
 class MockUser {
    static var course = PTCourse(id: 2, name: "Primero de Apps")
-   static  var subjects = [PTSubject(name: "iOS", color: UIColor.red),
-                    PTSubject(name: "Acceso a datos", color: UIColor.blue),
-                    PTSubject(name: "Inglés", color: UIColor.green),
-                    PTSubject(name: "Scrum", color: UIColor.orange),
-                    PTSubject(name: "Proyecto", color: UIColor.purple),
-                    PTSubject(name: "Empresa", color: UIColor.systemPink)]
+    static  var subjects = [PTSubject(name: "iOS", color: "#234343"),
+                            PTSubject(name: "Acceso a datos", color: "#453654"),
+                            PTSubject(name: "Inglés", color: "#987584"),
+                    PTSubject(name: "Scrum", color: "#543233"),
+                    PTSubject(name: "Proyecto", color: "#346578"),
+                    PTSubject(name: "Empresa", color: "#342454")]
     
    static var periods = [PTPeriod(name: "Primer trimestre", startDate: Date(timeIntervalSince1970: 1631232000), endDate: Date(timeIntervalSince1970: 1640131200)),
                    PTPeriod(name: "Segundo trimestre", startDate: Date(timeIntervalSince1970: 1641772800), endDate: Date(timeIntervalSince1970: 1648166400)),
@@ -40,7 +40,7 @@ class MockUser {
     
 //    static var tasks = [PTTask(googleId: nil, studentId: 1, id: 1, completed: false, name: "Ejercicio 1", subject: subjects[0], description: "Descripción", mark: nil, handoverDate: nil, startDate: nil, subtasks: nil), PTTask(googleId: 3, studentId: 1, id: 3, completed: false, name: "Prueba", subject: subjects[0], description: "Descripcion de tarea", mark: nil, handoverDate: Date(timeIntervalSince1970: 1645632000), startDate: Date(timeIntervalSince1970: 1645200000), subtasks: [PTUserSubtask(name: "prueba", done: false), PTUserSubtask(name: "Prueba 2", done: true)])]
 //    
-    static var sessions = [PTSession(id: 1, quantity: 3, duration: 4, task: nil)]
+   // static var sessions = [PTSession(id: 1, quantity: 3, duration: 4, task: nil)]
     
 //    static var user = PTUser(id: 1, name: "Daniel", email: "prueba@cev.com", imageUrl: "asdfgfh", course: course, subjects: subjects, periods: periods, blocks: blocks, events: days, tasks: nil, sessions: sessions)
 }

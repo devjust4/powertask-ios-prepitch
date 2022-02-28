@@ -39,17 +39,17 @@ class NewEventViewController: UIViewController {
         if let event = event {
             eventName = event.name
             switch event.type {
-            case EventType.exam.rawValue:
+            case EventType.exam:
                 eventType = EventType.exam
-            case EventType.vacation.rawValue:
+            case EventType.vacation:
                 eventType = EventType.vacation
-            case EventType.personal.rawValue:
+            case EventType.personal:
                 eventType = EventType.personal
             default:
                 eventType = EventType.personal
             }
-            eventStartDate = Date(timeIntervalSince1970: event.startDate)
-            eventEndDate = Date(timeIntervalSince1970: event.endDate)
+            eventStartDate = event.startDate
+            eventEndDate = event.endDate
             if let subject = event.subject {
                 eventSubject = subject
             }
@@ -159,9 +159,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.label.text = eventType == EventType.exam ? "Asignatura" : "Calendario"
                     if let subject = eventSubject {
                         cell.button.setTitle(subject.name, for: .normal)
-                        if let stringColor =  subject.color{
-                            cell.button.tintColor = UIColor(hex: stringColor)
-                        }
+                        cell.button.tintColor = UIColor(subject.color)
                     }
                     cell.buttonDelegate = self
                     return cell

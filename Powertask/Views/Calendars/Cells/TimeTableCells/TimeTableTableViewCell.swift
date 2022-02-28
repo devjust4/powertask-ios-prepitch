@@ -75,7 +75,7 @@ class TimeTableTableViewCell: UITableViewCell {
         print("preparando para uso")
         cellSubject = nil
         if let subject = cellSubject {
-            self.subjectDropZone.backgroundColor = UIColor(subject.color!)
+            self.subjectDropZone.backgroundColor = UIColor(subject.color)
             self.subjectNameLabel.text = subject.name
             setSubjectNil()
         }

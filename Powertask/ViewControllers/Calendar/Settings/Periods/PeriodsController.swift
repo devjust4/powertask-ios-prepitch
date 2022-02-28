@@ -29,11 +29,11 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         confirmationAction.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
         actualPeriod = period?.filter({ period in
-            DateInterval(start: period.startDate!, end: period.endDate!).contains(Date.now)
+            DateInterval(start: period.startDate, end: period.endDate).contains(Date.now)
         })
         
         previousPeriod = period?.filter({ period in
-            !DateInterval(start: period.startDate!, end: period.endDate!).contains(Date.now)
+            !DateInterval(start: period.startDate, end: period.endDate).contains(Date.now)
         })
         
         print(actualPeriod!)

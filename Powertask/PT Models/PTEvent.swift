@@ -10,25 +10,20 @@ import Foundation
 struct PTEvent: Codable {
     var id: Int?
     var name: String
-    var type: EventType.RawValue
-    var all_Day: Int
+    var type: EventType
+    var allDay: Int
     var notes: String?
-    var startDate: Double
-    var endDate: Double
+    var startDate: Date
+    var endDate: Date
     var subject: PTSubject?
 
     enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case type
-        case all_Day = "all_day"
+        case id, name, type, subject, notes
+        case allDay = "all_day"
         case startDate = "timestamp_start"
         case endDate = "timestamp_end"
-        case subject
-        case notes
     }
 }
-
 
 
 
@@ -46,7 +41,7 @@ enum EventType: String, Comparable, Codable  {
         }
     }
     
-    case vacation = "vacation"
-    case exam = "exam"
-    case personal = "personal"
+    case vacation
+    case exam
+    case personal
 }

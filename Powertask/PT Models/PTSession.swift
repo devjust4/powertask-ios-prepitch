@@ -10,8 +10,8 @@ import Foundation
 
 struct PTSession: Codable {
     var id: Int?
-    var quantity: Int? // que es quantity
-    var duration: Int?
+    var quantity: Int
+    var duration: Int
+    var totalTime: Int
     var task: PTTask?
-    
 }

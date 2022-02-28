@@ -93,10 +93,10 @@ class CalendarsViewController: UIViewController {
         var eventsForDate = events[String(format: "%.0f", date.timeIntervalSince1970 + 3600)]
         if let personalEvents = eventsForDate?.personal {
             var personal = personalEvents.sorted(by: { event1, event2 in
-                if event1.all_Day == event2.all_Day {
+                if event1.allDay == event2.allDay {
                     return event1.startDate < event2.startDate
                 }
-                return event1.all_Day > event2.all_Day
+                return event1.allDay > event2.allDay
             })
             eventsForDate?.personal = personal
         }
@@ -123,9 +123,7 @@ class CalendarsViewController: UIViewController {
         }
     }
     
-    func getCellInfo(allDay: Int, start: Double, end: Double) -> String{
-        let startDate = Date(timeIntervalSince1970: start)
-        let endDate = Date(timeIntervalSince1970: end)
+    func getCellInfo(allDay: Int, startDate: Date, endDate: Date) -> String{
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "dd/MM/YY"
         let timeFormatter = DateFormatter()
@@ -265,7 +263,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "eventRow") as? EventTableViewCell
                 cell?.selectedBackgroundView = backgroundView
                 cell?.eventTitle.text = exams[indexPath.row].name
-                cell?.eventInfo.text = getCellInfo(allDay: exams[indexPath.row].all_Day, start:  exams[indexPath.row].startDate, end:  exams[indexPath.row].endDate)
+                cell?.eventInfo.text = getCellInfo(allDay: exams[indexPath.row].allDay, startDate:  exams[indexPath.row].startDate, endDate:  exams[indexPath.row].endDate)
                 if let stringColor = exams[indexPath.row].subject?.color {
                     cell?.eventColor.backgroundColor = UIColor(stringColor)
                 }
@@ -284,7 +282,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         case 2:
             if let personal = events.personal, !personal.isEmpty {
-                if Bool(truncating: personal[indexPath.row].all_Day as NSNumber) {
+                if Bool(truncating: personal[indexPath.row].allDay as NSNumber) {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "allDayRow") as? AllDayEventTableViewCell
                     cell?.backgroundColor = UIColor(named: "AccentColor")
                     cell?.selectedBackgroundView = backgroundView
@@ -298,7 +296,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "eventRow") as? EventTableViewCell
                     cell?.selectedBackgroundView = backgroundView
                     cell?.eventTitle.text = personal[indexPath.row].name
-                    cell?.eventInfo.text = getCellInfo(allDay: personal[indexPath.row].all_Day, start:  personal[indexPath.row].startDate, end:  personal[indexPath.row].endDate)
+                    cell?.eventInfo.text = getCellInfo(allDay: personal[indexPath.row].allDay, startDate:  personal[indexPath.row].startDate, endDate: personal[indexPath.row].endDate)
                     return cell!
                 }
             }
@@ -369,30 +367,30 @@ extension CalendarsViewController: NewEventProtocol {
             switch indexpath.section {
             case 0:
                 selectedDateEvents?.exam?[indexpath.row].name = eventTitle
-                if let doubleStartDate = startDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.exam?[indexpath.row].startDate = doubleStartDate
+                if let startDate = startDate {
+                    selectedDateEvents?.exam?[indexpath.row].startDate = startDate
                 }
-                if let doubleEndDate = endDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.exam?[indexpath.row].endDate = doubleEndDate
+                if let endDate = endDate {
+                    selectedDateEvents?.exam?[indexpath.row].endDate = endDate
                 }
                 selectedDateEvents?.exam?[indexpath.row].notes = notes
                 selectedDateEvents?.exam?[indexpath.row].subject = subject
             case 1:
                 selectedDateEvents?.vacation?[indexpath.row].name = eventTitle
-                if let doubleStartDate = startDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.vacation?[indexpath.row].startDate = doubleStartDate
+                if let startDate = startDate {
+                    selectedDateEvents?.vacation?[indexpath.row].startDate = startDate
                 }
-                if let doubleEndDate = endDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.vacation?[indexpath.row].endDate = doubleEndDate
+                if let endDate = endDate {
+                    selectedDateEvents?.vacation?[indexpath.row].endDate = endDate
                 }
                 selectedDateEvents?.vacation?[indexpath.row].notes = notes
             case 2:
                 selectedDateEvents?.personal?[indexpath.row].name = eventTitle
-                if let doubleStartDate = startDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.personal?[indexpath.row].startDate = doubleStartDate
+                if let startDate = startDate {
+                    selectedDateEvents?.personal?[indexpath.row].startDate = startDate
                 }
-                if let doubleEndDate = endDate?.timeIntervalSince1970 {
-                    selectedDateEvents?.personal?[indexpath.row].endDate = doubleEndDate
+                if let endDate = endDate {
+                    selectedDateEvents?.personal?[indexpath.row].endDate = endDate
                 }
                 selectedDateEvents?.personal?[indexpath.row].notes = notes
             default:

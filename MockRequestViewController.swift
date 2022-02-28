@@ -59,7 +59,7 @@ class MockRequestViewController: UIViewController {
         user.authentication.do { authentication, error in
                guard error == nil else { return }
                guard let authentication = authentication else { return }
-            NetworkingProvider.shared.listTasks(apiToken: self.apiToken, googleToken: user.authentication.accessToken, success: { tasks in
+            NetworkingProvider.shared.listTasks(success: { tasks in
                 print(tasks)
             }, failure: { msg in
                 print(msg)

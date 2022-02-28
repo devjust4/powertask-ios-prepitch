@@ -153,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				7908767027BFAA3E00E9D0A4 /* SPTTask.swift */,
-				7908767227BFAA5F00E9D0A4 /* SPTResponse.swift */,
 				7908767627BFB4D100E9D0A4 /* SPTDay.swift */,
 				7908767827BFB5C200E9D0A4 /* SPTPeriod.swift */,
 				7908767A27BFB5D900E9D0A4 /* SPTCourse.swift */,
@@ -292,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */,
+				7908767227BFAA5F00E9D0A4 /* SPTResponse.swift */,
 				7908766F27BFAA2B00E9D0A4 /* SPT Models */,
 				79DDD5CA27CCF85A00235AE0 /* PTRequestLogger.swift */,
 				79DDD5CC27CCF88F00235AE0 /* PTRequestIncerceptor.swift */,
@@ -305,6 +305,7 @@
 			children = (
 				790BE65427BBBC24009D2706 /* PTUser.swift */,
 				79DEE2CE27972F4A00F79E83 /* PTTask.swift */,
+				7908768227BFC2DA00E9D0A4 /* PTSubtask.swift */,
 				7953C32B27A8359400ADE027 /* PTSubject.swift */,
 				7911F32227A9AF02007036DA /* PTEvent.swift */,
 				B6D963F527ABD05200F8259D /* PTPeriod.swift */,
@@ -312,7 +313,6 @@
 				790BE65827BC00A8009D2706 /* PTDay.swift */,
 				790BE65A27BC00BA009D2706 /* PTBlock.swift */,
 				790BE65C27BC00CA009D2706 /* PTSession.swift */,
-				7908768227BFC2DA00E9D0A4 /* PTSubtask.swift */,
 			);
 			path = "PT Models";
 			sourceTree = "<group>";

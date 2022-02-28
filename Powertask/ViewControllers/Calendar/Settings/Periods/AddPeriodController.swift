@@ -138,7 +138,7 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
             
             if let subject = subjects?[indexPath.row] {
                 cell.subjectName.text = subject.name
-                cell.subjectColor.backgroundColor = UIColor(hex: subject.color!)
+                cell.subjectColor.backgroundColor = UIColor(subject.color)
                 if let booledSubject = subjectArray?[indexPath.row] {
                     if booledSubject.0 {
                         cell.checkSubject.alpha = 0
@@ -169,10 +169,10 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
         if let periodName = periodName{
             period?.name = periodName
         }
-        if startDate != nil{
+        if let startDate = startDate{
             period?.startDate = startDate
         }
-        if endDate != nil{
+        if let endDate = endDate{
             period?.endDate = endDate
         }
         if let array = subjectArray {

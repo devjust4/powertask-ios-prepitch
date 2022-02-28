@@ -52,8 +52,8 @@ final class PTSubject: NSObject, NSItemProviderReading, NSItemProviderWriting, C
         
     
     var id: Int?
-    var name: String?
-    var color: String?
+    var name: String
+    var color: String
     var googleId: String?
     
     enum CodingKeys: String, CodingKey {
@@ -63,9 +63,9 @@ final class PTSubject: NSObject, NSItemProviderReading, NSItemProviderWriting, C
         case googleId = "google_id"
     }
     
-    init(name: String, color: UIColor) {
+    init(name: String, color: String) {
         self.name = name
-        //self.uiColor = color
+        self.color = color
     }
 }
 

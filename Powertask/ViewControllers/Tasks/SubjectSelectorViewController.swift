@@ -18,7 +18,7 @@ class SubjectSelectorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cardView.layer.cornerRadius = 30
-        subjects = [PTSubject(name: "iOS", color: .red), PTSubject(name: "Acceso a datos", color: .blue), PTSubject(name: "ingles", color: .green)]
+        subjects = [PTSubject(name: "iOS", color: "#456454"), PTSubject(name: "Acceso a datos", color: "#345434"), PTSubject(name: "ingles", color: "#234544")]
         
         subjectPicker.delegate = self
         subjectPicker.dataSource = self
@@ -60,9 +60,9 @@ extension SubjectSelectorViewController: UIPickerViewDelegate, UIPickerViewDataS
 
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(hex: subjects![row].color!) ,
+            .foregroundColor: UIColor(subjects![row].color) ,
         ]
-        return NSAttributedString(string: subjects![row].name!, attributes: attributes)
+        return NSAttributedString(string: subjects![row].name, attributes: attributes)
     }
 }
 

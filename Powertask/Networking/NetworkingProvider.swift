@@ -22,13 +22,8 @@ class NetworkingProvider {
     }()
     
     // MARK: - Register Request
-    func registerOrLogin(googleToken: String, success: @escaping (_ token: String) -> (), failure: @escaping (_ error: String) ->()) {
-        let kBaseUrl = "\(kBaseUrl)loginRegister"
-        let headers: HTTPHeaders = [
-            "token" : googleToken
-        ]
-        
-        AF.request(kBaseUrl, method: .put, encoding: JSONEncoding.default, headers: headers).responseDecodable (of: SPTResponse.self) { response in
+    func registerOrLogin(success: @escaping (_ token: String) -> (), failure: @escaping (_ error: String) ->()) {
+        sessionManager.request(PTRouter.login).responseDecodable (of: SPTResponse.self) { response in
             if let token = response.value?.token {
                 success(token)
             } else {
@@ -38,14 +33,8 @@ class NetworkingProvider {
     }
     
     //MARK: - Subjects Request
-    func getSubjects(googleToken: String, apiToken: String, success: @escaping (_ subjects: [PTSubject]) -> (), failure: @escaping (_ error: String) ->()) {
-        let kBaseUrl = "\(kBaseUrl)subject/list"
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken,
-            "token" : googleToken
-        ]
-        
-        AF.request(kBaseUrl, method: .get, encoding: JSONEncoding.default, headers: headers).responseDecodable (of: SPTResponse.self) { response in
+    func listSubjects(success: @escaping (_ subjects: [PTSubject]) -> (), failure: @escaping (_ error: String) ->()) {
+        sessionManager.request(PTRouter.listSubjects).responseDecodable (of: SPTResponse.self) { response in
             print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -55,10 +44,13 @@ class NetworkingProvider {
                     } else {
                         failure("There is a problem connecting to the server")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Student not found"
                         failure(error)
+                    } else {
+                        failure("Student not found")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -67,34 +59,25 @@ class NetworkingProvider {
         }
     }
     
-    public func editSubject(apiToken: String, subject: PTSubject, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = [
-            "name": subject.name,
-            "color": subject.color
-        ]
-        
-        AF.request("\(kBaseUrl)task/edit/\(subject.id)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func editSubject(subject: PTSubject, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+       sessionManager.request(PTRouter.editSubject(subject)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
-                    if let response = response.value?.response {
-                        //   "Subject edited properly"
-                        success(response)
-                    }
+                    success("Subject edited properly")
                 case 400:
                     if let error = response.value?.response {
-                        // 400: "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator error")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Subject by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Subject by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -104,24 +87,23 @@ class NetworkingProvider {
     }
     
     // MARK: - Task Requests
-    public func listTasks(apiToken: String, googleToken: String, success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken,
-            "token" : googleToken
-        ]
-        AF.request("\(kBaseUrl)task/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            print(response.error)
+    public func listTasks(success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
-                print(httpCode)
                 switch httpCode {
                 case 200:
                     if let tasks = response.value?.tasks {
                         success(tasks)
+                    } else {
+                        failure("There is a problem decoding data")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Student doesn't have tasks"
                         failure(error)
+                    } else {
+                        failure("Student doesn't have tasks")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -130,38 +112,24 @@ class NetworkingProvider {
         }
     }
     
-    public func createTask(apiToken: String, task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = ["name": task.name,
-                                      "date_handover": task.startDate?.formatToString(using: .serverDate),
-                                      "description": task.description,
-                                      "student_id": task.studentId!]
-        if let _ = task.subject {
-            let parameters: Parameters = ["name": task.name,
-                                          "date_handover": task.startDate?.formatToString(using: .serverDate),
-                                          "description": task.description,
-                                          "student_id": task.studentId,
-                                          "subject_id" : task.subject!.id]
-        }
-        
-        AF.request("\(kBaseUrl)task/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            print(response.debugDescription)
+    public func createTask(task: PTTask, success: @escaping (_ taskId: Int)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.createTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
-                    if let response = response.value?.response {
-                        // "Task created properly with id
-                        // TODO: Debe devolver ID
-                        success(response)
+                    if let taskId = response.value?.id {
+                        success(taskId)
+                    } else {
+                        failure("There's an error getting the task id")
                     }
                 case 400:
                     if let error = response.value?.response {
-                        // "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
                     }
+                case 401:
+                    failure("Invalid token.")
                 default:
                     failure("There is a problem connecting to the server")
                 }
@@ -169,36 +137,29 @@ class NetworkingProvider {
         }
     }
     
-    public func editTask(apiToken: String, task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = [
-            "name": task.name,
-            "date_completed": task.startDate?.formatToString(using: .serverDate),
-            "description": task.description,
-            "subject_id": task.subject?.id
-        ]
-        
-        AF.request("\(kBaseUrl)task/edit/\(task.id)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func editTask(task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.editTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
-                        //  "Task edited properly"
                         success(response)
+                    } else {
+                        failure ("There's an error edditing the task")
                     }
                 case 400:
                     if let error = response.value?.response {
-                        // 400: "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Task by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Task by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -207,24 +168,23 @@ class NetworkingProvider {
         }
     }
     
-    public func deleteTask(apiToken: String, taskId: Int, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)task/delete/\(taskId)", method: .delete, encoding: JSONEncoding.default).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func deleteTask(task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+       sessionManager.request(PTRouter.deleteTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
-                        // ""Task deleted successfully."
                         success(response)
+                    } else {
+                        failure("Task deleted successfully.")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Task by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Task by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -233,24 +193,23 @@ class NetworkingProvider {
         }
     }
     
-    public func toggleTask(apiToken: String, taskID: Int, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)task/toggle/\(taskID)", method: .put, encoding: JSONEncoding.default).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func toggleTask(task: PTTask, success: @escaping (_ taskCompleted: Bool)->(), failure: @escaping (_ msg: String?)->()) {
+       sessionManager.request(PTRouter.toogleTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
-                    if let response = response.value?.response {
-                        // "boolean"
-                        success(response)
+                    if let taskCompleted = response.value?.response {
+                        success((taskCompleted as NSString).boolValue)
+                    } else {
+                        failure("There's an error changing completion status")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Task by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Task by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -260,18 +219,18 @@ class NetworkingProvider {
     }
     
     // MARK: - Subtask Requests
-    public func toggleSubtask(apiToken: String, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->(), subtaskID: Int) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        AF.request("\(kBaseUrl)subtask/toggle/\(subtaskID)", method: .put, encoding: JSONEncoding.default).validate(statusCode: 200...600).responseDecodable(of: SPTResponse.self) { response in
+    public func toggleSubtask(subtask: PTSubtask, success: @escaping (_ subtaskCompleted: Bool)->(), failure: @escaping (_ msg: String?)->(), subtaskID: Int) {
+        sessionManager.request(PTRouter.toogleSubtask(subtask)).validate(statusCode: 200...600).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
-                    if let response = response.value?.response {
-                        // "boolean"
-                        success(response)
+                    if let subtaskCompleted = response.value?.response {
+                        success((subtaskCompleted as NSString).boolValue)
+                    } else {
+                        failure("There's an error changing completion status")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
                         // "Task by that id doesn't exist."
@@ -285,30 +244,23 @@ class NetworkingProvider {
     }
     
     // MARK: - Event Request
-    public func createEvent(apiToken: String, event: PTEvent, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        let parameters: Parameters = ["name": event.name,
-                                      "type": event.type,
-                                      "date_start": event.startDate,
-                                      "date_end": event.endDate,
-                                      "subject_id": event.subject?.id
-        ]
-        
-        AF.request("\(kBaseUrl)event/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func createEvent(apiToken: String, event: PTEvent, success: @escaping (_ id: Int)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.createEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
-                    if let response = response.value?.response {
-                        // "Event created properly with id "
-                        // TODO: Debe devolver ID
-                        success(response)
+                    if let id = response.value?.id {
+                        success(id)
+                    } else {
+                        failure("There is a problem creating the event")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 400:
                     if let error = response.value?.response {
-                        // "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -318,34 +270,24 @@ class NetworkingProvider {
     }
     
     public func editEvent(apiToken: String, event: PTEvent, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        let parameters: Parameters = [
-            "name": event.name,
-            "type": event.type,
-            "date_start": event.startDate,
-            "date_end": event.endDate,
-            "subject_id": event.subject?.id
-        ]
-        
-        AF.request("\(kBaseUrl)event/edit/\(event.id)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
-                    if let response = response.value?.response {
-                        // "Event edited properly"
-                        success(response)
-                    }
+                    success("Event edited properly.")
                 case 400:
                     if let error = response.value?.response {
-                        // Validator errors
                         failure(error)
+                    } else {
+                        failure("Validator errors.")
                     }
+                case 401:
+                        failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Event by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Event by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -355,168 +297,39 @@ class NetworkingProvider {
     }
     
     public func deleteEvent(apiToken: String, event: PTEvent,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)event/delete/\(event.id)", method: .delete, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deleteEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
-                    if let response = response.value?.response {
-                        // "Event deleted successfully."
-                        success(response)
-                    }
+                    success("Event deleted successfully.")
+                case 401:
+                    failure("Invalid token.")
                 case 404:
-                    if let error = response.value?.response {
-                        // "Event by that id doesn't exist."
-                        failure(error)
-                    }
+                    failure("Event by that id does not exist.")
                 default:
-                    failure("There is a problem connecting to the server")
+                    failure("There is a problem connecting to the server.")
                 }
             }
         }
     }
     
     public func listEvents(apiToken: String, success: @escaping (_ events: [String : PTDay])->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)event/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            print(response.debugDescription)
+        sessionManager.request(PTRouter.listEvents).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let events = response.value?.events {
                         success(events)
                     } else {
-                        failure("There is a problem connecting to the server")
+                        failure("There is a problem getting the events.")
                     }
+                case 401:
+                        failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "User doesn't have events"
                         failure(error)
                     } else {
-                        failure("There is a problem connecting to the server")
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
-    // MARK: - Courses Request
-    public func createCourse(apiToken: String, course: PTCourse, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = ["name": course.name]
-        
-        AF.request("\(kBaseUrl)course/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 201:
-                    if let response = response.value?.response {
-                        // "Course created properly with id "
-                        // TODO: Debe devolver ID
-                        success(response)
-                    }
-                case 400:
-                    if let error = response.value?.response {
-                        // "Validator errors";
-                        failure(error)
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
-    public func editCourse(apiToken: String, course: PTCourse,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = [
-            "name": course.name
-        ]
-        
-        AF.request("\(kBaseUrl)course/edit/\(course.id)", method: .put, parameters: parameters, encoding: JSONEncoding.default).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 200:
-                    if let response = response.value?.response {
-                        // "Course edited properly"
-                        success(response)
-                    }
-                case 400:
-                    if let error = response.value?.response {
-                        // Validator errors
-                        failure(error)
-                    }
-                case 404:
-                    if let error = response.value?.response {
-                        // "Course by that id doesn't exist."
-                        failure(error)
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
-    public func deleteCourse(apiToken: String, course: PTCourse,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)course/delete/\(course.id)", method: .delete, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 200:
-                    if let response = response.value?.response {
-                        // "Course deleted successfully."
-                        success(response)
-                    }
-                case 404:
-                    if let error = response.value?.response {
-                        // "Course by that id doesn't exist."
-                        failure(error)
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
-    public func listCourse(apiToken: String, success: @escaping (_ courses: [PTCourse]?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)course/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 200:
-                    if let courses = response.value?.courses {
-                        success(courses)
-                    }
-                case 400:
-                    if let error = response.value?.response {
-                        // "Student doesn't have courses"
-                        failure(error)
-                    }
-                case 404:
-                    if let error = response.value?.response {
-                        // "User not found."
-                        failure(error)
+                        failure("User doesn't have events.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -526,28 +339,23 @@ class NetworkingProvider {
     }
     
     // MARK: - Periods Request
-    public func createPeriod(apiToken: String, period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = ["name": period.name,
-                                      "date_start": period.startDate?.formatToString(using: .serverDate),
-                                      "date_end": period.endDate?.formatToString(using: .serverDate)]
-        
-        AF.request("\(kBaseUrl)period/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func createPeriod(period: PTPeriod, success: @escaping (_ periodId: Int)->(), failure: @escaping (_ msg: String?)->()) {
+      sessionManager.request(PTRouter.createPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
-                    if let response = response.value?.response {
-                        // "Period created properly with id "
-                        // TODO: Debe devolver ID
-                        success(response)
+                    if let periodId = response.value?.id {
+                        success(periodId)
+                    } else {
+                        failure("There is a problem creating the event")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 400:
                     if let error = response.value?.response {
-                        // "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -556,34 +364,30 @@ class NetworkingProvider {
         }
     }
     
-    public func editPeriod(apiToken: String, period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = [
-            "name": period.name,
-            "date_start": period.startDate?.formatToString(using: .serverDate),
-            "date_end": period.endDate?.formatToString(using: .serverDate)
-        ]
-        
-        AF.request("\(kBaseUrl)period/edit", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func editPeriod(period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.editPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         // "Period edited properly"
                         success(response)
+                    } else {
+                        failure("There's an error edditing the period")
                     }
                 case 400:
                     if let error = response.value?.response {
-                        // "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Period by that id doesn't exist.";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -592,23 +396,23 @@ class NetworkingProvider {
         }
     }
     
-    public func deletePeriod(apiToken: String, period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        AF.request("\(kBaseUrl)period/delete/\(period.id)", method: .delete, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func deletePeriod(period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.deletePeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
-                        //   "Period deleted successfully."
                         success(response)
+                    } else {
+                        failure("There's an error deleting the period")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Period by that id doesn't exist.";
                         failure(error)
+                    } else {
+                        failure("Period by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -618,29 +422,54 @@ class NetworkingProvider {
     }
     
     // MARK: - Blocks Request
-    public func createBlock(apiToken: String, block: PTBlock, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = ["time_start": block.timeStart?.formatToString(using: .serverDate),
-                                      "time_end": block.timeEnd?.formatToString(using: .serverDate),
-                                      "day": String(block.day!),
-                                      "subject_id": block.subject?.id]
-        
-        AF.request("\(kBaseUrl)block/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func createBlock(block: PTBlock, success: @escaping (_ blockId: Int)->(), failure: @escaping (_ msg: String?)->()) {
+       sessionManager.request(PTRouter.createBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
-                    if let response = response.value?.response {
-                        //  Block created properly with id
-                        // TODO: Debe devolver el id
-                        success(response)
+                    if let blockId = response.value?.id {
+                        success(blockId)
+                    } else {
+                        failure("There's an error creating the block")
                     }
                 case 400:
                     if let error = response.value?.response {
-                        // 400: "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Validator errors")
+                    }
+                case 401:
+                    failure("Invalid token.")
+                default:
+                    failure("There is a problem connecting to the server")
+                }
+            }
+        }
+    }
+    
+    public func editBlock(block: PTBlock,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.editBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+            if let httpCode = response.response?.statusCode {
+                switch httpCode {
+                case 200:
+                    if let response = response.value?.response {
+                        success(response)
+                    } else {
+                        failure("There's a problem edditing the block")
+                    }
+                case 400:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Validator errors")
+                    }
+                case 401:
+                    failure("Invalid token.")
+                case 404:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Period by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -649,59 +478,29 @@ class NetworkingProvider {
         }
     }
     
-    public func editBlock(apiToken: String, block: PTBlock,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        let parameters: Parameters = [
-            "time_start": block.timeStart?.formatToString(using: .serverDate),
-            "time_end": block.timeEnd?.formatToString(using: .serverDate),
-            "day": String(block.day!),
-            "subject_id": block.subject?.id
-        ]
-        
-        AF.request("\(kBaseUrl)block/edit/\(block.id)", method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func deleteBlock(block: PTBlock, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.deleteBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
-                        //  "Block edited properly"
                         success(response)
+                    } else {
+                        failure("There's a problem deleting the block")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 400:
                     if let error = response.value?.response {
-                        // 400: "Validator errors";
                         failure(error)
+                    } else {
+                        failure("Block by that id doesn't exist.")
                     }
                 case 404:
                     if let error = response.value?.response {
-                        // 404: "Period by that id doesn't exist.";
                         failure(error)
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
-    public func deleteBlock(apiToken: String, block: PTBlock,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        AF.request("\(kBaseUrl)block/delete/\(block.id)", method: .delete, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 200:
-                    if let response = response.value?.response {
-                        // "Block deleted successfully."
-                        success(response)
-                    }
-                case 400...499:
-                    if let error = response.value?.response {
-                        // 404: "Block by that id doesn't exist."
-                        failure(error)
+                    } else {
+                        failure("Period not found")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -711,31 +510,22 @@ class NetworkingProvider {
     }
     
     // MARK: - Sessions Request
-    public func createSession(apiToken: String, session: PTSession,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        // TODO: - Revisar
-        let parameters: Parameters = ["quantity": session.quantity,
-                                      "duration": session.duration,
-                                      "total_time": session.duration,
-                                      "task_id": session.task?.id,
-        ]
-        
-        AF.request("\(kBaseUrl)session/create", method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func createSession(session: PTSession,success: @escaping (_ sessionId: Int)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.createSession(session)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
-                    if let response = response.value?.response {
-                        // "Session created properly with id "
-                        // TODO: Debe devolver ID
-                        success(response)
+                    if let sessionId = response.value?.id {
+                        success(sessionId)
+                    } else {
+                        failure("There's a problem creating the session")
                     }
-                case 400...499:
-                    if let error = response.value?.response {
-                        failure(error)
-                    }
+                case 400:
+                    failure("Validator errors.")
+                case 401:
+                    failure("Invalid token.")
+                case 412:
+                    failure("Empty Data")
                 default:
                     failure("There is a problem connecting to the server")
                 }
@@ -743,25 +533,24 @@ class NetworkingProvider {
         }
     }
     
-    public func deleteSession(apiToken: String, session: PTSession,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        
-        guard let sessionId = session.id else { return }
-        
-        AF.request("\(kBaseUrl)session/delete/\(sessionId)", method: .delete, encoding: JSONEncoding.default, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func deleteSession(session: PTSession,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.deleteSession(session)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         //"Session deleted successfully."
                         success(response)
+                    } else {
+                        failure("There's an error deleting the delete")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        // "Session by that id doesn't exist."
                         failure(error)
+                    } else {
+                        failure("Session by that id doesn't exist.")
                     }
                 default:
                     failure("There is a problem connecting to the server")
@@ -770,26 +559,29 @@ class NetworkingProvider {
         }
     }
     
-    public func listSessions(apiToken: String, success: @escaping (_ sessions: [PTSession]?)->(), failure: @escaping (_ msg: String?)->()) {
-        let headers: HTTPHeaders = [
-            "api-token" : apiToken
-        ]
-        AF.request("\(kBaseUrl)session/list", method: .get, headers: headers).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func listSessions(success: @escaping (_ sessions: [PTSession]?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.listSessions).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let sessions = response.value?.sessions {
                         success(sessions)
+                    } else {
+                        failure("There's a problem getting sessions")
                     }
                 case 400:
                     if let error = response.value?.response {
-                        //"Student doesn't have sessions."
                         failure(error)
+                    } else {
+                        failure("Student doesn't have sessions.")
                     }
+                case 401:
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
-                        //"User not found"
                         failure(error)
+                    } else {
+                        failure("User not found")
                     }
                 default:
                     failure("There is a problem connecting to the server")

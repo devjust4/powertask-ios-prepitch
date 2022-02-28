@@ -172,7 +172,7 @@ enum PTRouter {
         return ["time_start": String(block.timeStart.timeIntervalSince1970),
                 "time_end": String(block.timeEnd.timeIntervalSince1970),
                 "day": String(block.day),
-                "subject_id": String(block.subject.id!)
+                "subject_id": String(block.subject!.id!)
         ]
 
     case .createSession(let session):
