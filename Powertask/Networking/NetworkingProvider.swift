@@ -86,6 +86,37 @@ class NetworkingProvider {
         }
     }
     
+    public func listBlocks(period: PTPeriod, success: @escaping (_ blocks: [PTBlock])->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.listBlocks(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+            if let httpCode = response.response?.statusCode {
+                switch httpCode {
+                case 200:
+                    if let blocks = response.value?.blocks {
+                        success(blocks)
+                    } else {
+                        failure("There is a problem decoding data")
+                    }
+                case 400:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Period doesn't have blocks.")
+                    }
+                case 401:
+                    failure("Invalid token.")
+                case 404:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Student doesn't have blocks")
+                    }
+                default:
+                    failure("There is a problem connecting to the server")
+                }
+            }
+        }
+    }
+    
     // MARK: - Task Requests
     public func listTasks(success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
@@ -244,7 +275,7 @@ class NetworkingProvider {
     }
     
     // MARK: - Event Request
-    public func createEvent(apiToken: String, event: PTEvent, success: @escaping (_ id: Int)->(), failure: @escaping (_ msg: String?)->()) {
+    public func createEvent(event: PTEvent, success: @escaping (_ id: Int)->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.createEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -269,7 +300,7 @@ class NetworkingProvider {
         }
     }
     
-    public func editEvent(apiToken: String, event: PTEvent, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+    public func editEvent(event: PTEvent, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.editEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -296,7 +327,7 @@ class NetworkingProvider {
         }
     }
     
-    public func deleteEvent(apiToken: String, event: PTEvent,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+    public func deleteEvent(event: PTEvent,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.deleteEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -313,8 +344,11 @@ class NetworkingProvider {
         }
     }
     
-    public func listEvents(apiToken: String, success: @escaping (_ events: [String : PTDay])->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.listEvents).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+    public func listEvents(success: @escaping (_ events: [String : PTEvent])->(), failure: @escaping (_ msg: String?)->()) {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        
+        sessionManager.request(PTRouter.listEvents).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self, decoder: decoder) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:

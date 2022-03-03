@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import GoogleSignIn
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -17,35 +16,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-//        if let windowScene = scene as? UIWindowScene {
-//            let decoder = JSONDecoder()
-//            var initialViewController: UIViewController
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            self.window = UIWindow(windowScene: windowScene)
-////            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-////                if user == nil || error != nil {
-////                    // Go to signIn
-////                    // cargar datos de usuario
-////                    self.window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "googleSignIn")
-////                } else {
-////                    self.window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "rootScreen")
-////                }
-////            }
-//            if let data = try? UserDefaults.standard.object(forKey: "user") as? Data, let loggedUser = try? decoder.decode(PTUser.self, from: data), let api = loggedUser.apiToken {
-//                GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-//                    if user == nil || error != nil {
-//                        // Go to signIn
-//                        // cargar datos de usuario
-//                        self.window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "googleSignIn")
-//                    } else {
-//                        self.window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "rootScreen")
-//                    }
-//                }
-//            } else {
-//                self.window!.rootViewController = storyboard.instantiateViewController(withIdentifier: "googleSignIn")
-//            }
-//            self.window!.makeKeyAndVisible()
-//        }
         guard let _ = (scene as? UIWindowScene) else { return }
     }
     

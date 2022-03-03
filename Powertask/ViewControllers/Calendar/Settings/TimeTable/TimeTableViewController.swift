@@ -24,12 +24,23 @@ class TimeTableViewController: UIViewController {
         timeTable.delegate = self
         //subjects = MockUser.user.subjects
         //blocks = filterAllBlocks(blocks: MockUser.user.blocks)
-        colors = [UIColor.red, UIColor.green, UIColor.yellow, UIColor.blue]
-        let google = "ya29.A0ARrdaM8SgCCsaoD5A5fUbgY7nRSqrQ_uMA4FJ0YaUvRe93wF44DGnzRAotJESTukOx0--25t4txinHckIe-zUx7yqeaPqQ4y4jkBKBRtWsIlzKZQ2ChjUWrIZjk_kjdZqqKA_ac-mfCjU088sBH-u2VEK-kN1w"
-        PTUser.shared.apiToken = "$2y$10$2FOy9mkxyAq5AEfbz02gIO.IIhNN0sQ7hfas8/n0wEBQGpBfiuLI2"
+        var currentPeriod: PTPeriod?
+        if let periods = PTUser.shared.periods {
+            currentPeriod = periods.first(where: { period in
+                period.startDate > Date.now && period.endDate < Date.now
+            })
+        }
+        if let currentPeriod = currentPeriod {
+            NetworkingProvider.shared.listBlocks(period: currentPeriod) { blocks in
+                PTUser.shared.blocks = blocks
+            } failure: { msg in
+                print("error")
+            }
+
+        }
+        
         NetworkingProvider.shared.listSubjects() { subjects in
             PTUser.shared.subjects = subjects
-            PTUser.shared.blocks =  [PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 1, subject: PTUser.shared.subjects![1]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 7, subject: PTUser.shared.subjects![0]), PTBlock(id: 1, timeStart: Date(timeIntervalSince1970: 946731600), timeEnd: Date(timeIntervalSince1970: 946737000), day: 3, subject: PTUser.shared.subjects![2]), PTBlock(id: 2, timeStart: Date(timeIntervalSince1970: 946740600), timeEnd: Date(timeIntervalSince1970: 946744200), day: 5, subject: PTUser.shared.subjects![0])]
             self.blocks = self.filterAllBlocks(blocks: PTUser.shared.blocks)
             self.timeTable.reloadData()
             self.subjectsCollection.reloadData()

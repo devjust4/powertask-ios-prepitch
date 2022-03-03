@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol NewEventProtocol: AnyObject {
-    func SaveNewEvent(eventTitle: String, startDate: Date?, endDate: Date?, subject: PTSubject?,  notes: String?, eventType: EventType, indexpath: IndexPath?)
+    func SaveNewEvent(event: PTEvent)
 }
 
 class NewEventViewController: UIViewController {
@@ -68,9 +68,9 @@ class NewEventViewController: UIViewController {
         }
     }
     @IBAction func saveEvent(_ sender: Any) {
-        if let eventName = eventName, let eventType = eventType {
-            delegate?.SaveNewEvent(eventTitle: eventName, startDate: eventStartDate, endDate: eventEndDate, subject: eventSubject, notes: eventNotes, eventType: eventType, indexpath: indexPath)
-
+        if let eventName = eventName, let eventType = eventType, let startDate = eventStartDate, let endDate = eventEndDate {
+            delegate?.SaveNewEvent(event: PTEvent(id: nil, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject))
+            
         }
     }
     

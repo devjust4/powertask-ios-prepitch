@@ -18,7 +18,7 @@ class SubjectSelectorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cardView.layer.cornerRadius = 30
-        subjects = [PTSubject(name: "iOS", color: "#456454"), PTSubject(name: "Acceso a datos", color: "#345434"), PTSubject(name: "ingles", color: "#234544")]
+        subjects = PTUser.shared.subjects
         
         subjectPicker.delegate = self
         subjectPicker.dataSource = self

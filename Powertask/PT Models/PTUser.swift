@@ -14,6 +14,7 @@ class PTUser: Codable {
     
     var id: Int?
     var apiToken: String?
+    var googleToken: String?
     var name: String?
     var email: String?
     var imageUrl: String?
@@ -21,7 +22,7 @@ class PTUser: Codable {
     var subjects: [PTSubject]?
     var periods: [PTPeriod]?
     var blocks: [PTBlock]?
-    var events: [String : PTDay]?
+    var events: [String : PTEvent]?
     var tasks: [PTTask]?
     var sessions: [PTSession]?
     

@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreData
-import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

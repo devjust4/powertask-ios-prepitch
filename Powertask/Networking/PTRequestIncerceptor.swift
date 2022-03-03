@@ -6,6 +6,7 @@
 //
 import Foundation
 import Alamofire
+import GoogleSignIn
 
 class PTRequestInterceptor: RequestInterceptor {
   let retryLimit = 5
@@ -16,10 +17,11 @@ class PTRequestInterceptor: RequestInterceptor {
     completion: @escaping (Result<URLRequest, Error>) -> Void
   ) {
     var urlRequest = urlRequest
-      // TODO: Cambiar por PTUSER
       if let token: String? = PTUser.shared.apiToken {
       urlRequest.setValue(token, forHTTPHeaderField: "api-token")
     }
+  
+    urlRequest.setValue("ya29.A0ARrdaM9eiaoD6SB9AzocnpEMnZHNj8kMk1sICBxAnmTiI4PgqPqdNmKSjEPOdXC-oQ4j0JTJFkFk_W2AbIrYptpSqsGrIif84OLCSDIe7Ce0ITcbwmgCbwKLMtdfMul8PKPB3t_lm19ZXkoiQNsI3ZEZar_bVA", forHTTPHeaderField: "token")
     completion(.success(urlRequest))
   }
   func retry(

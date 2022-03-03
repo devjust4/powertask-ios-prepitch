@@ -14,6 +14,7 @@ struct SPTResponse: Decodable {
     var tasks: [PTTask]?
     var courses: [PTCourse]?
     var sessions: [PTSession]?
-    var events: [String : PTDay]?
+    var events: [String : PTEvent]?
     var subjects: [PTSubject]?
+    var blocks: [PTBlock]?
 }
