@@ -16,7 +16,7 @@ struct PTTask: Codable {
     var handoverDate: Date?
     var mark: Float?
     var description: String?
-    var completed: Bool
+    var completed: Int
     var subject: PTSubject?
     var studentId: Int?
     var subtasks: [PTSubtask]?

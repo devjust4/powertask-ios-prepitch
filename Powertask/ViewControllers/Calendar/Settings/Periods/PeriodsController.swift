@@ -16,7 +16,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     let confirmationAction = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .actionSheet)
     override func viewDidLoad() {
         super.viewDidLoad()
-        period = [PTPeriod(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690)), PTPeriod(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690))]
+        period = [PTPeriod(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690), subjects: [0, 1, 2]), PTPeriod(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690), subjects: [0, 1, 2])]
 //        TODO: comprobar fechas periodos
         periodsTableView.dataSource = self
         periodsTableView.delegate = self

@@ -17,9 +17,9 @@ class MockUser {
                     PTSubject(name: "Proyecto", color: "#346578"),
                     PTSubject(name: "Empresa", color: "#342454")]
     
-   static var periods = [PTPeriod(name: "Primer trimestre", startDate: Date(timeIntervalSince1970: 1631232000), endDate: Date(timeIntervalSince1970: 1640131200)),
-                   PTPeriod(name: "Segundo trimestre", startDate: Date(timeIntervalSince1970: 1641772800), endDate: Date(timeIntervalSince1970: 1648166400)),
-                   PTPeriod(name: "Tercer trimestre", startDate: Date(timeIntervalSince1970: 1648771200), endDate: Date(timeIntervalSince1970: 1656374400))]
+//   static var periods = [PTPeriod(name: "Primer trimestre", startDate: Date(timeIntervalSince1970: 1631232000), endDate: Date(timeIntervalSince1970: 1640131200)),
+//                   PTPeriod(name: "Segundo trimestre", startDate: Date(timeIntervalSince1970: 1641772800), endDate: Date(timeIntervalSince1970: 1648166400)),
+//                   PTPeriod(name: "Tercer trimestre", startDate: Date(timeIntervalSince1970: 1648771200), endDate: Date(timeIntervalSince1970: 1656374400))]
     
 //   static var exams = [PTEvent(id: 1, name: "Examen de acceso", type: EventType.exam, allDay: false, startDate: Date(timeIntervalSince1970: 1646043120), endDate: Date(timeIntervalSince1970: 1646046720), subject: subjects[0], notes: "Pruebas de notas del examen de acceso"),
 //                       PTEvent(id: 2, name: "Examen de Empresa", type: EventType.exam, allDay: false, startDate: Date(timeIntervalSince1970: 1646133120), endDate: Date(timeIntervalSince1970: 1646137800), subject: subjects[1], notes: "Notas del examen 2")]

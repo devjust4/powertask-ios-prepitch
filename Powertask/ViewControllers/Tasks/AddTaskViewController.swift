@@ -99,7 +99,7 @@ class AddTaskViewController: UIViewController {
             if let handoverDate = task.handoverDate {
                 handoverDatePicker.setDate(handoverDate, animated: false)
             }
-            if task.completed{
+            if Bool(truncating: task.completed as NSNumber){
                 doneButton.setImage(Constants.taskDoneImage, for: .normal)
                 doneButton.tintColor = Constants.appColor
             } else {
@@ -131,14 +131,14 @@ class AddTaskViewController: UIViewController {
         guard let task = userTask else {
             return
         }
-        if task.completed {
+        if Bool(truncating: task.completed as NSNumber) {
             doneButton.setImage(Constants.taskUndoneImage, for: .normal)
             doneButton.tintColor = .black
-            userTask!.completed = false
+            userTask!.completed = 0
         } else {
             doneButton.setImage(Constants.taskDoneImage, for: .normal)
             doneButton.tintColor = Constants.appColor
-            userTask!.completed = true
+            userTask!.completed = 1
         }
 
     }
@@ -208,7 +208,7 @@ class AddTaskViewController: UIViewController {
         } else {
 
             //userTask = PTTask(name: taskNameTextField.text ?? "Tarea sin nombre", completed: false, subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
-            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: false, subject: subject, studentId: nil, subtasks: subtasks ?? [])
+            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: 0, subject: subject, studentId: nil, subtasks: subtasks ?? [])
             delegate?.appendNewTask(newTask: userTask!)
         }
     }

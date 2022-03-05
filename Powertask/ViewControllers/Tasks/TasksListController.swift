@@ -54,7 +54,7 @@ extension TasksListController: SaveNewTaskProtocol, TaskCellDoneDelegate {
     func taskDonePushed(_ taskCell: UserTaskTableViewCell, taskDone: Bool?) {
         let indexPath = tasksTableView.indexPath(for: taskCell)
         if let row = indexPath?.row, let _ = userTasks,  let done = taskDone {
-            userTasks![row].completed = done
+            userTasks![row].completed = done ? 1 : 0
         }
     }
     
@@ -107,9 +107,9 @@ extension TasksListController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! UserTaskTableViewCell
         if let task = userTasks?[indexPath.row] {
             cell.taskNameLabel.text = task.name
-            cell.taskDone = task.completed
+            cell.taskDone = Bool(truncating: task.completed as NSNumber)
             cell.taskDoneDelegate = self
-            if task.completed {
+            if Bool(truncating: task.completed as NSNumber) {
                 cell.doneButton.setImage(Constants.taskDoneImage, for: .normal)
             } else {
                 cell.doneButton.setImage(Constants.taskUndoneImage, for: .normal)

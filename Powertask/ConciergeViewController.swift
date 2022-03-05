@@ -17,23 +17,24 @@ class ConciergeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if LandscapeManager.shared.isFirstLaunch {
-            performSegue(withIdentifier: "toOnboarding", sender: nil)
-            LandscapeManager.shared.isFirstLaunch = true
-        } else {
-            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-                if user == nil || error != nil {
-                    if LandscapeManager.shared.isThereUserData {
-                        self.performSegue(withIdentifier: "toMain", sender: nil)
-                    } else {
-                        self.performSegue(withIdentifier: "toMain", sender: nil)
-                    }
-                } else {
-                    self.performSegue(withIdentifier: "toMain", sender: nil)
-                    
-                }
-            }
-        }
+        performSegue(withIdentifier: "toOnboarding", sender: nil)
+//        if LandscapeManager.shared.isFirstLaunch {
+//            performSegue(withIdentifier: "toOnboarding", sender: nil)
+//            LandscapeManager.shared.isFirstLaunch = true
+//        } else {
+//            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+//                if user == nil || error != nil {
+//                    if LandscapeManager.shared.isThereUserData {
+//                        self.performSegue(withIdentifier: "toMain", sender: nil)
+//                    } else {
+//                        self.performSegue(withIdentifier: "toMain", sender: nil)
+//                    }
+//                } else {
+//                    self.performSegue(withIdentifier: "toMain", sender: nil)
+//                    
+//                }
+//            }
+//        }
     }
     
     
@@ -86,11 +87,9 @@ class LandscapeManager {
     func loadUser(userFromDefaults: PTUser) {
         PTUser.shared.id = userFromDefaults.id
         PTUser.shared.apiToken = userFromDefaults.apiToken
-        PTUser.shared.googleToken = userFromDefaults.googleToken
         PTUser.shared.name = userFromDefaults.name
         PTUser.shared.email = userFromDefaults.email
         PTUser.shared.imageUrl = userFromDefaults.imageUrl
-        PTUser.shared.course = userFromDefaults.course
         PTUser.shared.subjects = userFromDefaults.subjects
         PTUser.shared.periods = userFromDefaults.periods
         PTUser.shared.blocks = userFromDefaults.blocks

@@ -13,18 +13,17 @@ class PTUser: Codable {
     private init() {}
     
     var id: Int?
-    var apiToken: String?
-    var googleToken: String?
+    var new: Bool?
     var name: String?
     var email: String?
     var imageUrl: String?
-    var course: PTCourse?
+    var apiToken: String?
+    var tasks: [PTTask]?
     var subjects: [PTSubject]?
     var periods: [PTPeriod]?
-    var blocks: [PTBlock]?
-    var events: [String : PTEvent]?
-    var tasks: [PTTask]?
     var sessions: [PTSession]?
+    var events: [String : PTEvent]?
+    var blocks: [PTBlock]?
     
     func savePTUser(){
         let encoder = JSONEncoder()
@@ -41,7 +40,6 @@ class PTUser: Codable {
             self.name = user.name
             self.email = user.email
             self.imageUrl = user.imageUrl
-            self.course = user.course
             self.subjects = user.subjects
             self.periods = user.periods
             self.blocks = user.blocks
@@ -50,4 +48,22 @@ class PTUser: Codable {
             self.sessions = user.sessions
         }
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case new
+        case email
+        case imageUrl = "image_url"
+        case apiToken = "api_token"
+        case tasks
+        case subjects
+        case periods
+        case sessions
+        case events
+        case blocks
+    }
 }
+
+
+
+

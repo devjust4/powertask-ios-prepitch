@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct SPTResponse: Decodable {
+struct PTResponse: Decodable {
     var response: String?
+    var new: Int?
     var id: Int?
     var token: String?
     var tasks: [PTTask]?
@@ -17,4 +18,6 @@ struct SPTResponse: Decodable {
     var events: [String : PTEvent]?
     var subjects: [PTSubject]?
     var blocks: [PTBlock]?
+    var url: String?
+    var student: PTUser?
 }

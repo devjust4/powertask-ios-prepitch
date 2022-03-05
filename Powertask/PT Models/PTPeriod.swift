@@ -11,14 +11,15 @@ struct PTPeriod: Codable {
     var name: String
     var startDate: Date
     var endDate: Date
-    var subjects: [PTSubject]?
+    var subjects: [Int]?
     var blocks: [PTBlock]?
     
     
-    init(name: String, startDate: Date, endDate: Date){
+    init(name: String, startDate: Date, endDate: Date, subjects: [Int]){
         self.name = name
         self.startDate = startDate
         self.endDate = endDate
+        self.subjects = subjects
     }
     
 }

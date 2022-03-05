@@ -1,0 +1,82 @@
+//
+//  GoogleClassroomPermissionViewController.swift
+//  Powertask
+//
+//  Created by Daniel Torres on 5/3/22.
+//
+
+import UIKit
+import GoogleSignIn
+import SPIndicator
+
+let scopes = ["https://www.googleapis.com/auth/classroom.courses", "https://www.googleapis.com/auth/classroom.courses.readonly", "https://www.googleapis.com/auth/classroom.course-work.readonly", "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly"]
+
+class GoogleClassroomPermissionViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    @IBAction func authorize(_ sender: Any) {
+        if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
+            requestScopes(scopes: scopes) {
+                NetworkingProvider.shared.listSubjects { subjects in
+                    PTUser.shared.subjects = subjects
+                } failure: { error in
+                    print("error en la descarga de asinaturas")
+                }
+
+                NetworkingProvider.shared.initialDownload { user in
+                    PTUser.shared.id = user.id
+                    PTUser.shared.name = user.name
+                    PTUser.shared.email = user.email
+                    PTUser.shared.imageUrl = user.imageUrl
+                    PTUser.shared.apiToken = user.apiToken
+                    PTUser.shared.tasks = user.tasks
+                    PTUser.shared.subjects = user.subjects
+                    PTUser.shared.periods = user.periods
+                    PTUser.shared.sessions = user.sessions
+                    PTUser.shared.events = user.events
+                    PTUser.shared.savePTUser()
+                    print(PTUser.shared.events)
+                } failure: { error in
+                    print("error en la descarga incial")
+                }
+                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "Permisos concedidos", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                
+                if let pageController = self.parent as? OnBoardingViewController {
+                    pageController.goNext()
+                }
+            } failure: {
+                let image = UIImage.init(systemName: "icloud.slash")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "No has autorizado a PowerTask", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .error, completion: nil)
+            }
+        } else {
+            let image = UIImage.init(systemName: "icloud.slash")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+            let indicatorView = SPIndicatorView(title: "No tienes conexión a internet", preset: .custom(image))
+            indicatorView.present(duration: 3, haptic: .error, completion: nil)
+        }
+    }
+    
+
+    func requestScopes(scopes: [String], success: @escaping ()->(), failure: @escaping ()->()) {
+        GIDSignIn.sharedInstance.addScopes(scopes, presenting: self) { user, error in
+            guard error == nil else {
+                success()
+                return }
+            guard let user = user else {
+                failure()
+                return }
+            let grantedScopes = user.grantedScopes
+            if grantedScopes == nil || !grantedScopes!.contains("https://www.googleapis.com/auth/classroom.courses") {
+                failure()
+            } else {
+                success()
+            }
+        }
+    }
+    
+}

@@ -19,8 +19,8 @@ protocol PeriodSubjectTextViewProtocol: AnyObject{
 }
 
 import UIKit
-class SubjectTableViewCell: UITableViewCell, UITextViewDelegate {
-    @IBOutlet weak var subjectName: UITextView!
+class SubjectTableViewCell: UITableViewCell {
+    @IBOutlet weak var subjectName: UITextField!
     @IBOutlet weak var checkSubject: UIButton!
     @IBOutlet weak var subjectColor: UIButton!
     var subjectColorDelegate: ColorButtonPushedProtocol?
@@ -30,7 +30,7 @@ class SubjectTableViewCell: UITableViewCell, UITextViewDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         subjectColor.layer.cornerRadius = 8
-        subjectName?.delegate = self
+        subjectName?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
     @IBAction func selectColor(_ sender: Any) {
@@ -47,8 +47,8 @@ class SubjectTableViewCell: UITableViewCell, UITextViewDelegate {
         }
     }
     
-    func textViewDidEndEditing(_ textView: UITextView){
-        delegate?.didTextEndEditing(self, editingText: textView.text)
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        delegate?.didTextEndEditing(self, editingText: textField.text)
     }
 }
 

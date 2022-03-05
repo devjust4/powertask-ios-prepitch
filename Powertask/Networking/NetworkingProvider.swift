@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import UIKit
 
 class NetworkingProvider {
     static let shared = NetworkingProvider()
@@ -22,19 +23,44 @@ class NetworkingProvider {
     }()
     
     // MARK: - Register Request
-    func registerOrLogin(success: @escaping (_ token: String) -> (), failure: @escaping (_ error: String) ->()) {
-        sessionManager.request(PTRouter.login).responseDecodable (of: SPTResponse.self) { response in
-            if let token = response.value?.token {
-                success(token)
+    func registerOrLogin(success: @escaping (_ token: String, _ new: Bool) -> (), failure: @escaping (_ error: String) ->()) {
+        sessionManager.request(PTRouter.login).responseDecodable (of: PTResponse.self) { response in
+            if let token = response.value?.token, let new = response.value?.new {
+                success(token, Bool(truncating: new as NSNumber))
             } else {
                 failure("No token")
             }
         }
     }
     
+    func initialDownload(success: @escaping (_ user: PTUser)-> (), failure: @escaping (_ error: String)->()) {
+        sessionManager.request(PTRouter.initialDownload).responseDecodable(of: PTResponse.self) { response in
+            if let httpCode = response.response?.statusCode {
+                switch httpCode {
+                case 200:
+                    if let student = response.value?.student {
+                        success(student)
+                    } else {
+                        failure("There is a problem decodding data")
+                    }
+                case 401:
+                    failure("Invalid token.")
+                case 404:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Student not found")
+                    }
+                default:
+                    failure("There is a problem connecting to the server")
+                }
+            }
+        }
+    }
+    
     //MARK: - Subjects Request
     func listSubjects(success: @escaping (_ subjects: [PTSubject]) -> (), failure: @escaping (_ error: String) ->()) {
-        sessionManager.request(PTRouter.listSubjects).responseDecodable (of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.listSubjects).responseDecodable (of: PTResponse.self) { response in
             print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -42,7 +68,7 @@ class NetworkingProvider {
                     if let subjects = response.value?.subjects {
                         success(subjects)
                     } else {
-                        failure("There is a problem connecting to the server")
+                        failure("There is a problem decodding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -60,7 +86,7 @@ class NetworkingProvider {
     }
     
     public func editSubject(subject: PTSubject, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-       sessionManager.request(PTRouter.editSubject(subject)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editSubject(subject)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -87,7 +113,7 @@ class NetworkingProvider {
     }
     
     public func listBlocks(period: PTPeriod, success: @escaping (_ blocks: [PTBlock])->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.listBlocks(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.listBlocks(period)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -119,7 +145,7 @@ class NetworkingProvider {
     
     // MARK: - Task Requests
     public func listTasks(success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -144,14 +170,14 @@ class NetworkingProvider {
     }
     
     public func createTask(task: PTTask, success: @escaping (_ taskId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.createTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.createTask(task)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
                     if let taskId = response.value?.id {
                         success(taskId)
                     } else {
-                        failure("There's an error getting the task id")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -169,14 +195,14 @@ class NetworkingProvider {
     }
     
     public func editTask(task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.editTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editTask(task)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         success(response)
                     } else {
-                        failure ("There's an error edditing the task")
+                        failure ("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -200,14 +226,14 @@ class NetworkingProvider {
     }
     
     public func deleteTask(task: PTTask, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-       sessionManager.request(PTRouter.deleteTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deleteTask(task)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         success(response)
                     } else {
-                        failure("Task deleted successfully.")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -225,14 +251,14 @@ class NetworkingProvider {
     }
     
     public func toggleTask(task: PTTask, success: @escaping (_ taskCompleted: Bool)->(), failure: @escaping (_ msg: String?)->()) {
-       sessionManager.request(PTRouter.toogleTask(task)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.toogleTask(task)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let taskCompleted = response.value?.response {
                         success((taskCompleted as NSString).boolValue)
                     } else {
-                        failure("There's an error changing completion status")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -251,14 +277,14 @@ class NetworkingProvider {
     
     // MARK: - Subtask Requests
     public func toggleSubtask(subtask: PTSubtask, success: @escaping (_ subtaskCompleted: Bool)->(), failure: @escaping (_ msg: String?)->(), subtaskID: Int) {
-        sessionManager.request(PTRouter.toogleSubtask(subtask)).validate(statusCode: 200...600).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.toogleSubtask(subtask)).validate(statusCode: 200...600).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let subtaskCompleted = response.value?.response {
                         success((subtaskCompleted as NSString).boolValue)
                     } else {
-                        failure("There's an error changing completion status")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -276,14 +302,14 @@ class NetworkingProvider {
     
     // MARK: - Event Request
     public func createEvent(event: PTEvent, success: @escaping (_ id: Int)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.createEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.createEvent(event)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
                     if let id = response.value?.id {
                         success(id)
                     } else {
-                        failure("There is a problem creating the event")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -301,7 +327,7 @@ class NetworkingProvider {
     }
     
     public func editEvent(event: PTEvent, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.editEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editEvent(event)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -313,7 +339,7 @@ class NetworkingProvider {
                         failure("Validator errors.")
                     }
                 case 401:
-                        failure("Invalid token.")
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
                         failure(error)
@@ -328,7 +354,7 @@ class NetworkingProvider {
     }
     
     public func deleteEvent(event: PTEvent,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.deleteEvent(event)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deleteEvent(event)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -348,17 +374,17 @@ class NetworkingProvider {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         
-        sessionManager.request(PTRouter.listEvents).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self, decoder: decoder) { response in
+        sessionManager.request(PTRouter.listEvents).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self, decoder: decoder) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let events = response.value?.events {
                         success(events)
                     } else {
-                        failure("There is a problem getting the events.")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
-                        failure("Invalid token.")
+                    failure("Invalid token.")
                 case 404:
                     if let error = response.value?.response {
                         failure(error)
@@ -374,14 +400,20 @@ class NetworkingProvider {
     
     // MARK: - Periods Request
     public func createPeriod(period: PTPeriod, success: @escaping (_ periodId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-      sessionManager.request(PTRouter.createPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        var parameters: Parameters {
+            ["name": period.name,
+                    "date_start": String(period.startDate.timeIntervalSince1970),
+                    "date_end": String(period.endDate.timeIntervalSince1970),
+                    "subjects" : period.subjects!]
+        }
+        sessionManager.request("http://powertask.kurokiji.com/public/api/period/create", method: .post, parameters: parameters).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
                     if let periodId = response.value?.id {
                         success(periodId)
                     } else {
-                        failure("There is a problem creating the event")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -399,7 +431,7 @@ class NetworkingProvider {
     }
     
     public func editPeriod(period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.editPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -407,7 +439,7 @@ class NetworkingProvider {
                         // "Period edited properly"
                         success(response)
                     } else {
-                        failure("There's an error edditing the period")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -431,14 +463,14 @@ class NetworkingProvider {
     }
     
     public func deletePeriod(period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.deletePeriod(period)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deletePeriod(period)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         success(response)
                     } else {
-                        failure("There's an error deleting the period")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -457,14 +489,14 @@ class NetworkingProvider {
     
     // MARK: - Blocks Request
     public func createBlock(block: PTBlock, success: @escaping (_ blockId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-       sessionManager.request(PTRouter.createBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.createBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
                     if let blockId = response.value?.id {
                         success(blockId)
                     } else {
-                        failure("There's an error creating the block")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -482,14 +514,14 @@ class NetworkingProvider {
     }
     
     public func editBlock(block: PTBlock,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.editBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.editBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         success(response)
                     } else {
-                        failure("There's a problem edditing the block")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -513,14 +545,14 @@ class NetworkingProvider {
     }
     
     public func deleteBlock(block: PTBlock, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.deleteBlock(block)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deleteBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
                         success(response)
                     } else {
-                        failure("There's a problem deleting the block")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -545,14 +577,14 @@ class NetworkingProvider {
     
     // MARK: - Sessions Request
     public func createSession(session: PTSession,success: @escaping (_ sessionId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.createSession(session)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.createSession(session)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
                     if let sessionId = response.value?.id {
                         success(sessionId)
                     } else {
-                        failure("There's a problem creating the session")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     failure("Validator errors.")
@@ -568,15 +600,14 @@ class NetworkingProvider {
     }
     
     public func deleteSession(session: PTSession,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.deleteSession(session)).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.deleteSession(session)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let response = response.value?.response {
-                        //"Session deleted successfully."
                         success(response)
                     } else {
-                        failure("There's an error deleting the delete")
+                        failure("There is a problem decoding data")
                     }
                 case 401:
                     failure("Invalid token.")
@@ -594,14 +625,14 @@ class NetworkingProvider {
     }
     
     public func listSessions(success: @escaping (_ sessions: [PTSession]?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.listSessions).validate(statusCode: statusOk).responseDecodable(of: SPTResponse.self) { response in
+        sessionManager.request(PTRouter.listSessions).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
                     if let sessions = response.value?.sessions {
                         success(sessions)
                     } else {
-                        failure("There's a problem getting sessions")
+                        failure("There is a problem decoding data")
                     }
                 case 400:
                     if let error = response.value?.response {
@@ -623,5 +654,55 @@ class NetworkingProvider {
             }
         }
     }
+    
+    // MARK: - Profile requests
+    
+    public func uploadImage(image: UIImage?, progress: @escaping ( _ progressQuantity: Double) -> (),success: @escaping (_ url: String)->(), failure: @escaping (_ msg: String?)->()) {
+        if let file = image?.jpegData(compressionQuality: 0.1){
+            sessionManager.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(file, withName: "image", fileName: "profile.png" , mimeType: "image/png")
+                
+            }, to: "http://powertask.kurokiji.com/public/api/student/uploadImage", method: .post).validate(statusCode: statusOk).uploadProgress(closure: { progressQuantity in
+                progress(progressQuantity.fractionCompleted)
+            }).responseDecodable (of: PTResponse.self) { response in
+                if let httpCode = response.response?.statusCode {
+                    switch httpCode {
+                    case 200:
+                        if let imageUrl = response.value?.url{
+                            success(imageUrl)
+                        } else {
+                            failure("There is a problem decoding data")
+                        }
+                    case 401:
+                        failure("Invalid token.")
+                    default:
+                        failure("There is a problem connecting to the server")
+                    }
+                }
+            }
+        }
+    }
+    
+    public func editNameInfo(name: String ,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.editProfile(name)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+            if let httpCode = response.response?.statusCode {
+                switch httpCode {
+                case 200:
+                    if let response = response.value?.response {
+                        success(response)
+                    } else {
+                        failure("There is a problem decoding data")
+                    }
+                case 400:
+                    failure("Validator errors.")
+                case 401:
+                    failure("Invalid token.")
+                default:
+                    failure("There is a problem connecting to the server.")
+                }
+            }
+        }
+    }
+    
 }
 

@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 protocol NewEventProtocol: AnyObject {
-    func SaveNewEvent(event: PTEvent)
+    func SaveNewEvent(event: PTEvent, isNewEvent: Bool)
 }
 
 class NewEventViewController: UIViewController {
@@ -21,6 +21,7 @@ class NewEventViewController: UIViewController {
     var isNewEvent: Bool?
     var event: PTEvent?
     var delegate: NewEventProtocol?
+    var eventId: Int?
     var eventName: String?
     var eventType: EventType?
     var eventStartDate: Date?
@@ -37,6 +38,7 @@ class NewEventViewController: UIViewController {
         
         // TODO: Controlar el ancho de las filas según el contenido para que el texto pueda fluir
         if let event = event {
+            eventId = event.id
             eventName = event.name
             switch event.type {
             case EventType.exam:
@@ -69,7 +71,7 @@ class NewEventViewController: UIViewController {
     }
     @IBAction func saveEvent(_ sender: Any) {
         if let eventName = eventName, let eventType = eventType, let startDate = eventStartDate, let endDate = eventEndDate {
-            delegate?.SaveNewEvent(event: PTEvent(id: nil, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject))
+            delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
             
         }
     }

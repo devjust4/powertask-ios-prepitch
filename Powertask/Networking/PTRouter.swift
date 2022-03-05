@@ -38,6 +38,9 @@ enum PTRouter {
     case listSessions
     case createSession(PTSession)
     case deleteSession(PTSession)
+    
+    case initialDownload
+    case editProfile(String)
 
   var baseURL: String {
       return "http://powertask.kurokiji.com/public/api"
@@ -105,18 +108,22 @@ enum PTRouter {
         return "/session/create"
     case .deleteSession(let session):
         return "/session/delete/\(session.id)"
+    case .initialDownload:
+        return "/student/initialDownload"
+    case .editProfile:
+        return "/student/edit"
     }
   }
 
   var method: HTTPMethod {
     switch self {
 
-    case .login, .editSubject(_), .editTask(_), .toogleTask(_), .toogleSubtask(_), .editEvent(_), .editPeriod(_), .editBlock(_):
+    case .editSubject(_), .editTask(_), .toogleTask(_), .toogleSubtask(_), .editEvent(_), .editPeriod(_), .editBlock(_), .editProfile:
         return .put
-    case .listSubjects, .listTasks, .listEvents, .listPeriods, .listBlocks(_), .listSessions:
+    case .listSubjects, .listTasks, .listEvents, .listPeriods, .listBlocks(_), .listSessions, .initialDownload:
         return .get
         
-    case .createTask(_), .createEvent(_), .createPeriod(_), .createBlock(_), .createSession(_):
+    case .login, .createTask(_), .createEvent(_), .createPeriod(_), .createBlock(_), .createSession(_):
         return .post
     case .deleteTask(_), .deleteEvent(_), .deletePeriod(_), .deleteBlock(_), .deleteSession(_):
         return .delete
@@ -125,7 +132,7 @@ enum PTRouter {
 
   var parameters: [String: String]? {
     switch self {
-    case .login, .listSubjects, .deleteTask(_), .listTasks, .toogleTask(_), .toogleSubtask(_), .listEvents, .deleteEvent(_), .listPeriods, .deletePeriod(_), .listBlocks(_), .deleteBlock(_), .listSessions, .deleteSession(_):
+    case .login, .listSubjects, .deleteTask(_), .listTasks, .toogleTask(_), .toogleSubtask(_), .listEvents, .deleteEvent(_), .listPeriods, .deletePeriod(_), .listBlocks(_), .deleteBlock(_), .listSessions, .deleteSession(_), .initialDownload:
         return nil
         
     case .editSubject(let subject):
@@ -166,6 +173,7 @@ enum PTRouter {
         return ["name": period.name,
                 "date_start": String(period.startDate.timeIntervalSince1970),
                 "date_end": String(period.endDate.timeIntervalSince1970),
+//                "subjects" : period.subjects!
         ]
 
     case .createBlock(let block), .editBlock(let block):
@@ -188,6 +196,8 @@ enum PTRouter {
                     "total_time": String(session.duration),
             ]
         }
+    case .editProfile(let name):
+        return ["name": name]
     }
   }
 }
@@ -197,6 +207,7 @@ extension PTRouter: URLRequestConvertible {
     let url = try baseURL.asURL().appendingPathComponent(path)
     var request = URLRequest(url: url)
     request.method = method
+      
     if method == .get {
       request = try URLEncodedFormParameterEncoder()
         .encode(parameters, into: request)

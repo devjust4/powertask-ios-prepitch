@@ -3,7 +3,6 @@
 //  Powertask
 //
 //  Created by Andrea Martinez Bartolome on 6/2/22.
-//  Eddited by Daniel Torres on 15/2/22.
 //
 import UIKit
 class AddPeriodController: UIViewController {
@@ -26,14 +25,15 @@ class AddPeriodController: UIViewController {
         subjectArray = []
         if let subjects = subjects {
             for subject in subjects {
-                if ((period?.subjects?.contains(where: { periodSubject in
-                    periodSubject.id == subject.id
-                })) != nil) {
-                    subjectArray?.append((true, subject))
-                } else {
-                    subjectArray?.append((false, subject))
-                }
-                //subjectArray?.append((false, subject))
+                // TODO: La petición de periodos cambia de array de asignaturas a array de enteros
+//                if ((period?.subjects?.contains(where: { periodSubject in
+//                    periodSubject.id == subject.id
+//                })) != nil) {
+//                    subjectArray?.append((true, subject))
+//                } else {
+//                    subjectArray?.append((false, subject))
+//                }
+//                //subjectArray?.append((false, subject))
             }
         }
         
@@ -146,16 +146,16 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                         cell.checkSubject.alpha = 1
                     }
                 }
-                cell.subjectName.isEditable = userIsEditing! ? true : false
+                cell.subjectName.isEnabled = userIsEditing! ? true : false
                 cell.subjectColorDelegate = self
                 cell.selectedSubjectDelegate = self
                 cell.delegate = self
                 if let editing = userIsEditing, editing == true {
-                    cell.subjectName.isEditable = true
+                    cell.subjectName.isEnabled = true
                     cell.subjectColor.isEnabled = true
                     cell.checkSubject.isEnabled = true
                 } else {
-                    cell.subjectName.isEditable = false
+                    cell.subjectName.isEnabled = false
                     cell.subjectColor.isEnabled = false
                     cell.checkSubject.isEnabled = false
                 }
@@ -182,7 +182,8 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                     newArray.append(array[index].1)
                 }
             }
-            period?.subjects = newArray
+            // TODO: La petición de periodos cambia de array de asignaturas a array de enteros
+           // period?.subjects = newArray
         }
     }
 }

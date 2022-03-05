@@ -35,6 +35,7 @@ class CalendarsViewController: UIViewController {
         calendarView.dataSource = self
         eventListTable.delegate = self
         eventListTable.dataSource = self
+        calendarView.select(Date.now)
         calendarView.locale = Locale(identifier: "ES")
         //calendarView.appearance.headerTitleFont = UIFont.preferredFont(forTextStyle: .title1)
         calendarTitle.text = calendarView.currentPage.addingTimeInterval(43200).formatToString(using: .monthYear)
@@ -256,10 +257,6 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
         switch event.type {
         case .vacation:
             let cell = tableView.dequeueReusableCell(withIdentifier: "allDayRow") as? AllDayEventTableViewCell
-//            cell?.selectedBackgroundView = backgroundView
-//            cell?.eventColorImage.backgroundColor = UIColor(named: "AccentColor")?.withAlphaComponent(CGFloat(0.6))
-//            cell?.eventNameLabel.text = event.name
-            
             cell?.selectedBackgroundView = backgroundView
             cell?.eventColorImage.backgroundColor = UIColor(named: "AccentColor")?.withAlphaComponent(CGFloat(0.6))
             cell?.eventNameLabel.text = event.name
@@ -304,16 +301,25 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension CalendarsViewController: NewEventProtocol {
-    func SaveNewEvent(event: PTEvent) {
-        NetworkingProvider.shared.createEvent(event: event) { id in
-            PTUser.shared.events!["\(id)"] = event
-            PTUser.shared.events!["\(id)"]?.id = id
-            self.eventListTable.reloadSections([0], with: .fade)
-        } failure: { msg in
-            print(msg)
+    func SaveNewEvent(event: PTEvent, isNewEvent: Bool) {
+        if isNewEvent {
+            NetworkingProvider.shared.createEvent(event: event) { id in
+                PTUser.shared.events!["\(id)"] = event
+                PTUser.shared.events!["\(id)"]?.id = id
+                self.eventListTable.reloadSections([0], with: .fade)
+            } failure: { msg in
+                print(msg)
+            }
+        } else {
+            NetworkingProvider.shared.editEvent(event: event) { msg in
+                // TODO: Revisar porque no se está recargando bien la lista
+                // TODO: Idear un método para que se actualicen siempre los dias
+                PTUser.shared.events!["\(event.id)"] = event
+                self.selectedDateEvents = self.getEventForDate(date: self.calendarView.selectedDate!, events: PTUser.shared.events!)
+                self.eventListTable.reloadSections([0], with: .fade)
+            } failure: { msg in
+                print(msg)
+            }
         }
-
     }
-    
-    
 }
