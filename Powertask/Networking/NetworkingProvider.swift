@@ -16,7 +16,7 @@ class NetworkingProvider {
     
     let sessionManager: Session = {
         let configuration = URLSessionConfiguration.af.default
-        configuration.timeoutIntervalForRequest = 30
+        configuration.timeoutIntervalForRequest = 120
         let networkLogger = PTRequestLogger()
         let interceptor = PTRequestInterceptor()
         return Session(configuration: configuration, interceptor: interceptor, eventMonitors: [networkLogger])
@@ -35,6 +35,7 @@ class NetworkingProvider {
     
     func initialDownload(success: @escaping (_ user: PTUser)-> (), failure: @escaping (_ error: String)->()) {
         sessionManager.request(PTRouter.initialDownload).responseDecodable(of: PTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -406,7 +407,8 @@ class NetworkingProvider {
                     "date_end": String(period.endDate.timeIntervalSince1970),
                     "subjects" : period.subjects!]
         }
-        sessionManager.request("http://powertask.kurokiji.com/public/api/period/create", method: .post, parameters: parameters).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+        sessionManager.request(PTRouter.createPeriod(period)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:

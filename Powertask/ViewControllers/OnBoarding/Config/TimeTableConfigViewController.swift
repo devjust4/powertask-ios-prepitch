@@ -22,11 +22,7 @@ class TimeTableConfigViewController: UIViewController {
         subjectsCollection.dataSource = self
         timeTable.dataSource = self
         timeTable.delegate = self
-        // Do any additional setup after loading the view.
     }
-    
-
-    
     
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in

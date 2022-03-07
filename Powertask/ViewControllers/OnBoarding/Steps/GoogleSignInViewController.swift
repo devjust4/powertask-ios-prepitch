@@ -12,6 +12,7 @@ import SPIndicator
 class GoogleSignInViewController: UIViewController {
     let signInConfig = GIDConfiguration.init(clientID: "399583491262-t0eqglos49o9iau47dker4v27bm2mt0j.apps.googleusercontent.com")
     
+    @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var signInWithGoogleButton: GIDSignInButton!
     @IBOutlet weak var pageControl: UIPageControl!
     override func viewDidLoad() {
@@ -31,6 +32,7 @@ class GoogleSignInViewController: UIViewController {
         if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
             GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
                 NetworkingProvider.shared.registerOrLogin { token, new in
+                    self.loadingView.isHidden = false
                     PTUser.shared.apiToken = token
                     PTUser.shared.new = new
                     

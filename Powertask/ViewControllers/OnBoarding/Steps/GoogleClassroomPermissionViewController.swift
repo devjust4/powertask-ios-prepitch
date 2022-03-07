@@ -9,8 +9,12 @@ import UIKit
 import GoogleSignIn
 import SPIndicator
 
-let scopes = ["https://www.googleapis.com/auth/classroom.courses", "https://www.googleapis.com/auth/classroom.courses.readonly", "https://www.googleapis.com/auth/classroom.course-work.readonly", "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly"]
-
+let scopes = ["https://www.googleapis.com/auth/classroom.courses",
+              "https://www.googleapis.com/auth/classroom.courses.readonly",
+              "https://www.googleapis.com/auth/classroom.course-work.readonly",
+              "https://www.googleapis.com/auth/classroom.student-submissions.me.readonly",
+              "https://www.googleapis.com/auth/userinfo.email",
+              "https://www.googleapis.com/auth/userinfo.profile"]
 class GoogleClassroomPermissionViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -20,25 +24,21 @@ class GoogleClassroomPermissionViewController: UIViewController {
     @IBAction func authorize(_ sender: Any) {
         if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
             requestScopes(scopes: scopes) {
-                NetworkingProvider.shared.listSubjects { subjects in
-                    PTUser.shared.subjects = subjects
-                } failure: { error in
-                    print("error en la descarga de asinaturas")
-                }
-
                 NetworkingProvider.shared.initialDownload { user in
+                    let dataLoadedNotification = Notification.Name("DataDonwload")
+                    PTUser.shared.subjects = user.subjects
+                    NotificationCenter.default.post(name: dataLoadedNotification, object: nil, userInfo: nil)
                     PTUser.shared.id = user.id
                     PTUser.shared.name = user.name
                     PTUser.shared.email = user.email
                     PTUser.shared.imageUrl = user.imageUrl
                     PTUser.shared.apiToken = user.apiToken
                     PTUser.shared.tasks = user.tasks
-                    PTUser.shared.subjects = user.subjects
+                  
                     PTUser.shared.periods = user.periods
                     PTUser.shared.sessions = user.sessions
                     PTUser.shared.events = user.events
                     PTUser.shared.savePTUser()
-                    print(PTUser.shared.events)
                 } failure: { error in
                     print("error en la descarga incial")
                 }

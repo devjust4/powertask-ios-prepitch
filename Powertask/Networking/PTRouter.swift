@@ -170,10 +170,17 @@ enum PTRouter {
         }
     
     case .createPeriod(let period), .editPeriod(let period):
+        if let data = try? JSONSerialization.data(withJSONObject: period.subjects!) {
+            return ["name": period.name,
+                    "date_start": String(period.startDate.timeIntervalSince1970),
+                    "date_end": String(period.endDate.timeIntervalSince1970),
+                    "subjects" : String(data: data, encoding: String.Encoding.utf8)!
+                    ]
+        }
+        
         return ["name": period.name,
                 "date_start": String(period.startDate.timeIntervalSince1970),
                 "date_end": String(period.endDate.timeIntervalSince1970),
-//                "subjects" : period.subjects!
         ]
 
     case .createBlock(let block), .editBlock(let block):

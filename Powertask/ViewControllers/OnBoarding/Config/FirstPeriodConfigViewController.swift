@@ -43,6 +43,12 @@ class FirstPeriodConfigViewController: UIViewController {
                 let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                
+                if let pageController = self.parent as? OnBoardingViewController {
+                    pageController.goNext()
+                }
+                
+                
             }
         } else {
             let image = UIImage.init(systemName: "rectangle.and.pencil.and.ellipsis")!.withTintColor(.red, renderingMode: .alwaysOriginal)
@@ -64,7 +70,6 @@ extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataS
             return 3
         }else if section == 1{
             if let subject = PTUser.shared.subjects {
-                print("total asignaturas \(subject.count)")
                 return subject.count
             }
         }

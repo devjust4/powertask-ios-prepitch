@@ -45,6 +45,7 @@
 		797849212791865F00EB8C4C /* Powertask.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7978491F2791865F00EB8C4C /* Powertask.xcdatamodeld */; };
 		797849232791866000EB8C4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797849222791866000EB8C4C /* Assets.xcassets */; };
 		797849262791866000EB8C4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797849242791866000EB8C4C /* LaunchScreen.storyboard */; };
+		79865F1127D61262004FB0B4 /* DataLoadinProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */; };
 		79BD0D8027D0A39A00849B4B /* OldCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */; };
 		79BD0D8527D2859F00849B4B /* SessionTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D8327D2859F00849B4B /* SessionTimeCollectionViewCell.swift */; };
 		79BD0D8627D2859F00849B4B /* SessionTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79BD0D8427D2859F00849B4B /* SessionTimeCollectionViewCell.xib */; };
@@ -126,6 +127,7 @@
 		797849222791866000EB8C4C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		797849252791866000EB8C4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		797849272791866000EB8C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadinProgressViewController.swift; sourceTree = "<group>"; };
 		79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCalendarView.swift; sourceTree = "<group>"; };
 		79BD0D8327D2859F00849B4B /* SessionTimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		79BD0D8427D2859F00849B4B /* SessionTimeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionTimeCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 				79DDD5DA27CD4CCB00235AE0 /* FifthStepViewController.swift */,
 				79C6471F27D387DA000CB0E9 /* PrivacyPolicyViewController.swift */,
 				79C6472327D38865000CB0E9 /* SeventhStepViewController.swift */,
+				79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -610,6 +613,7 @@
 				79BD0D8527D2859F00849B4B /* SessionTimeCollectionViewCell.swift in Sources */,
 				B6D9640327B08BBF00F8259D /* PeriodNameTableViewCell.swift in Sources */,
 				B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */,
+				79865F1127D61262004FB0B4 /* DataLoadinProgressViewController.swift in Sources */,
 				79DEE2CB2797256700F79E83 /* AddTaskViewController.swift in Sources */,
 				79DDD5D327CD418300235AE0 /* OnBoardingViewController.swift in Sources */,
 				79168CF427BAF14F00BBA389 /* NewEventViewController.swift in Sources */,
