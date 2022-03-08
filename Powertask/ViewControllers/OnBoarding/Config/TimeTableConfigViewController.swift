@@ -22,6 +22,7 @@ class TimeTableConfigViewController: UIViewController {
         subjectsCollection.dataSource = self
         timeTable.dataSource = self
         timeTable.delegate = self
+        blocks = [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
     }
     
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
@@ -40,10 +41,10 @@ class TimeTableConfigViewController: UIViewController {
             let saturday = filterBlockByDay(blocks: blocks, weekDay: 6)
             let sunday = filterBlockByDay(blocks: blocks, weekDay: 7)
             return [0 : monday, 1 : thuesday, 2 : wednesday, 3 : tursday, 4 : friday, 5 : saturday, 6 : sunday]
+        } else {
+            return [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
         }
-        return nil
     }
-
 }
 
 extension TimeTableConfigViewController: UICollectionViewDragDelegate {
@@ -74,7 +75,9 @@ extension TimeTableConfigViewController: UICollectionViewDataSource {
         // carga cada una de las celdas con la info necesaria
         if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
-            cell.subjectBackground.backgroundColor = UIColor(subjects[indexPath.row].color)
+            cell.subjectBackground.layer.borderColor = UIColor(subjects[indexPath.row].color).cgColor
+            //cell.subjectBackground.backgroundColor = UIColor(subjects[indexPath.row].color)
+            cell.subjectBackground.layer.borderWidth = 3
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
         } else {
@@ -136,14 +139,14 @@ extension TimeTableConfigViewController: TimeTableDelegate {
             }
             if let endDate = endDate {
                 blocks![indexPath.section]![indexPath.row].timeEnd = endDate
-                print(endDate)
             }
         }
     }
     
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
-        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section], let subject = newSubject {
-            blocks?[indexPath.section]?.append(PTBlock(id: nil, timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
+        if let indexPath = timeTable.indexPath(for: cell), let subject = newSubject {
+            //NetworkingProvider.shared.createBlock(block: <#T##PTBlock#>, success: <#T##(Int) -> ()##(Int) -> ()##(_ blockId: Int) -> ()#>, failure: <#T##(String?) -> ()##(String?) -> ()##(_ msg: String?) -> ()#>)
+            blocks![indexPath.section]?.append(PTBlock(id: nil, timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()

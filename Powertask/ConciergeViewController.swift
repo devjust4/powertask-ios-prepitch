@@ -31,7 +31,7 @@ class ConciergeViewController: UIViewController {
 //                    }
 //                } else {
 //                    self.performSegue(withIdentifier: "toMain", sender: nil)
-//                    
+//
 //                }
 //            }
 //        }
@@ -60,18 +60,18 @@ class LandscapeManager {
         }
     }
     
-    //    var isLoggedOnGoogle: Bool {
-    //        get {
-    //            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-    //                if user == nil || error != nil {
-    //                    return true
-    //                } else {
-    //                    return false
-    //                }
-    //            }
-    //        }
-    //    }
-    
+//        var isLoggedOnGoogle: Bool {
+//            get {
+//                GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+//                    if user == nil || error != nil {
+//                        return true
+//                    } else {
+//                        return false
+//                    }
+//                }
+//            }
+//        }
+//
     var isThereUserData: Bool {
         get {
             let decoder = JSONDecoder()

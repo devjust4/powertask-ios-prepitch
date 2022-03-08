@@ -13,13 +13,13 @@ class FourthStepViewController: UIViewController {
         super.viewDidLoad()
         
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
-        let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+       // let rightSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         
         leftSwipe.direction = .left
-        rightSwipe.direction = .right
+       // rightSwipe.direction = .right
         
         view.addGestureRecognizer(leftSwipe)
-        view.addGestureRecognizer(rightSwipe)
+        //view.addGestureRecognizer(rightSwipe)
     }
     
     @objc func handleSwipes(_ sender: UISwipeGestureRecognizer)

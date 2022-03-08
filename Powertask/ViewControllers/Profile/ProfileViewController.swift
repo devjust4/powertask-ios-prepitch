@@ -36,6 +36,8 @@ class ProfileViewController: UIViewController {
         if let imageUrl = PTUser.shared.imageUrl, let url = URL(string: imageUrl) {
             profileImage.load(url: url)
         }
+        
+        
     }
     
     func changeViewWhileEditing (isEditing: Bool) {

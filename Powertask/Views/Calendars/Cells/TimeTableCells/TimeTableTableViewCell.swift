@@ -28,7 +28,9 @@ class TimeTableTableViewCell: UITableViewCell {
     var cellSubject: PTSubject? {
         didSet {
             if let color = cellSubject?.color {
-                self.subjectDropZone.backgroundColor = UIColor(color)
+                //self.subjectDropZone.backgroundColor = UIColor(color)
+                self.subjectDropZone.layer.borderWidth = 3
+                self.subjectDropZone.layer.borderColor = UIColor(color).cgColor
             }
             self.subjectNameLabel.text = cellSubject?.name
             self.deleteSubjectButton.isHidden = false
@@ -75,7 +77,9 @@ class TimeTableTableViewCell: UITableViewCell {
         print("preparando para uso")
         cellSubject = nil
         if let subject = cellSubject {
-            self.subjectDropZone.backgroundColor = UIColor(subject.color)
+            //self.subjectDropZone.backgroundColor = UIColor(subject.color)
+            self.subjectDropZone.layer.borderWidth = 3
+            self.subjectDropZone.layer.borderColor = UIColor(subject.color).cgColor
             self.subjectNameLabel.text = subject.name
             setSubjectNil()
         }

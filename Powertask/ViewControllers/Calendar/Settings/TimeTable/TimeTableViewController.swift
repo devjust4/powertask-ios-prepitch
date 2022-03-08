@@ -66,8 +66,9 @@ class TimeTableViewController: UIViewController {
             let saturday = filterBlockByDay(blocks: blocks, weekDay: 6)
             let sunday = filterBlockByDay(blocks: blocks, weekDay: 7)
             return [0 : monday, 1 : thuesday, 2 : wednesday, 3 : tursday, 4 : friday, 5 : saturday, 6 : sunday]
+        } else {
+            return [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
         }
-        return nil
     }
 }
 

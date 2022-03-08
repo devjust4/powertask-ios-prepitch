@@ -14,6 +14,11 @@ struct PTPeriod: Codable {
     var subjects: [Int]?
     var blocks: [PTBlock]?
     
+    enum CodingKeys: String, CodingKey {
+        case id, name, subjects, blocks
+        case startDate = "date_start"
+        case endDate = "date_end"
+    }
     
     init(name: String, startDate: Date, endDate: Date, subjects: [Int]){
         self.name = name

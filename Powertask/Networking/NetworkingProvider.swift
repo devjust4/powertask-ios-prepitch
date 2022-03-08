@@ -34,7 +34,9 @@ class NetworkingProvider {
     }
     
     func initialDownload(success: @escaping (_ user: PTUser)-> (), failure: @escaping (_ error: String)->()) {
-        sessionManager.request(PTRouter.initialDownload).responseDecodable(of: PTResponse.self) { response in
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        sessionManager.request(PTRouter.initialDownload).responseDecodable(of: PTResponse.self, decoder: decoder) { response in
             print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -58,6 +60,8 @@ class NetworkingProvider {
             }
         }
     }
+    
+    //func getWidgetData(success: )
     
     //MARK: - Subjects Request
     func listSubjects(success: @escaping (_ subjects: [PTSubject]) -> (), failure: @escaping (_ error: String) ->()) {

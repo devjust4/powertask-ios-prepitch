@@ -602,7 +602,7 @@
                                 </buttonConfiguration>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TXf-J4-kP0">
-                                <rect key="frame" x="0.0" y="836" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="821" width="414" height="60"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="uaH-3F-aCR"/>
@@ -659,7 +659,7 @@
                                 </cells>
                             </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Wjb-Gf-kIw">
-                                <rect key="frame" x="0.0" y="158" width="414" height="648"/>
+                                <rect key="frame" x="0.0" y="158" width="414" height="633"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeBlockCell2" id="NVw-Bi-Wlh" customClass="TimeTableTableViewCell" customModule="Powertask" customModuleProvider="target">
@@ -728,31 +728,31 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeBlockCell" id="aay-3i-eUV" customClass="TimeTableTableViewCell" customModule="Powertask" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="86" width="414" height="64.5"/>
+                                        <rect key="frame" x="0.0" y="86" width="414" height="64"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aay-3i-eUV" id="Ij8-ae-Jpv">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="64.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="64"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="Yti-Rw-pNK">
-                                                    <rect key="frame" x="20" y="23.5" width="70" height="31"/>
+                                                    <rect key="frame" x="20" y="23" width="70" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="pap-s6-8q5"/>
                                                     </constraints>
                                                     <locale key="locale" localeIdentifier="es"/>
                                                 </datePicker>
                                                 <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="ztQ-YH-Bhe">
-                                                    <rect key="frame" x="125" y="22.5" width="70" height="32"/>
+                                                    <rect key="frame" x="125" y="22.5" width="70" height="31.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="e4s-GH-RP9"/>
                                                     </constraints>
                                                     <locale key="locale" localeIdentifier="es"/>
                                                 </datePicker>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbk-vs-g0C">
-                                                    <rect key="frame" x="215" y="22.5" width="179" height="32"/>
+                                                    <rect key="frame" x="215" y="22.5" width="179" height="31.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-te-Msz">
-                                                            <rect key="frame" x="69" y="6" width="41.5" height="20.5"/>
+                                                            <rect key="frame" x="69" y="5.5" width="41.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -765,12 +765,12 @@
                                                     </constraints>
                                                 </view>
                                                 <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.forward" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EVK-VJ-QTZ">
-                                                    <rect key="frame" x="98" y="26" width="20" height="25"/>
+                                                    <rect key="frame" x="98" y="25.5" width="20" height="25"/>
                                                     <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="medium"/>
                                                 </imageView>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Desde" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kje-Bj-a3u">
-                                                    <rect key="frame" x="38.5" y="6" width="33.5" height="14.5"/>
+                                                    <rect key="frame" x="38.5" y="6" width="33.5" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -833,7 +833,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GGB-7f-d9r">
-                                <rect key="frame" x="0.0" y="806" width="414" height="30"/>
+                                <rect key="frame" x="0.0" y="791" width="414" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Asignaturas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5N-Sb-jTZ">
                                         <rect key="frame" x="20" y="4" width="382" height="22"/>
@@ -856,7 +856,7 @@
                         <viewLayoutGuide key="safeArea" id="VSU-5z-a8H"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="TXf-J4-kP0" secondAttribute="bottom" id="1OW-uk-bMQ"/>
+                            <constraint firstAttribute="bottom" secondItem="TXf-J4-kP0" secondAttribute="bottom" constant="15" id="1OW-uk-bMQ"/>
                             <constraint firstItem="Wjb-Gf-kIw" firstAttribute="trailing" secondItem="VSU-5z-a8H" secondAttribute="trailing" id="2Nm-hW-KcI"/>
                             <constraint firstItem="Wjb-Gf-kIw" firstAttribute="leading" secondItem="VSU-5z-a8H" secondAttribute="leading" id="2kp-rJ-urb"/>
                             <constraint firstItem="GGB-7f-d9r" firstAttribute="leading" secondItem="VSU-5z-a8H" secondAttribute="leading" id="C2t-Ss-aH2"/>
@@ -1098,7 +1098,7 @@ En caso de que el Usuario quiera darse de baja a la hora de recibir las citadas 
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="V4d-QY-pYM"/>
+        <segue reference="Ybo-2l-al7"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.forward" catalog="system" width="128" height="98"/>
