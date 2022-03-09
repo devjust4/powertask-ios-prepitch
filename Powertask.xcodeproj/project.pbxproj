@@ -79,6 +79,8 @@
 		79DEE2CF27972F4A00F79E83 /* PTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2CE27972F4A00F79E83 /* PTTask.swift */; };
 		79DEE2D12797399D00F79E83 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2D02797399D00F79E83 /* Constants.swift */; };
 		79FB7F8727CE25200052D818 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 79FB7F8627CE25200052D818 /* Alamofire */; };
+		B64E49D727D81B39009EEA3B /* Sessions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64E49D627D81B39009EEA3B /* Sessions.storyboard */; };
+		B64E49FB27D82904009EEA3B /* ProgressCircleSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */; };
 		B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */; };
 		B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F127AB121100F8259D /* PeriodsController.swift */; };
 		B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963F327AB123F00F8259D /* OtherCalendarsController.swift */; };
@@ -159,6 +161,8 @@
 		79DEE2CA2797256700F79E83 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		79DEE2CE27972F4A00F79E83 /* PTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTask.swift; sourceTree = "<group>"; };
 		79DEE2D02797399D00F79E83 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B64E49D627D81B39009EEA3B /* Sessions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sessions.storyboard; sourceTree = "<group>"; };
+		B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleSessions.swift; sourceTree = "<group>"; };
 		B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsController.swift; sourceTree = "<group>"; };
 		B6D963F127AB121100F8259D /* PeriodsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodsController.swift; sourceTree = "<group>"; };
 		B6D963F327AB123F00F8259D /* OtherCalendarsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherCalendarsController.swift; sourceTree = "<group>"; };
@@ -297,6 +301,8 @@
 				797849242791866000EB8C4C /* LaunchScreen.storyboard */,
 				7978491C2791865F00EB8C4C /* Main.storyboard */,
 				79DDD5D027CD3CED00235AE0 /* OnBoarding.storyboard */,
+				B64E49D627D81B39009EEA3B /* Sessions.storyboard */,
+				B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 				797849262791866000EB8C4C /* LaunchScreen.storyboard in Resources */,
 				79BD0D8E27D288B700849B4B /* CompletedTasksCollectionViewCell.xib in Resources */,
 				797849232791866000EB8C4C /* Assets.xcassets in Resources */,
+				B64E49D727D81B39009EEA3B /* Sessions.storyboard in Resources */,
 				79BD0D8A27D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.xib in Resources */,
 				7978491E2791865F00EB8C4C /* Main.storyboard in Resources */,
 				79DDD5D127CD3CED00235AE0 /* OnBoarding.storyboard in Resources */,
@@ -579,6 +586,7 @@
 				790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */,
 				790BE65527BBBC24009D2706 /* PTUser.swift in Sources */,
 				79C6472027D387DA000CB0E9 /* PrivacyPolicyViewController.swift in Sources */,
+				B64E49FB27D82904009EEA3B /* ProgressCircleSessions.swift in Sources */,
 				B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */,
 				7908768327BFC2DA00E9D0A4 /* PTSubtask.swift in Sources */,
 				B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */,

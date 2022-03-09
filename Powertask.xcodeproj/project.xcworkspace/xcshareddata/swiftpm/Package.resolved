@@ -1,77 +1,70 @@
 {
-  "pins" : [
-    {
-      "identity" : "alamofire",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire",
-      "state" : {
-        "revision" : "f82c23a8a7ef8dc1a49a8bfc6a96883e79121864",
-        "version" : "5.5.0"
+  "object": {
+    "pins": [
+      {
+        "package": "AppAuth",
+        "repositoryURL": "https://github.com/openid/AppAuth-iOS.git",
+        "state": {
+          "branch": null,
+          "revision": "01131d68346c8ae552961c768d583c715fbe1410",
+          "version": "1.4.0"
+        }
+      },
+      {
+        "package": "FSCalendar",
+        "repositoryURL": "https://github.com/WenchaoD/FSCalendar.git",
+        "state": {
+          "branch": null,
+          "revision": "afaf247581eb1f8aea847f2e6c99c665ae900494",
+          "version": "2.8.3"
+        }
+      },
+      {
+        "package": "GoogleSignIn",
+        "repositoryURL": "https://github.com/google/GoogleSignIn-iOS",
+        "state": {
+          "branch": null,
+          "revision": "60ca2bfd218ccb194a746a79b41d9d50eb7e3af0",
+          "version": "6.1.0"
+        }
+      },
+      {
+        "package": "GTMSessionFetcher",
+        "repositoryURL": "https://github.com/google/gtm-session-fetcher.git",
+        "state": {
+          "branch": null,
+          "revision": "bc6a19702ac76ac4e488b68148710eb815f9bc56",
+          "version": "1.7.0"
+        }
+      },
+      {
+        "package": "GTMAppAuth",
+        "repositoryURL": "https://github.com/google/GTMAppAuth.git",
+        "state": {
+          "branch": null,
+          "revision": "40f4103fb52109032c05599a0c39ad43edbdf80a",
+          "version": "1.2.2"
+        }
+      },
+      {
+        "package": "SPIndicator",
+        "repositoryURL": "https://github.com/ivanvorobei/SPIndicator.git",
+        "state": {
+          "branch": null,
+          "revision": "17fc8e08b5428e9553f5dea7ebc8c201513a745c",
+          "version": "1.6.4"
+        }
+      },
+      {
+        "package": "UIColorHexSwift",
+        "repositoryURL": "https://github.com/yeahdongcn/UIColor-Hex-Swift",
+        "state": {
+          "branch": null,
+          "revision": "4e0c1bc57c02fcb19c3b34ec5e6188383a95aa94",
+          "version": "5.1.8"
+        }
       }
-    },
-    {
-      "identity" : "appauth-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/openid/AppAuth-iOS.git",
-      "state" : {
-        "revision" : "01131d68346c8ae552961c768d583c715fbe1410",
-        "version" : "1.4.0"
-      }
-    },
-    {
-      "identity" : "fscalendar",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/WenchaoD/FSCalendar.git",
-      "state" : {
-        "revision" : "afaf247581eb1f8aea847f2e6c99c665ae900494",
-        "version" : "2.8.3"
-      }
-    },
-    {
-      "identity" : "googlesignin-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GoogleSignIn-iOS",
-      "state" : {
-        "revision" : "60ca2bfd218ccb194a746a79b41d9d50eb7e3af0",
-        "version" : "6.1.0"
-      }
-    },
-    {
-      "identity" : "gtm-session-fetcher",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/gtm-session-fetcher.git",
-      "state" : {
-        "revision" : "bc6a19702ac76ac4e488b68148710eb815f9bc56",
-        "version" : "1.7.0"
-      }
-    },
-    {
-      "identity" : "gtmappauth",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/google/GTMAppAuth.git",
-      "state" : {
-        "revision" : "40f4103fb52109032c05599a0c39ad43edbdf80a",
-        "version" : "1.2.2"
-      }
-    },
-    {
-      "identity" : "spindicator",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ivanvorobei/SPIndicator.git",
-      "state" : {
-        "revision" : "17fc8e08b5428e9553f5dea7ebc8c201513a745c",
-        "version" : "1.6.4"
-      }
-    },
-    {
-      "identity" : "uicolor-hex-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/yeahdongcn/UIColor-Hex-Swift",
-      "state" : {
-        "revision" : "4e0c1bc57c02fcb19c3b34ec5e6188383a95aa94",
-        "version" : "5.1.8"
-      }
-    }
-  ],
-  "version" : 2
+    ]
+  },
+  "version": 1
 }
