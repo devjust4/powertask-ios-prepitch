@@ -20,4 +20,5 @@ struct PTResponse: Decodable {
     var blocks: [PTBlock]?
     var url: String?
     var student: PTUser?
+    var widgets: PTWidgets?
 }

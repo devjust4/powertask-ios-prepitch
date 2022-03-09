@@ -14,7 +14,7 @@ class TimeTableConfigViewController: UIViewController {
     var blocks:  [Int : [PTBlock]]?
     var colors: [UIColor]?
     var subjects: [PTSubject]?
-    @IBOutlet weak var container: UIView!
+    var sendableBlocks: [Int : [PTSendableBlock]]?
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -23,8 +23,18 @@ class TimeTableConfigViewController: UIViewController {
         timeTable.dataSource = self
         timeTable.delegate = self
         blocks = [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
+        sendableBlocks = [0 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 1 : [], 2 : [], 3 : [], 4 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 5 : [], 6 : []]
     }
     
+    @IBAction func endConfig(_ sender: Any) {
+        NetworkingProvider.shared.createBlock(blocks: sendableBlocks!, periodID: 1) { blockId in
+            self.performSegue(withIdentifier: "toMain", sender: nil)
+        } failure: { msg in
+            print("error")
+        }
+
+        
+    }
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
             block.day == weekDay

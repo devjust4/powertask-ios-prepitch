@@ -31,8 +31,8 @@ enum PTRouter {
     case deletePeriod(PTPeriod)
     
     case listBlocks(PTPeriod)
-    case createBlock(PTBlock)
-    case editBlock(PTBlock)
+    case createBlock(Int, [Int : [PTSendableBlock]])
+    case editBlock(Int, [Int : [PTSendableBlock]])
     case deleteBlock(PTBlock)
     
     case listSessions
@@ -41,6 +41,7 @@ enum PTRouter {
     
     case initialDownload
     case editProfile(String)
+    case getWidgetsInfo
 
   var baseURL: String {
       return "http://powertask.kurokiji.com/public/api"
@@ -95,12 +96,12 @@ enum PTRouter {
     
     case .listBlocks(let period):
         return "/block/list/\(period.id)"
-    case .createBlock:
-        return "/block/create"
-    case .editBlock(let block):
-        return "/block/edit/\(block.id)"
+    case .createBlock(let periodID, let blocks):
+        return "/block/create\(periodID)"
+    case .editBlock(let periodID, let blocks):
+        return "/block/edit/\(periodID)"
     case .deleteBlock(let block):
-        return "/block/edit/\(block.id)"
+        return "/block/edit/"
    
     case .listSessions:
         return "/session/list"
@@ -108,10 +109,13 @@ enum PTRouter {
         return "/session/create"
     case .deleteSession(let session):
         return "/session/delete/\(session.id)"
+    
     case .initialDownload:
         return "/student/initialDownload"
     case .editProfile:
         return "/student/edit"
+    case .getWidgetsInfo:
+        return "/student/widget/getAllWidgetInfo"
     }
   }
 
@@ -120,9 +124,8 @@ enum PTRouter {
 
     case .editSubject(_), .editTask(_), .toogleTask(_), .toogleSubtask(_), .editEvent(_), .editPeriod(_), .editBlock(_), .editProfile:
         return .put
-    case .listSubjects, .listTasks, .listEvents, .listPeriods, .listBlocks(_), .listSessions, .initialDownload:
+    case .listSubjects, .listTasks, .listEvents, .listPeriods, .listBlocks(_), .listSessions, .initialDownload, .getWidgetsInfo:
         return .get
-        
     case .login, .createTask(_), .createEvent(_), .createPeriod(_), .createBlock(_), .createSession(_):
         return .post
     case .deleteTask(_), .deleteEvent(_), .deletePeriod(_), .deleteBlock(_), .deleteSession(_):
@@ -132,7 +135,7 @@ enum PTRouter {
 
   var parameters: [String: String]? {
     switch self {
-    case .login, .listSubjects, .deleteTask(_), .listTasks, .toogleTask(_), .toogleSubtask(_), .listEvents, .deleteEvent(_), .listPeriods, .deletePeriod(_), .listBlocks(_), .deleteBlock(_), .listSessions, .deleteSession(_), .initialDownload:
+    case .login, .listSubjects, .deleteTask(_), .listTasks, .toogleTask(_), .toogleSubtask(_), .listEvents, .deleteEvent(_), .listPeriods, .deletePeriod(_), .listBlocks(_), .deleteBlock(_), .listSessions, .deleteSession(_), .initialDownload, .getWidgetsInfo:
         return nil
         
     case .editSubject(let subject):
@@ -183,12 +186,12 @@ enum PTRouter {
                 "date_end": String(period.endDate.timeIntervalSince1970),
         ]
 
-    case .createBlock(let block), .editBlock(let block):
-        return ["time_start": String(block.timeStart.timeIntervalSince1970),
-                "time_end": String(block.timeEnd.timeIntervalSince1970),
-                "day": String(block.day),
-                "subject_id": String(block.subject!.id!)
-        ]
+    case .createBlock(let periodID, let block), .editBlock(let periodID, let block):
+        if let data = try? JSONSerialization.data(withJSONObject: block) {
+            print(data)
+            return  ["json" : String(data: data, encoding: String.Encoding.utf8)!]
+        }
+        return ["json" : ""]
 
     case .createSession(let session):
         if let taskId = session.task?.id {

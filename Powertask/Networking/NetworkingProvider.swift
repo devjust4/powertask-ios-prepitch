@@ -33,7 +33,7 @@ class NetworkingProvider {
         }
     }
     
-    func initialDownload(success: @escaping (_ user: PTUser)-> (), failure: @escaping (_ error: String)->()) {
+    func initialDownload(success: @escaping (_ user: PTUser) -> (), failure: @escaping (_ error: String)->()) {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
         sessionManager.request(PTRouter.initialDownload).responseDecodable(of: PTResponse.self, decoder: decoder) { response in
@@ -61,12 +61,34 @@ class NetworkingProvider {
         }
     }
     
-    //func getWidgetData(success: )
+    func getWidgetData(success: @escaping (_ widgetsInfo: PTWidgets) -> (), failure: @escaping (_ error: String) -> ()) {
+        sessionManager.request(PTRouter.getWidgetsInfo).responseDecodable(of: PTResponse.self) { response in
+            if let httpCode = response.response?.statusCode {
+                switch httpCode {
+                case 200:
+                    if let widgetsInfo = response.value?.widgets {
+                        success(widgetsInfo)
+                    } else {
+                        failure("There is a problem decodding data")
+                    }
+                case 401:
+                    failure("Invalid token.")
+                case 404:
+                    if let error = response.value?.response {
+                        failure(error)
+                    } else {
+                        failure("Student not found")
+                    }
+                default:
+                    failure("There is a problem connecting to the server")
+                }
+            }
+        }
+    }
     
     //MARK: - Subjects Request
     func listSubjects(success: @escaping (_ subjects: [PTSubject]) -> (), failure: @escaping (_ error: String) ->()) {
         sessionManager.request(PTRouter.listSubjects).responseDecodable (of: PTResponse.self) { response in
-            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -494,8 +516,10 @@ class NetworkingProvider {
     }
     
     // MARK: - Blocks Request
-    public func createBlock(block: PTBlock, success: @escaping (_ blockId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.createBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+    public func createBlock(blocks: [Int: [PTSendableBlock]], periodID: Int, success: @escaping (_ blockId: Int)->(), failure: @escaping (_ msg: String?)->()) {
+        let parameters: Parameters = ["json" : blocks]
+        sessionManager.request("http://powertask.kurokiji.com/public/api/block/create/\(periodID)", method: .post, parameters: parameters) .validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 201:
@@ -519,8 +543,8 @@ class NetworkingProvider {
         }
     }
     
-    public func editBlock(block: PTBlock,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.editBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+    public func editBlock(blocks: [Int : [PTSendableBlock]], periodID: Int,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
+        sessionManager.request(PTRouter.editBlock(periodID, blocks)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:

@@ -25,8 +25,8 @@ class GoogleClassroomPermissionViewController: UIViewController {
         if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
             requestScopes(scopes: scopes) {
                 NetworkingProvider.shared.initialDownload { user in
-                    let dataLoadedNotification = Notification.Name("DataDonwload")
                     PTUser.shared.subjects = user.subjects
+                    let dataLoadedNotification = Notification.Name("DataDonwload")
                     NotificationCenter.default.post(name: dataLoadedNotification, object: nil, userInfo: nil)
                     PTUser.shared.id = user.id
                     PTUser.shared.name = user.name
@@ -34,11 +34,12 @@ class GoogleClassroomPermissionViewController: UIViewController {
                     PTUser.shared.imageUrl = user.imageUrl
                     PTUser.shared.apiToken = user.apiToken
                     PTUser.shared.tasks = user.tasks
-                  
                     PTUser.shared.periods = user.periods
                     PTUser.shared.sessions = user.sessions
                     PTUser.shared.events = user.events
                     PTUser.shared.savePTUser()
+                    LandscapeManager.shared.isFirstLaunch = true
+                    
                 } failure: { error in
                     print("error en la descarga incial")
                 }

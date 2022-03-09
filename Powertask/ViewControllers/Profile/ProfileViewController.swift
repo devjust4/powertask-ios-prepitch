@@ -19,14 +19,22 @@ class ProfileViewController: UIViewController {
     
     
     var userIsEditing: Bool?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        PTUser.shared.apiToken = "$2y$10$3p6m.5sxDoRsOdssk.Dz0u9RZ1FfqfKEdwfc/pFH2.E.PsrYvDGM2"
+        NetworkingProvider.shared.getWidgetData { widgetsInfo in
+            PTUser.shared.widgets = widgetsInfo
+            self.widgetsCollectionView.reloadData()
+        } failure: { error in
+            print("error")
+        }
+        
         userIsEditing = false
         changeViewWhileEditing(isEditing: userIsEditing!)
         widgetsCollectionView.delegate = self
         widgetsCollectionView.dataSource = self
-        PTUser.shared.apiToken = "$2y$10$CJQbc6xLiSzD0IlD2epuVOJXoqXuBSjiAvI343FU2CH8ujLUf1ATq"
         PTUser.shared.imageUrl = "http://powertask.kurokiji.com/public/storage/images/qdoDkmOIKftL7iavSzrTqghNwrX1u8YLhPMGdWWw.jpg"
         PTUser.shared.name = "Daniel Torres"
         if let name = PTUser.shared.name {
@@ -53,16 +61,7 @@ class ProfileViewController: UIViewController {
             editAndSaveButton.setTitle("Editar", for: .normal)
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
     @IBAction func uploadNewImage(_ sender: Any) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -88,7 +87,6 @@ class ProfileViewController: UIViewController {
                 } failure: { msg in
                     print(msg)
                 }
-
                 userIsEditing = false
                 changeViewWhileEditing(isEditing: userIsEditing!)
             }
@@ -137,32 +135,40 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let animation = CATransition()
-        animation.duration = 0.2
+        animation.duration = 0.3
         switch indexPath.row {
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SessionTimeCollectionViewCell", for: indexPath) as! SessionTimeCollectionViewCell
-            cell.hoursLabel.text = "\(12)h"
-            cell.minutesLabel.text = "\(23)m"
             cell.minutesLabel.layer.add(animation, forKey: nil)
             cell.hoursLabel.layer.add(animation, forKey: nil)
+            if let sessionTime = PTUser.shared.widgets?.sessionTime {
+                cell.hoursLabel.text = "\(sessionTime.hours)h"
+                cell.minutesLabel.text = "\(sessionTime.minutes)m"
+            }
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DaysUntilPeriodEndsCollectionViewCell", for: indexPath) as! DaysUntilPeriodEndsCollectionViewCell
-            cell.dayUntilEndLabel.text = "\(34) días"
             cell.dayUntilEndLabel.layer.add(animation, forKey: nil)
-            cell.daysUntilEndProgress.setProgressWithAnimation(duration: 1.0, fromValue: 0, tovalue: 34/100)
+            if let daysLeft = PTUser.shared.widgets?.periodDays {
+                cell.dayUntilEndLabel.text = "\(daysLeft.days) días"
+                cell.daysUntilEndProgress.setProgressWithAnimation(duration: 1.0, fromValue: 0, tovalue: daysLeft.percentage)
+            }
                 return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CompletedTasksCollectionViewCell", for: indexPath) as! CompletedTasksCollectionViewCell
-            cell.numberOfTaskCompletedLabel.text = String(13)
-            cell.numberOfTask.text = "de \(323)"
             cell.numberOfTaskCompletedLabel.layer.add(animation, forKey: nil)
             cell.numberOfTask.layer.add(animation, forKey: nil)
+            if let tasks = PTUser.shared.widgets?.taskCounter {
+                cell.numberOfTaskCompletedLabel.text = String(tasks.completed)
+                cell.numberOfTask.text = "de \(tasks.total)"
+            }
                 return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AverageGradeCollectionViewCell", for: indexPath) as! AverageGradeCollectionViewCell
-            cell.averageGradeLabel.text = String(8.5)
             cell.averageGradeLabel.layer.add(animation, forKey: nil)
+            if let averageMark = PTUser.shared.widgets?.averageMark {
+                cell.averageGradeLabel.text = String(averageMark.average)
+            }
             return cell
         default:
             return UICollectionViewCell()

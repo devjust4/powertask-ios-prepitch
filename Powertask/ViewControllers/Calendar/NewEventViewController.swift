@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SPIndicator
 
 protocol NewEventProtocol: AnyObject {
     func SaveNewEvent(event: PTEvent, isNewEvent: Bool)
@@ -40,16 +41,7 @@ class NewEventViewController: UIViewController {
         if let event = event {
             eventId = event.id
             eventName = event.name
-            switch event.type {
-            case EventType.exam:
-                eventType = EventType.exam
-            case EventType.vacation:
-                eventType = EventType.vacation
-            case EventType.personal:
-                eventType = EventType.personal
-            default:
-                eventType = EventType.personal
-            }
+            eventType = event.type
             eventStartDate = event.startDate
             eventEndDate = event.endDate
             if let subject = event.subject {
@@ -58,21 +50,39 @@ class NewEventViewController: UIViewController {
             if let notes = event.notes {
                 eventNotes = notes
             }
-            // TODO: NOTAS!!!
         }
         
         if let eventType = eventType {
             heightConstraint.constant = eventType == EventType.vacation ? 300 : 480
             if let isNewEvent = isNewEvent {
                 let eventTitleTextIntro = isNewEvent ? "Nuevo " : "Editar "
-                titleLabel.text = eventTitleTextIntro + eventType.rawValue
+                switch eventType {
+                case EventType.exam:
+                    titleLabel.text = "\(eventTitleTextIntro)examen"
+                case EventType.vacation:
+                    titleLabel.text = "\(eventTitleTextIntro)festivo"
+                case EventType.personal:
+                    titleLabel.text = "\(eventTitleTextIntro)evento"
+                }
             }
         }
     }
+    
     @IBAction func saveEvent(_ sender: Any) {
+        if let eventType = eventType, let eventName = eventName, let startDate = eventStartDate, let endDate = eventEndDate {
+            if eventType != EventType.exam && eventSubject != nil {
+                delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
+                self.dismiss(animated: true)
+            }
+        } else {
+            let image = UIImage.init(systemName: "textformat.abc.dottedunderline")!.withTintColor(UIColor(.red), renderingMode: .alwaysOriginal)
+            let indicatorView = SPIndicatorView(title: "Rellena todos los datos", preset: .custom(image))
+            indicatorView.present(duration: 3, haptic: .success, completion: nil)
+        }
+        
         if let eventName = eventName, let eventType = eventType, let startDate = eventStartDate, let endDate = eventEndDate {
             delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
-            
+            self.dismiss(animated: true)
         }
     }
     
@@ -102,11 +112,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            if eventType == EventType.exam {
-                return 2
-            } else {
-                return 3
-            }
+            return 3
         } else {
             return 1
         }
@@ -131,7 +137,7 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.datePicker.date = startDate
                     }
                     cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
-                    cell.label.text = eventType == EventType.exam ? "Fecha" : "Empieza"
+                    cell.label.text = "Empieza"
                     cell.delegate = self
                     return cell
                 }

@@ -24,46 +24,50 @@ class PTUser: Codable {
     var sessions: [PTSession]?
     var events: [String : PTEvent]?
     var blocks: [PTBlock]?
+    var widgets: PTWidgets?
     
     func savePTUser(){
-        let encoder = JSONEncoder()
-        if let data = try? encoder.encode(self) {
-            UserDefaults.standard.set(data, forKey: "user")
-        }
+        UserDefaults.standard.setCodableObject(PTUser.shared, forKey: "user")
     }
     
     func loadPTUser(){
-        guard let userData = UserDefaults.standard.object(forKey: "user") as? Data else { return }
-        let decoder = JSONDecoder()
-        if let user = try? decoder.decode(PTUser.self, from: userData) {
-            self.id = user.id
-            self.name = user.name
-            self.email = user.email
-            self.imageUrl = user.imageUrl
-            self.subjects = user.subjects
-            self.periods = user.periods
-            self.blocks = user.blocks
-            self.events = user.events
-            self.tasks = user.tasks
-            self.sessions = user.sessions
+        if let user = UserDefaults.standard.codableObject(dataType: PTUser.self, key: "user") {
+            PTUser.shared.id = user.id
+            PTUser.shared.name = user.name
+            PTUser.shared.email = user.email
+            PTUser.shared.apiToken = user.apiToken
+            PTUser.shared.imageUrl = user.imageUrl
+            PTUser.shared.subjects = user.subjects
+            PTUser.shared.periods = user.periods
+            PTUser.shared.blocks = user.blocks
+            PTUser.shared.events = user.events
+            PTUser.shared.tasks = user.tasks
+            PTUser.shared.sessions = user.sessions
+            PTUser.shared.widgets = user.widgets
+        } else {
+            print("Not yet saved with key user)")
         }
     }
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case new
-        case email
+        case id, name, new, email, tasks, subjects, periods, sessions, events, blocks, widgets
         case imageUrl = "image_url"
         case apiToken = "api_token"
-        case tasks
-        case subjects
-        case periods
-        case sessions
-        case events
-        case blocks
     }
 }
 
 
-
+extension UserDefaults {
+    func setCodableObject<T: Codable>(_ data: T?, forKey defaultName: String) {
+        let encoded = try? JSONEncoder().encode(data)
+        set(encoded, forKey: defaultName)
+    }
+    
+    func codableObject<T : Codable>(dataType: T.Type, key: String) -> T? {
+        guard let userDefaultData = data(forKey: key) else {
+            return nil
+        }
+        return try? JSONDecoder().decode(T.self, from: userDefaultData)
+    }
+}
 

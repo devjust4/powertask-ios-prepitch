@@ -23,6 +23,7 @@
 		790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */; };
 		790BE66F27BF9C4A009D2706 /* NetworkingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */; };
 		7911F32327A9AF02007036DA /* PTEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7911F32227A9AF02007036DA /* PTEvent.swift */; };
+		79145A6527D7ACE40047F48B /* PTWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79145A6427D7ACE40047F48B /* PTWidgets.swift */; };
 		79168CE627BA885700BBA389 /* AllDayEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */; };
 		79168CE727BA885700BBA389 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE127BA885700BBA389 /* DatePickerTableViewCell.swift */; };
 		79168CE827BA885700BBA389 /* ButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE227BA885700BBA389 /* ButtonTableViewCell.swift */; };
@@ -31,6 +32,7 @@
 		79168CEB27BA885700BBA389 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */; };
 		79168CF027BA8E9700BBA389 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 79168CEF27BA8E9700BBA389 /* FSCalendar */; };
 		79168CF427BAF14F00BBA389 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CF327BAF14F00BBA389 /* NewEventViewController.swift */; };
+		7920127D27D8054E00FBCAFC /* NoEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920127C27D8054E00FBCAFC /* NoEventsTableViewCell.swift */; };
 		7953C32C27A8359400ADE027 /* PTSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32B27A8359400ADE027 /* PTSubject.swift */; };
 		7953C32E27A8469100ADE027 /* SubjectSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */; };
 		7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */; };
@@ -105,6 +107,7 @@
 		790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
 		790BE66E27BF9C4A009D2706 /* NetworkingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NetworkingProvider.swift; path = Powertask/Networking/NetworkingProvider.swift; sourceTree = SOURCE_ROOT; };
 		7911F32227A9AF02007036DA /* PTEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTEvent.swift; sourceTree = "<group>"; };
+		79145A6427D7ACE40047F48B /* PTWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTWidgets.swift; sourceTree = "<group>"; };
 		79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllDayEventTableViewCell.swift; path = Powertask/Views/Calendars/Cells/CalendarEventCells/AllDayEventTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CE127BA885700BBA389 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatePickerTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/DatePickerTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CE227BA885700BBA389 /* ButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/ButtonTableViewCell.swift; sourceTree = SOURCE_ROOT; };
@@ -112,6 +115,7 @@
 		79168CE427BA885700BBA389 /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextFieldTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/TextFieldTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextViewTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/TextViewTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CF327BAF14F00BBA389 /* NewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
+		7920127C27D8054E00FBCAFC /* NoEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoEventsTableViewCell.swift; sourceTree = "<group>"; };
 		7953C32B27A8359400ADE027 /* PTSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSubject.swift; sourceTree = "<group>"; };
 		7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSelectorViewController.swift; sourceTree = "<group>"; };
 		7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSubtaskTableViewCell.swift; sourceTree = "<group>"; };
@@ -231,6 +235,7 @@
 			children = (
 				79168CE027BA885700BBA389 /* AllDayEventTableViewCell.swift */,
 				79168CE327BA885700BBA389 /* EventTableViewCell.swift */,
+				7920127C27D8054E00FBCAFC /* NoEventsTableViewCell.swift */,
 			);
 			path = CalendarEventCells;
 			sourceTree = "<group>";
@@ -339,6 +344,7 @@
 				790BE65827BC00A8009D2706 /* PTDay.swift */,
 				790BE65A27BC00BA009D2706 /* PTBlock.swift */,
 				790BE65C27BC00CA009D2706 /* PTSession.swift */,
+				79145A6427D7ACE40047F48B /* PTWidgets.swift */,
 			);
 			path = "PT Models";
 			sourceTree = "<group>";
@@ -579,8 +585,10 @@
 				790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */,
 				790BE65527BBBC24009D2706 /* PTUser.swift in Sources */,
 				79C6472027D387DA000CB0E9 /* PrivacyPolicyViewController.swift in Sources */,
+				79145A6527D7ACE40047F48B /* PTWidgets.swift in Sources */,
 				B6D963F427AB123F00F8259D /* OtherCalendarsController.swift in Sources */,
 				7908768327BFC2DA00E9D0A4 /* PTSubtask.swift in Sources */,
+				7920127D27D8054E00FBCAFC /* NoEventsTableViewCell.swift in Sources */,
 				B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */,
 				7911F32327A9AF02007036DA /* PTEvent.swift in Sources */,
 				79C6471B27D2BEEC000CB0E9 /* CircularProgressView.swift in Sources */,

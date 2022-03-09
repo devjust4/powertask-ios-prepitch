@@ -10,6 +10,7 @@ import FSCalendar
 import EventKit
 import UIColorHexSwift
 import GoogleSignIn
+import SPIndicator
 
 class CalendarsViewController: UIViewController {
     
@@ -20,40 +21,23 @@ class CalendarsViewController: UIViewController {
     @IBOutlet weak var calendarViewHeightConstraint: NSLayoutConstraint!
     
     var selectedDateEvents: [PTEvent]?
+    let noEventsMessages = ["😄 No hay nada!", "🌴 Día libre, yaaaay!", "🍹 Aprovecha el día", "💪🏻 Toma, toma!"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        selectedDateEvents = getEventForDate(date: Date.now, events: events)
-        //        eventStore.requestAccess(to: .event) { success, error in
-        //            if success, error == nil {
-        //                print("autorizado")
-        //
-        //            }
-        //        }
-        PTUser.shared.apiToken = "$2y$10$5/cYCvwwdsF/E2vbXxStaO8Yy7BnP2N5rBfAw2dL5beGBv21OVay."
         calendarView.delegate = self
         calendarView.dataSource = self
         eventListTable.delegate = self
         eventListTable.dataSource = self
         calendarView.select(Date.now)
         calendarView.locale = Locale(identifier: "ES")
-        //calendarView.appearance.headerTitleFont = UIFont.preferredFont(forTextStyle: .title1)
         calendarTitle.text = calendarView.currentPage.addingTimeInterval(43200).formatToString(using: .monthYear)
+        calendarView.appearance.titleSelectionColor = UIColor.white
+        calendarView.appearance.eventSelectionColor = UIColor.lightGray
         swipeAction()
         
-//
-//        NetworkingProvider.shared.listTasks(success: { tasks in
-//            print(tasks)
-//        }, failure: { msg in
-//            print(msg)
-//        })
-//
-        NetworkingProvider.shared.listSubjects { subjects in
-            PTUser.shared.subjects = subjects
-        } failure: { error in
-            print("Error")
-        }
- 
+        PTUser.shared.apiToken = "$2y$10$4a3ak8C77Imto7zr900mUOXHnoJVRV2Xv2t1joyE7zeAopNLMjNAW"
+        
         NetworkingProvider.shared.listEvents { events in
             PTUser.shared.events = events
             self.selectedDateEvents = self.getEventForDate(date: Date.now, events: events)
@@ -62,12 +46,13 @@ class CalendarsViewController: UIViewController {
         } failure: { msg in
             print(msg)
         }
-
+        
+        
         
         
         // TODO: Convertir titulo a boton para volver a la pagina de la fecha actual
-        calendarView.appearance.eventSelectionColor = UIColor.lightGray
-      
+        
+        
         
         // TODO: Pasar esto a una función
         let eventMenu = UIAction(title: "Examen", image: UIImage(systemName: "doc.plaintext")) { (action) in
@@ -85,6 +70,18 @@ class CalendarsViewController: UIViewController {
         let menu = UIMenu(title: "Nuevo evento", options: .displayInline, children: [eventMenu, vacationMenu, personalMenu])
         addEventPullDownButton.menu = menu
         addEventPullDownButton.showsMenuAsPrimaryAction = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NetworkingProvider.shared.listEvents { events in
+            PTUser.shared.events = events
+            self.selectedDateEvents = self.getEventForDate(date: Date.now, events: events)
+            self.calendarView.reloadData()
+            self.eventListTable.reloadSections([0], with: .fade)
+        } failure: { msg in
+            print(msg)
+        }
+        
     }
     
     func instantiateNewEventController(eventType: EventType, isNewEvent: Bool, event: PTEvent?) {
@@ -110,14 +107,12 @@ class CalendarsViewController: UIViewController {
             }
         }
         
-       
-        
         return selectedEvents.values.sorted { event1, event2 in
             // festivo
             // todo el dia
             // examen
             //eventos normales
-                  
+            
             if event1.type == event2.type {
                 return event1.startDate > event2.startDate
             } else {
@@ -127,24 +122,24 @@ class CalendarsViewController: UIViewController {
         }
     }
     
-        func getCellInfo(allDay: Int, startDate: Date, endDate: Date) -> String{
-            let dayFormatter = DateFormatter()
-            dayFormatter.dateFormat = "dd/MM/YY"
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:MM"
-            let dateTimeFormatter = DateFormatter()
-            dateTimeFormatter.dateFormat = "dd/MM 'a las' HH:MM"
-    
-            if Bool(truncating: allDay as NSNumber) {
-                return "Todo el día"
+    func getCellInfo(allDay: Int, startDate: Date, endDate: Date) -> String{
+        let dayFormatter = DateFormatter()
+        dayFormatter.dateFormat = "dd/MM/YY"
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:MM"
+        let dateTimeFormatter = DateFormatter()
+        dateTimeFormatter.dateFormat = "dd/MM 'a las' HH:MM"
+        
+        if Bool(truncating: allDay as NSNumber) {
+            return "Todo el día"
+        } else {
+            if dayFormatter.string(from: startDate) == dayFormatter.string(from: endDate) {
+                return "\(timeFormatter.string(from: startDate)) hasta \(timeFormatter.string(from: endDate))"
             } else {
-                if dayFormatter.string(from: startDate) == dayFormatter.string(from: endDate) {
-                    return "\(timeFormatter.string(from: startDate)) hasta \(timeFormatter.string(from: endDate))"
-                } else {
-                    return "\(dateTimeFormatter.string(from: startDate)) hasta \(dateTimeFormatter.string(from: endDate))"
-                }
+                return "\(dateTimeFormatter.string(from: startDate)) hasta \(dateTimeFormatter.string(from: endDate))"
             }
         }
+    }
     
     func swipeAction() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
@@ -185,13 +180,6 @@ extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
         return personalAndExam.count
     }
     
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        return nil
-    }
-    
-    func calendar(_ calendar: FSCalendar, willDisplay cell: FSCalendarCell, for date: Date, at monthPosition: FSCalendarMonthPosition) {
-    }
-    
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         calendarTitle.text = calendarView.currentPage.addingTimeInterval(43200).formatToString(using: .monthYear)
     }
@@ -211,7 +199,7 @@ extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
         let personalEvents = thisDateEvents.filter { event in
             event.type == EventType.personal
         }
-         for exam in examnEvents {
+        for exam in examnEvents {
             if let color = exam.subject?.color {
                 colors.append(UIColor(color))
             }
@@ -225,15 +213,12 @@ extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventOffsetFor date: Date) -> CGPoint {
         return CGPoint(x: 0, y: 2.2)
     }
-}
-
-// MARK:- TableView Delegate and DataSource
-extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        guard let events = PTUser.shared.events else { return UIColor.white }
         if date.formatToString(using: .justDay) == Date.now.formatToString(using: .justDay) {
             return UIColor.white
         }
+        guard let events = PTUser.shared.events else { return UIColor.black }
         let todayEvents = getEventForDate(date: date, events: events)
         for event in todayEvents {
             if event.type == EventType.vacation {
@@ -242,18 +227,35 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return UIColor.black
     }
-    
+}
+
+// MARK:- TableView Delegate and DataSource
+extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let events = selectedDateEvents else { return 0 }
-        return events.count
+        guard let events = selectedDateEvents else { return 1 }
+        if events.isEmpty {
+            return 1
+        } else {
+            return events.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let backgroundView = UIView()
-        //TODO: Buscar un color de selección
+        // FIXME: Refactorizar esto
         backgroundView.backgroundColor = UIColor(named: "AccentColor")
-        guard let event = selectedDateEvents?[indexPath.row] else { return UITableViewCell() }
-        // TODO: Si es tarea?
+        if let _ = selectedDateEvents, selectedDateEvents!.isEmpty {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noEventsCell") as! NoEventsTableViewCell
+            let text = noEventsMessages.randomElement()
+            cell.noEventMessage.text = text
+            return cell
+        }
+        guard let event = selectedDateEvents?[indexPath.row] else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noEventsCell") as! NoEventsTableViewCell
+            let text = noEventsMessages.randomElement()
+            cell.noEventMessage.text = text
+            return cell
+        }
         switch event.type {
         case .vacation:
             let cell = tableView.dequeueReusableCell(withIdentifier: "allDayRow") as? AllDayEventTableViewCell
@@ -298,6 +300,31 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let event = self.selectedDateEvents?[indexPath.row], let superEvent = PTUser.shared.events?["\(event.id!)"]{
+                PTUser.shared.events?.removeValue(forKey: "\(event.id!)")
+                self.selectedDateEvents = self.getEventForDate(date: self.calendarView.selectedDate!, events: PTUser.shared.events!)
+                self.calendarView.reloadData()
+                if selectedDateEvents!.isEmpty {
+                    tableView.reloadRows(at: [indexPath], with: .fade)
+                } else {
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                }
+                NetworkingProvider.shared.deleteEvent(event: event) { msg in
+                    let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Evento eliminado", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                } failure: { msg in
+                    print("errror eliminando")
+                }
+
+            } else {
+                print("no hay evento coincidente")
+            }
+        }
+    }
 }
 
 extension CalendarsViewController: NewEventProtocol {
@@ -307,6 +334,9 @@ extension CalendarsViewController: NewEventProtocol {
                 PTUser.shared.events!["\(id)"] = event
                 PTUser.shared.events!["\(id)"]?.id = id
                 self.eventListTable.reloadSections([0], with: .fade)
+                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "Evento guardado", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .success, completion: nil)
             } failure: { msg in
                 print(msg)
             }
@@ -314,9 +344,14 @@ extension CalendarsViewController: NewEventProtocol {
             NetworkingProvider.shared.editEvent(event: event) { msg in
                 // TODO: Revisar porque no se está recargando bien la lista
                 // TODO: Idear un método para que se actualicen siempre los dias
-                PTUser.shared.events!["\(event.id)"] = event
+                // FIXME: Que pasa cuando el evento no se ha creado en la base datos y no tiene id?
+                PTUser.shared.events!["\(event.id!)"] = event
                 self.selectedDateEvents = self.getEventForDate(date: self.calendarView.selectedDate!, events: PTUser.shared.events!)
+                self.calendarView.reloadData()
                 self.eventListTable.reloadSections([0], with: .fade)
+                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "Evento actualizado", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .success, completion: nil)
             } failure: { msg in
                 print(msg)
             }
