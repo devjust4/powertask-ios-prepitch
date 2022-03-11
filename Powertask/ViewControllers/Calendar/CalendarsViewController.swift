@@ -75,6 +75,7 @@ class CalendarsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         NetworkingProvider.shared.listEvents { events in
             PTUser.shared.events = events
+            PTUser.shared.savePTUser()
             self.selectedDateEvents = self.getEventForDate(date: Date.now, events: events)
             self.calendarView.reloadData()
             self.eventListTable.reloadSections([0], with: .fade)
@@ -96,11 +97,16 @@ class CalendarsViewController: UIViewController {
         }
     }
     func getEventForDate(date: Date, events: [String : PTEvent]) -> [PTEvent]{
-        let selectedDate = date.formatToString(using: .justDay)
+        //        let selectedEvents = events.filter { event in
+        //            return DateInterval(start: event.value.startDate, end: event.value.endDate).contains(date)
+        //let selectedDate = date.formatToString(using: .justDay)
+        let selectedDate = date.formatted(date: .complete, time: .omitted)
         let selectedEvents = events.filter { event in
-            let stringStartDate = event.value.startDate.formatToString(using: .justDay)
-            let stringEndDate = event.value.endDate.formatToString(using: .justDay)
-            if stringStartDate <= selectedDate && stringEndDate >= selectedDate {
+            let startDate = event.value.startDate.formatted(date: .complete, time: .omitted)
+            let endDate = event.value.startDate.formatted(date: .complete, time: .omitted)
+            print("selección \(selectedDate) empieza: \(startDate) termina: \(endDate) ")
+            if startDate <= selectedDate && endDate >= selectedDate {
+                print("true")
                 return true
             } else {
                 return false
@@ -281,6 +287,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "eventRow") as? EventTableViewCell
                 cell?.selectedBackgroundView = backgroundView
                 cell?.eventTitle.text = event.name
+                cell?.eventColor.backgroundColor = UIColor(event.subject?.color ?? "#00000")
                 cell?.eventInfo.text = getCellInfo(allDay: event.allDay, startDate:  event.startDate, endDate: event.endDate)
                 return cell!
             }
@@ -288,14 +295,16 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let event = selectedDateEvents?[indexPath.row] {
-            switch event.type {
-            case EventType.personal:
-                instantiateNewEventController(eventType: EventType.personal, isNewEvent: false, event: event)
-            case EventType.exam:
-                instantiateNewEventController(eventType: EventType.exam, isNewEvent: false, event: event)
-            case EventType.vacation:
-                instantiateNewEventController(eventType: EventType.vacation, isNewEvent: false, event: event)
+        if !selectedDateEvents!.isEmpty {
+            if let event = selectedDateEvents?[indexPath.row] {
+                switch event.type {
+                case EventType.personal:
+                    instantiateNewEventController(eventType: EventType.personal, isNewEvent: false, event: event)
+                case EventType.exam:
+                    instantiateNewEventController(eventType: EventType.exam, isNewEvent: false, event: event)
+                case EventType.vacation:
+                    instantiateNewEventController(eventType: EventType.vacation, isNewEvent: false, event: event)
+                }
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -319,7 +328,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                 } failure: { msg in
                     print("errror eliminando")
                 }
-
+                
             } else {
                 print("no hay evento coincidente")
             }
@@ -333,7 +342,10 @@ extension CalendarsViewController: NewEventProtocol {
             NetworkingProvider.shared.createEvent(event: event) { id in
                 PTUser.shared.events!["\(id)"] = event
                 PTUser.shared.events!["\(id)"]?.id = id
-                self.eventListTable.reloadSections([0], with: .fade)
+                PTUser.shared.savePTUser()
+                //self.eventListTable.reloadSections([0], with: .fade)
+                self.eventListTable.reloadData()
+                self.calendarView.reloadData()
                 let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Evento guardado", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)

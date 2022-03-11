@@ -13,13 +13,13 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     var previousPeriod: [PTPeriod]?
     var indexPeriod: Int?
     @IBOutlet var periodsTableView: UITableView!
-    let confirmationAction = UIAlertController(title: "Are you sure?", message: nil, preferredStyle: .actionSheet)
+    let confirmationAction = UIAlertController(title: "¿Estás seguro? Esta operación es irreversible", message: nil, preferredStyle: .actionSheet)
     override func viewDidLoad() {
         super.viewDidLoad()
-        period = [PTPeriod(name: "Primer Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1640003690), subjects: [0, 1, 2]), PTPeriod(name: "Segundo Trimestre", startDate: Date(timeIntervalSince1970: 234234234), endDate: Date(timeIntervalSince1970: 1670243690), subjects: [0, 1, 2])]
-//        TODO: comprobar fechas periodos
         periodsTableView.dataSource = self
         periodsTableView.delegate = self
+        actualPeriod = getActualPeriods(periods: PTUser.shared.periods)
+        previousPeriod = getPastPeriods(periods: PTUser.shared.periods)
     
         confirmationAction.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
             _ = self.periodsTableView.indexPathForSelectedRow
@@ -28,16 +28,14 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         }))
         confirmationAction.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-        actualPeriod = period?.filter({ period in
-            DateInterval(start: period.startDate, end: period.endDate).contains(Date.now)
-        })
-        
-        previousPeriod = period?.filter({ period in
-            !DateInterval(start: period.startDate, end: period.endDate).contains(Date.now)
-        })
-        
-        print(actualPeriod!)
-        
+    }
+    
+    func getActualPeriods(periods: [PTPeriod]?) -> [PTPeriod]? {
+        return period?.filter({ period in DateInterval(start: period.startDate, end: period.endDate).contains(Date.now) })
+    }
+    
+    func getPastPeriods(periods: [PTPeriod]?) -> [PTPeriod]? {
+        return period?.filter({ period in !DateInterval(start: period.startDate, end: period.endDate).contains(Date.now) })
     }
     
      func numberOfSections(in tableView: UITableView) -> Int {
@@ -45,11 +43,18 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//         datePeriod(indexPeriod: indexPeriod!)
         if section == 0 {
-            return actualPeriod!.count
+            if let actualPeriod = actualPeriod {
+                return actualPeriod.count
+            } else {
+                return 0
+            }
         }else if section == 1{
-            return previousPeriod!.count
+            if let previousPeriod = previousPeriod {
+                return previousPeriod.count
+            } else {
+                return 0
+            }
         }
         return 0
     }
@@ -87,7 +92,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     
      func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
          
-            let delete = UIContextualAction(style: .normal, title: "Delete") { (action, view, completion) in
+            let delete = UIContextualAction(style: .normal, title: "Borrar") { (action, view, completion) in
                 if let _ = self.period {
                     self.present(self.confirmationAction, animated: true, completion: nil)
                     self.deleteindexpath = indexPath

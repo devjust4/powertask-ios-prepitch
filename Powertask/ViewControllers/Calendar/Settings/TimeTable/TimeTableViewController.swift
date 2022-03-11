@@ -38,7 +38,11 @@ class TimeTableViewController: UIViewController {
             }
 
         }
+      
+
         
+       
+
         NetworkingProvider.shared.listSubjects() { subjects in
             PTUser.shared.subjects = subjects
             self.blocks = self.filterAllBlocks(blocks: PTUser.shared.blocks)
@@ -47,6 +51,10 @@ class TimeTableViewController: UIViewController {
         } failure: { error in
             print(error)
         }
+        
+        
+    }
+    override func viewWillDisappear(_ animated: Bool) {
         
     }
     

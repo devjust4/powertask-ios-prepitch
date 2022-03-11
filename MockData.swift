@@ -10,12 +10,12 @@ import UIKit
 
 class MockUser {
    static var course = PTCourse(id: 2, name: "Primero de Apps")
-    static  var subjects = [PTSubject(name: "iOS", color: "#234343"),
-                            PTSubject(name: "Acceso a datos", color: "#453654"),
-                            PTSubject(name: "Inglés", color: "#987584"),
-                    PTSubject(name: "Scrum", color: "#543233"),
-                    PTSubject(name: "Proyecto", color: "#346578"),
-                    PTSubject(name: "Empresa", color: "#342454")]
+//    static  var subjects = [PTSubject(name: "iOS", color: "#234343"),
+//                            PTSubject(name: "Acceso a datos", color: "#453654"),
+//                            PTSubject(name: "Inglés", color: "#987584"),
+//                    PTSubject(name: "Scrum", color: "#543233"),
+//                    PTSubject(name: "Proyecto", color: "#346578"),
+//                    PTSubject(name: "Empresa", color: "#342454")]
     
 //   static var periods = [PTPeriod(name: "Primer trimestre", startDate: Date(timeIntervalSince1970: 1631232000), endDate: Date(timeIntervalSince1970: 1640131200)),
 //                   PTPeriod(name: "Segundo trimestre", startDate: Date(timeIntervalSince1970: 1641772800), endDate: Date(timeIntervalSince1970: 1648166400)),

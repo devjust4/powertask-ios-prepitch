@@ -33,6 +33,7 @@
 		79168CF027BA8E9700BBA389 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = 79168CEF27BA8E9700BBA389 /* FSCalendar */; };
 		79168CF427BAF14F00BBA389 /* NewEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79168CF327BAF14F00BBA389 /* NewEventViewController.swift */; };
 		7920127D27D8054E00FBCAFC /* NoEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920127C27D8054E00FBCAFC /* NoEventsTableViewCell.swift */; };
+		7920127F27D91E6800FBCAFC /* AllDaySwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920127E27D91E6800FBCAFC /* AllDaySwitchTableViewCell.swift */; };
 		7953C32C27A8359400ADE027 /* PTSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32B27A8359400ADE027 /* PTSubject.swift */; };
 		7953C32E27A8469100ADE027 /* SubjectSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */; };
 		7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */; };
@@ -116,6 +117,7 @@
 		79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextViewTableViewCell.swift; path = Powertask/Views/Calendars/Cells/NewEventCells/TextViewTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		79168CF327BAF14F00BBA389 /* NewEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEventViewController.swift; sourceTree = "<group>"; };
 		7920127C27D8054E00FBCAFC /* NoEventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoEventsTableViewCell.swift; sourceTree = "<group>"; };
+		7920127E27D91E6800FBCAFC /* AllDaySwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDaySwitchTableViewCell.swift; sourceTree = "<group>"; };
 		7953C32B27A8359400ADE027 /* PTSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSubject.swift; sourceTree = "<group>"; };
 		7953C32D27A8469100ADE027 /* SubjectSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectSelectorViewController.swift; sourceTree = "<group>"; };
 		7953C33027A934CF00ADE027 /* UserSubtaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSubtaskTableViewCell.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				79168CE127BA885700BBA389 /* DatePickerTableViewCell.swift */,
 				79168CE427BA885700BBA389 /* TextFieldTableViewCell.swift */,
 				79168CE527BA885700BBA389 /* TextViewTableViewCell.swift */,
+				7920127E27D91E6800FBCAFC /* AllDaySwitchTableViewCell.swift */,
 			);
 			path = NewEventCells;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */,
 				79BD0D8D27D288B700849B4B /* CompletedTasksCollectionViewCell.swift in Sources */,
 				79DDD5DB27CD4CCB00235AE0 /* FifthStepViewController.swift in Sources */,
+				7920127F27D91E6800FBCAFC /* AllDaySwitchTableViewCell.swift in Sources */,
 				790BE65B27BC00BA009D2706 /* PTBlock.swift in Sources */,
 				79708FAD2791F83100E42731 /* TasksListController.swift in Sources */,
 				79DDD5CD27CCF88F00235AE0 /* PTRequestIncerceptor.swift in Sources */,

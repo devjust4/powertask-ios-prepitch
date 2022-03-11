@@ -19,7 +19,7 @@ class TasksListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: - Mock data
-        subjects = [PTSubject(name: "iOS", color: "#444321"), PTSubject(name: "Acceso a datos", color: "#453234"), PTSubject(name: "ingles", color: "#356433")]
+//        subjects = [PTSubject(name: "iOS", color: "#444321"), PTSubject(name: "Acceso a datos", color: "#453234"), PTSubject(name: "ingles", color: "#356433")]
         //userTasks = MockUser.user.tasks
     }
     

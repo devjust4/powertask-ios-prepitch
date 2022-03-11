@@ -17,20 +17,36 @@ class ConciergeViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        let blocks = [0: [PTSendableBlock(timeStart: Date.now.timeIntervalSince1970, timeEnd: Date.now.timeIntervalSince1970, subjectID: 3)]]
-//        //let enconder = try? JSONEncoder().encode(blocks)
-//        if let data = try? JSONEncoder().encode(blocks) {
-//            print(data)
-//        print(String(data: data, encoding: String.Encoding.utf8)!)
-//        }
-        PTUser.shared.apiToken = "$2y$10$Jk9Wxx8SWxoFyuK2W/TZwuxbevCj3olp76EQWsW2AXVYB0ejFKmZa"
-        var sendableBlocks = [0 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 1 : [], 2 : [], 3 : [], 4 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 5 : [], 6 : []]
-        NetworkingProvider.shared.createBlock(blocks: sendableBlocks, periodID: 1) { blockId in
-            print("hecho")
-        } failure: { msg in
-            print("error")
+        PTUser.shared.apiToken = "$2y$10$4a3ak8C77Imto7zr900mUOXHnoJVRV2Xv2t1joyE7zeAopNLMjNAW"
+        let myblocks = [PTBlock(timeStart: Date.now, timeEnd: Date.now, day: 1, subject: PTUser.shared.subjects![0])]
+        var myPeriod = PTUser.shared.periods![0]
+        myPeriod.subjects = PTUser.shared.subjects
+        myPeriod.blocks = myblocks
+        
+        print(myPeriod.subjects)
+        print(myPeriod.blocks)
+        
+        NetworkingProvider.shared.listSubjects { subjects in
+            print("dale")
+        } failure: { error in
+            print("no dale")
         }
 
+        
+        
+        NetworkingProvider.shared.createPeriod(period: myPeriod) { periodId in
+            print("creado")
+        } failure: { msg in
+            print("no creado")
+        }
+
+        
+        
+        NetworkingProvider.shared.editPeriod(period: myPeriod) { msg in
+            print("prueba superada")
+        } failure: { msg in
+            print("prueba fallida")
+        }
         if LandscapeManager.shared.isFirstLaunch {
             performSegue(withIdentifier: "toOnboarding", sender: nil)
         } else {

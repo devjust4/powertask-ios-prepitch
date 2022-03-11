@@ -29,6 +29,7 @@ class NewEventViewController: UIViewController {
     var eventEndDate: Date?
     var eventSubject: PTSubject?
     var eventNotes: String?
+    var allDay: Bool?
     var indexPath: IndexPath?
     
     override func viewDidLoad() {
@@ -50,6 +51,7 @@ class NewEventViewController: UIViewController {
             if let notes = event.notes {
                 eventNotes = notes
             }
+            allDay = Bool(truncating: event.allDay as NSNumber)
         }
         
         if let eventType = eventType {
@@ -71,7 +73,7 @@ class NewEventViewController: UIViewController {
     @IBAction func saveEvent(_ sender: Any) {
         if let eventType = eventType, let eventName = eventName, let startDate = eventStartDate, let endDate = eventEndDate {
             if eventType != EventType.exam && eventSubject != nil {
-                delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
+                delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: allDay ?? false ? 1 : 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
                 self.dismiss(animated: true)
             }
         } else {
@@ -81,7 +83,7 @@ class NewEventViewController: UIViewController {
         }
         
         if let eventName = eventName, let eventType = eventType, let startDate = eventStartDate, let endDate = eventEndDate {
-            delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
+            delegate?.SaveNewEvent(event: PTEvent(id: eventId, name: eventName, type: eventType, allDay: allDay ?? false ? 1 : 0, notes: eventNotes, startDate: startDate, endDate: endDate, subject: eventSubject), isNewEvent: isNewEvent!)
             self.dismiss(animated: true)
         }
     }
@@ -112,7 +114,12 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 3
+            if let eventType = eventType, eventType == EventType.personal {
+                return 4
+            } else {
+                return 3
+            }
+            return 0
         } else {
             return 1
         }
@@ -131,23 +138,67 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                     return cell
                 }
             case 1:
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerTableViewCell", for: indexPath) as? DatePickerTableViewCell {
-                    cell.datePicker.minimumDate = Date.now
-                    if let startDate = eventStartDate {
-                        cell.datePicker.date = startDate
+                if eventType! == EventType.personal {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "allDaySwitch", for: indexPath) as? AllDaySwitchTableViewCell {
+                        cell.delegate = self
+                        cell.allDaySwitch.setOn(allDay ?? false, animated: true)
+                        return cell
                     }
-                    cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
-                    cell.label.text = "Empieza"
-                    cell.delegate = self
-                    return cell
+                } else {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerTableViewCell", for: indexPath) as? DatePickerTableViewCell {
+                        cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
+                        if let allDay = allDay, allDay {
+                            cell.datePicker.datePickerMode = .date
+                        }
+                        cell.datePicker.minimumDate = Date.now
+                        if let startDate = eventStartDate {
+                            cell.datePicker.date = startDate
+                        }
+                        cell.label.text = "Empieza"
+                        cell.delegate = self
+                        return cell
+                    }
                 }
             case 2:
+                if eventType! == EventType.personal {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerTableViewCell", for: indexPath) as? DatePickerTableViewCell {
+                        cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
+                        if let allDay = allDay, allDay {
+                            cell.datePicker.datePickerMode = .date
+                        }
+                        cell.datePicker.minimumDate = Date.now
+                        if let startDate = eventStartDate {
+                            cell.datePicker.date = startDate
+                        }
+                        cell.label.text = "Empieza"
+                        cell.delegate = self
+                        return cell
+                    }
+                } else {
+                    if let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerTableViewCell", for: indexPath) as? DatePickerTableViewCell {
+                        cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
+                        if let allDay = allDay, allDay {
+                            cell.datePicker.datePickerMode = .date
+                        }
+                        cell.datePicker.minimumDate = Date.now
+                        if let endDate = eventEndDate {
+                            cell.datePicker.date = endDate
+                        }
+                        cell.label.text = "Termina"
+                        cell.delegate = self
+                        return cell
+                    }
+                }
+            case 3:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "datePickerTableViewCell", for: indexPath) as? DatePickerTableViewCell {
+                    cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
+                    if let allDay = allDay, allDay {
+                        cell.datePicker.datePickerMode = .date
+                    }
                     cell.datePicker.minimumDate = Date.now
                     if let endDate = eventEndDate {
                         cell.datePicker.date = endDate
                     }
-                    cell.datePicker.datePickerMode = eventType == EventType.vacation ? .date : .dateAndTime
                     cell.label.text = "Termina"
                     cell.delegate = self
                     return cell
@@ -229,6 +280,15 @@ extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegat
         eventNotes = editChangedWithText
         print(editChangedWithText)
     }
+}
+
+extension NewEventViewController: AllDaySwitchChanged {
+    func allDaySwitchHasChanged(newAllDayValue: Bool) {
+        allDay = newAllDayValue
+        eventDetailsTable.reloadRows(at: [IndexPath(row: 2, section: 0), IndexPath(row: 3, section: 0)], with: .automatic)
+    }
+    
+    
 }
 
 

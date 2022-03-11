@@ -21,4 +21,5 @@ struct PTResponse: Decodable {
     var url: String?
     var student: PTUser?
     var widgets: PTWidgets?
+    var periods: [PTPeriod]?
 }

@@ -27,12 +27,6 @@ class TimeTableConfigViewController: UIViewController {
     }
     
     @IBAction func endConfig(_ sender: Any) {
-        NetworkingProvider.shared.createBlock(blocks: sendableBlocks!, periodID: 1) { blockId in
-            self.performSegue(withIdentifier: "toMain", sender: nil)
-        } failure: { msg in
-            print("error")
-        }
-
         
     }
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{

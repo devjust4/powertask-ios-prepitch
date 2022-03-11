@@ -12,7 +12,7 @@ class FirstPeriodConfigViewController: UIViewController {
     var periodName: String?
     var periodStartDate: Date?
     var periodEndDate: Date?
-    var selectedSubjects: [Int]?
+    var selectedSubjects: [PTSubject]?
     @IBOutlet weak var newPeriodTable: UITableView!
     
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class FirstPeriodConfigViewController: UIViewController {
         selectedSubjects = []
         if let subjects = PTUser.shared.subjects {
             for subject in subjects {
-                selectedSubjects?.append(subject.id!)
+                selectedSubjects?.append(subject)
             }
         }
     }
@@ -156,9 +156,9 @@ extension FirstPeriodConfigViewController: ColorButtonPushedProtocol, PeriodSubj
         let indexPath = newPeriodTable.indexPath(for: cell)
         if let index = indexPath?.row{
             if selected {
-                selectedSubjects?.append(PTUser.shared.subjects![index].id!)
+                selectedSubjects?.append(PTUser.shared.subjects![index])
             } else {
-                let index = selectedSubjects?.firstIndex(of:PTUser.shared.subjects![index].id!)
+                let index = selectedSubjects?.firstIndex(of:PTUser.shared.subjects![index])
                 selectedSubjects?.remove(at: index!)
             }
         }
