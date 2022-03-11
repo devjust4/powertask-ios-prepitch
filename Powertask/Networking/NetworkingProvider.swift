@@ -462,9 +462,11 @@ class NetworkingProvider {
             ["name": period.name,
                     "date_start": String(period.startDate.timeIntervalSince1970),
                     "date_end": String(period.endDate.timeIntervalSince1970),
-                    "subjects" : period.subjects ?? "Sin asignaturas"]
+                    "subjects" : period.subjects ?? "Sin asignaturas"
+            ]
         }
-        sessionManager.request("http://powertask.kurokiji.com/public/api/period/create", method: .post, parameters: parameters).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+        print(parameters)
+        sessionManager.request("http://powertask.kurokiji.com/public/api/period/create", method: .post, parameters: period, encoder: JSONParameterEncoder.default).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
@@ -499,7 +501,7 @@ class NetworkingProvider {
                     "blocks" : period.blocks ?? "Sin bloques",
             ]
         }
-        sessionManager.request("http://powertask.kurokiji.com/public/api/period/edit/\(period.id ?? 0)", method: .put, parameters: parameters).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+        sessionManager.request("http://powertask.kurokiji.com/public/api/period/edit/\(period.id ?? 0)", method: .put, parameters: period, encoder: JSONParameterEncoder.default).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
             print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {

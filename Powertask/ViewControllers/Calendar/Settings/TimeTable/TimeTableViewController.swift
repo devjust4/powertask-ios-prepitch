@@ -140,9 +140,9 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "timeBlockCell", for: indexPath) as? TimeTableTableViewCell {
             cell.blockEditDelegate = self
-            if let selectedBlocks = blocks?[indexPath.section], selectedBlocks.indices.contains(indexPath.row), let subject = selectedBlocks[indexPath.row].subject {
+            if let selectedBlocks = blocks?[indexPath.section], selectedBlocks.indices.contains(indexPath.row){
                 let block = selectedBlocks[indexPath.row]
-                cell.cellSubject = subject
+                cell.cellSubject = selectedBlocks[indexPath.row].subject
                 cell.startDatePicker.date = block.timeStart
                 cell.endDatePicker.date = block.timeEnd
             } else {
@@ -177,7 +177,7 @@ extension TimeTableViewController: TimeTableDelegate {
     
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section], let subject = newSubject {
-            blocks?[indexPath.section]?.append(PTBlock(id: nil, timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
+            blocks?[indexPath.section]?.append(PTBlock(timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()

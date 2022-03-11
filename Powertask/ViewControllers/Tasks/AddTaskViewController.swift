@@ -91,7 +91,7 @@ class AddTaskViewController: UIViewController {
             
             if let subject = task.subject {
                 subjectButton.setTitle(subject.name, for: .normal)
-                subjectButton.tintColor = UIColor(hex: subject.color)
+                subjectButton.tintColor = UIColor(subject.color)
             }
             if let dueDate = task.startDate {
                 startDatePicker.setDate(dueDate, animated: false)

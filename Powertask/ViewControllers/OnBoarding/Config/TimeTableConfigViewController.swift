@@ -14,7 +14,7 @@ class TimeTableConfigViewController: UIViewController {
     var blocks:  [Int : [PTBlock]]?
     var colors: [UIColor]?
     var subjects: [PTSubject]?
-    var sendableBlocks: [Int : [PTSendableBlock]]?
+    var sendableBlocks: [PTBlock]?
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -23,11 +23,20 @@ class TimeTableConfigViewController: UIViewController {
         timeTable.dataSource = self
         timeTable.delegate = self
         blocks = [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
-        sendableBlocks = [0 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 1 : [], 2 : [], 3 : [], 4 : [PTSendableBlock(timeStart: 123123, timeEnd: 123124, subjectID: 1)], 5 : [], 6 : []]
+        print(" las asignaturas son \(PTUser.shared.subjects)")
+        sendableBlocks = [PTBlock(timeStart: Date.now, timeEnd: Date.now, day: 0, subject: PTUser.shared.subjects![0])]
     }
     
     @IBAction func endConfig(_ sender: Any) {
-        
+        var myPeriod = PTUser.shared.periods![0]
+        myPeriod.subjects = PTUser.shared.subjects
+        myPeriod.blocks = sendableBlocks
+        NetworkingProvider.shared.editPeriod(period: myPeriod) { msg in
+            print("guardados!!")
+        } failure: { msg in
+            print("no guardados :(")
+        }
+
     }
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
@@ -113,9 +122,9 @@ extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "timeBlockCell", for: indexPath) as? TimeTableTableViewCell {
             cell.blockEditDelegate = self
-            if let selectedBlocks = blocks?[indexPath.section], selectedBlocks.indices.contains(indexPath.row), let subject = selectedBlocks[indexPath.row].subject {
+            if let selectedBlocks = blocks?[indexPath.section], selectedBlocks.indices.contains(indexPath.row) {
                 let block = selectedBlocks[indexPath.row]
-                cell.cellSubject = subject
+                cell.cellSubject = selectedBlocks[indexPath.row].subject
                 cell.startDatePicker.date = block.timeStart
                 cell.endDatePicker.date = block.timeEnd
             } else {
@@ -150,7 +159,7 @@ extension TimeTableConfigViewController: TimeTableDelegate {
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let subject = newSubject {
             //NetworkingProvider.shared.createBlock(block: <#T##PTBlock#>, success: <#T##(Int) -> ()##(Int) -> ()##(_ blockId: Int) -> ()#>, failure: <#T##(String?) -> ()##(String?) -> ()##(_ msg: String?) -> ()#>)
-            blocks![indexPath.section]?.append(PTBlock(id: nil, timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
+            blocks![indexPath.section]?.append(PTBlock(timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()

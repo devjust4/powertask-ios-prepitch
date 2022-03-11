@@ -20,6 +20,7 @@ class NewEventViewController: UIViewController {
     @IBOutlet weak var background: UIView!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     var isNewEvent: Bool?
+    var selectedDate: Date?
     var event: PTEvent?
     var delegate: NewEventProtocol?
     var eventId: Int?
@@ -169,6 +170,8 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.datePicker.minimumDate = Date.now
                         if let startDate = eventStartDate {
                             cell.datePicker.date = startDate
+                        } else if let selectedDate = selectedDate {
+                            cell.datePicker.date = selectedDate
                         }
                         cell.label.text = "Empieza"
                         cell.delegate = self
@@ -183,6 +186,8 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.datePicker.minimumDate = Date.now
                         if let endDate = eventEndDate {
                             cell.datePicker.date = endDate
+                        } else if let selectedDate = selectedDate {
+                            cell.datePicker.date = selectedDate
                         }
                         cell.label.text = "Termina"
                         cell.delegate = self
@@ -198,6 +203,8 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.datePicker.minimumDate = Date.now
                     if let endDate = eventEndDate {
                         cell.datePicker.date = endDate
+                    } else if let selectedDate = selectedDate {
+                        cell.datePicker.date = selectedDate
                     }
                     cell.label.text = "Termina"
                     cell.delegate = self

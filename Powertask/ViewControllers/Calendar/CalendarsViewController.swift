@@ -36,7 +36,7 @@ class CalendarsViewController: UIViewController {
         calendarView.appearance.eventSelectionColor = UIColor.lightGray
         swipeAction()
         
-        PTUser.shared.apiToken = "$2y$10$4a3ak8C77Imto7zr900mUOXHnoJVRV2Xv2t1joyE7zeAopNLMjNAW"
+        PTUser.shared.apiToken = "$2y$10$Oaa9Ru97IfSHS43aMsNMLOSbmOICXGdjgAdq6yqy711MNukn4aWkG"
         
         NetworkingProvider.shared.listEvents { events in
             PTUser.shared.events = events
@@ -93,6 +93,7 @@ class CalendarsViewController: UIViewController {
             if let event = event {
                 viewController.event = event
             }
+            viewController.selectedDate = calendarView.selectedDate
             self.present(viewController, animated: true, completion: nil)
         }
     }
@@ -104,7 +105,7 @@ class CalendarsViewController: UIViewController {
         let selectedEvents = events.filter { event in
             let startDate = event.value.startDate.formatted(date: .complete, time: .omitted)
             let endDate = event.value.startDate.formatted(date: .complete, time: .omitted)
-            print("selección \(selectedDate) empieza: \(startDate) termina: \(endDate) ")
+            // print("selección \(selectedDate) empieza: \(startDate) termina: \(endDate) ")
             if startDate <= selectedDate && endDate >= selectedDate {
                 print("true")
                 return true
@@ -113,19 +114,37 @@ class CalendarsViewController: UIViewController {
             }
         }
         
-        return selectedEvents.values.sorted { event1, event2 in
+        let events2 = selectedEvents.values
+        
+        let sortedTypes = events2.sorted { event1, event2 in
             // festivo
             // todo el dia
             // examen
             //eventos normales
+            return event1.type > event2.type
             
-            if event1.type == event2.type {
-                return event1.startDate > event2.startDate
-            } else {
-                return event1.type > event2.type
-            }
-            return event1.startDate > event2.startDate
+//            if event1.type == event2.type {
+//                return event1.startDate > event2.startDate
+//            } else {
+//                return event1.type > event2.type
+//            }
         }
+        
+        let sortedEvents = sortedTypes.sorted { event1, event2 in
+            // festivo
+            // todo el dia
+            // examen
+            //eventos normales
+            return event1.startDate > event2.startDate
+            
+//            if event1.type == event2.type {
+//                return event1.startDate > event2.startDate
+//            } else {
+//                return event1.type > event2.type
+//            }
+        }
+        
+        return sortedEvents
     }
     
     func getCellInfo(allDay: Int, startDate: Date, endDate: Date) -> String{
@@ -171,6 +190,7 @@ class CalendarsViewController: UIViewController {
 // MARK:- Calendar Delegate and DataSource
 extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print(date)
         if let events = PTUser.shared.events {
             selectedDateEvents = getEventForDate(date: date, events: events)
         }
@@ -368,5 +388,17 @@ extension CalendarsViewController: NewEventProtocol {
                 print(msg)
             }
         }
+    }
+}
+
+extension Date {
+    func contains(dateToCheck: Date, date1: Date, date2: Date) -> Bool {
+       // let dateToCheckInterval = DateInterval(start: <#T##Date#>, end: <#T##Date#>)
+        return true
+    }
+    
+    func isContained(date1: Date, date2: Date, dateToCheck: Date) -> Bool {
+        
+        return true
     }
 }

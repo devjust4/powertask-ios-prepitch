@@ -19,7 +19,7 @@ class FirstPeriodConfigViewController: UIViewController {
         super.viewDidLoad()
         newPeriodTable.delegate = self
         newPeriodTable.dataSource = self
-        selectedSubjects = []
+    selectedSubjects = []
         if let subjects = PTUser.shared.subjects {
             for subject in subjects {
                 selectedSubjects?.append(subject)
