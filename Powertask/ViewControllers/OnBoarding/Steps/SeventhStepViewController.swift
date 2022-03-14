@@ -41,7 +41,6 @@ class SeventhStepViewController: UIViewController {
     }
     
     @objc func dataLoaded(_ notification: NSNotification) {
-        print("NOTIFICADO")
         dataLoaded = true
         if loadingView.isHidden == false {
             if let pageController = self.parent as? OnBoardingViewController {

@@ -26,15 +26,15 @@ class GoogleClassroomPermissionViewController: UIViewController {
             requestScopes(scopes: scopes) {
                 NetworkingProvider.shared.initialDownload { user in
                     PTUser.shared.subjects = user.subjects
+                    PTUser.shared.periods = user.periods
+                    PTUser.shared.apiToken = user.apiToken
                     let dataLoadedNotification = Notification.Name("DataDonwload")
                     NotificationCenter.default.post(name: dataLoadedNotification, object: nil, userInfo: nil)
                     PTUser.shared.id = user.id
                     PTUser.shared.name = user.name
                     PTUser.shared.email = user.email
                     PTUser.shared.imageUrl = user.imageUrl
-                    PTUser.shared.apiToken = user.apiToken
                     PTUser.shared.tasks = user.tasks
-                    PTUser.shared.periods = user.periods
                     PTUser.shared.sessions = user.sessions
                     PTUser.shared.events = user.events
                     PTUser.shared.savePTUser()

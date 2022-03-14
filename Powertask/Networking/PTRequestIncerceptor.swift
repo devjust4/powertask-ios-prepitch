@@ -26,7 +26,7 @@ class PTRequestInterceptor: RequestInterceptor {
             urlRequest.setValue(googleToken, forHTTPHeaderField: "token")
         }
         
-        urlRequest.setValue("1", forHTTPHeaderField: "new")
+//        urlRequest.setValue("1", forHTTPHeaderField: "new")
         
         completion(.success(urlRequest))
     }

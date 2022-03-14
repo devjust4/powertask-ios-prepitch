@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SPIndicator
 
 class TimeTableConfigViewController: UIViewController {
     @IBOutlet weak var timeTable: UITableView!
@@ -23,39 +24,34 @@ class TimeTableConfigViewController: UIViewController {
         timeTable.dataSource = self
         timeTable.delegate = self
         blocks = [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
-        print(" las asignaturas son \(PTUser.shared.subjects)")
-        sendableBlocks = [PTBlock(timeStart: Date.now, timeEnd: Date.now, day: 0, subject: PTUser.shared.subjects![0])]
     }
     
     @IBAction func endConfig(_ sender: Any) {
-        var myPeriod = PTUser.shared.periods![0]
-        myPeriod.subjects = PTUser.shared.subjects
-        myPeriod.blocks = sendableBlocks
-        NetworkingProvider.shared.editPeriod(period: myPeriod) { msg in
-            print("guardados!!")
-        } failure: { msg in
-            print("no guardados :(")
+        if var period = PTUser.shared.periods?[0], let blocks = blocks {
+            // FIXME: CHAPUZA COJONUDA. ARREGLAR!!
+            let mapBlocks = blocks.values.map({$0})
+            period.blocks = mapBlocks.flatMap {$0}
+            if let blocks = period.blocks, !blocks.isEmpty {
+                NetworkingProvider.shared.editPeriod(period: period) { msg in
+                    let image = UIImage.init(systemName: "calendar.badge.plus")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Horario guardado", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                    self.performSegue(withIdentifier: "GoToMain", sender: nil)
+                } failure: { msg in
+                    let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                }
+            } else {
+                let image = UIImage.init(systemName: "rectangle.and.pencil.and.ellipsis")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "Rellena tu horario", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .success, completion: nil)
+            }
         }
-
     }
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
             block.day == weekDay
-        }
-    }
-    
-    func filterAllBlocks(blocks: [PTBlock]?) -> [Int : [PTBlock]]? {
-        if let blocks = blocks {
-            let monday = filterBlockByDay(blocks: blocks, weekDay: 1)
-            let thuesday = filterBlockByDay(blocks: blocks, weekDay: 2)
-            let wednesday = filterBlockByDay(blocks: blocks, weekDay: 3)
-            let tursday = filterBlockByDay(blocks: blocks, weekDay: 4)
-            let friday = filterBlockByDay(blocks: blocks, weekDay: 5)
-            let saturday = filterBlockByDay(blocks: blocks, weekDay: 6)
-            let sunday = filterBlockByDay(blocks: blocks, weekDay: 7)
-            return [0 : monday, 1 : thuesday, 2 : wednesday, 3 : tursday, 4 : friday, 5 : saturday, 6 : sunday]
-        } else {
-            return [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
         }
     }
 }
@@ -110,10 +106,8 @@ extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        // TODO: QUE ES ESTO?
-        if let count = blocks?[section]?.count {
+        if let blocks = blocks, let count = blocks[section]?.count {
             return count + 1
-            //+ 1
-            
         } else {
             return 1
         }
@@ -158,7 +152,6 @@ extension TimeTableConfigViewController: TimeTableDelegate {
     
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let subject = newSubject {
-            //NetworkingProvider.shared.createBlock(block: <#T##PTBlock#>, success: <#T##(Int) -> ()##(Int) -> ()##(_ blockId: Int) -> ()#>, failure: <#T##(String?) -> ()##(String?) -> ()##(_ msg: String?) -> ()#>)
             blocks![indexPath.section]?.append(PTBlock(timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)

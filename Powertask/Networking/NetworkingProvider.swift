@@ -141,37 +141,6 @@ class NetworkingProvider {
         }
     }
     
-    public func listBlocks(period: PTPeriod, success: @escaping (_ blocks: [PTBlock])->(), failure: @escaping (_ msg: String?)->()) {
-        sessionManager.request(PTRouter.listBlocks(period)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
-            if let httpCode = response.response?.statusCode {
-                switch httpCode {
-                case 200:
-                    if let blocks = response.value?.blocks {
-                        success(blocks)
-                    } else {
-                        failure("There is a problem decoding data")
-                    }
-                case 400:
-                    if let error = response.value?.response {
-                        failure(error)
-                    } else {
-                        failure("Period doesn't have blocks.")
-                    }
-                case 401:
-                    failure("Invalid token.")
-                case 404:
-                    if let error = response.value?.response {
-                        failure(error)
-                    } else {
-                        failure("Student doesn't have blocks")
-                    }
-                default:
-                    failure("There is a problem connecting to the server")
-                }
-            }
-        }
-    }
-    
     // MARK: - Task Requests
     public func listTasks(success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
@@ -429,6 +398,7 @@ class NetworkingProvider {
     // MARK: - Periods Request
     public func listPeriods(success: @escaping (_ periods: [PTPeriod])->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.listPeriods).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -557,96 +527,6 @@ class NetworkingProvider {
             }
         }
     }
-    
-//    // MARK: - Blocks Request
-//    public func createBlock(blocks: [Int: [PTSendableBlock]], periodID: Int, success: @escaping (_ blockId: Int)->(), failure: @escaping (_ msg: String?)->()) {
-//        let parameters: Parameters = ["json" : blocks]
-//        sessionManager.request("http://powertask.kurokiji.com/public/api/block/create/\(periodID)", method: .post, parameters: parameters) .validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
-//            print(response.debugDescription)
-//            if let httpCode = response.response?.statusCode {
-//                switch httpCode {
-//                case 201:
-//                    if let blockId = response.value?.id {
-//                        success(blockId)
-//                    } else {
-//                        failure("There is a problem decoding data")
-//                    }
-//                case 400:
-//                    if let error = response.value?.response {
-//                        failure(error)
-//                    } else {
-//                        failure("Validator errors")
-//                    }
-//                case 401:
-//                    failure("Invalid token.")
-//                default:
-//                    failure("There is a problem connecting to the server")
-//                }
-//            }
-//        }
-//    }
-//
-//    public func editBlock(blocks: [Int : [PTSendableBlock]], periodID: Int,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-//        sessionManager.request(PTRouter.editBlock(periodID, blocks)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
-//            if let httpCode = response.response?.statusCode {
-//                switch httpCode {
-//                case 200:
-//                    if let response = response.value?.response {
-//                        success(response)
-//                    } else {
-//                        failure("There is a problem decoding data")
-//                    }
-//                case 400:
-//                    if let error = response.value?.response {
-//                        failure(error)
-//                    } else {
-//                        failure("Validator errors")
-//                    }
-//                case 401:
-//                    failure("Invalid token.")
-//                case 404:
-//                    if let error = response.value?.response {
-//                        failure(error)
-//                    } else {
-//                        failure("Period by that id doesn't exist.")
-//                    }
-//                default:
-//                    failure("There is a problem connecting to the server")
-//                }
-//            }
-//        }
-//    }
-//
-//    public func deleteBlock(block: PTBlock, success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
-//        sessionManager.request(PTRouter.deleteBlock(block)).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
-//            if let httpCode = response.response?.statusCode {
-//                switch httpCode {
-//                case 200:
-//                    if let response = response.value?.response {
-//                        success(response)
-//                    } else {
-//                        failure("There is a problem decoding data")
-//                    }
-//                case 401:
-//                    failure("Invalid token.")
-//                case 400:
-//                    if let error = response.value?.response {
-//                        failure(error)
-//                    } else {
-//                        failure("Block by that id doesn't exist.")
-//                    }
-//                case 404:
-//                    if let error = response.value?.response {
-//                        failure(error)
-//                    } else {
-//                        failure("Period not found")
-//                    }
-//                default:
-//                    failure("There is a problem connecting to the server")
-//                }
-//            }
-//        }
-//    }
     
     // MARK: - Sessions Request
     public func createSession(session: PTSession,success: @escaping (_ sessionId: Int)->(), failure: @escaping (_ msg: String?)->()) {

@@ -7,7 +7,7 @@
 //
 protocol ColorButtonPushedProtocol {
     func instanceColorPicker(_ cell: SubjectTableViewCell)
-    func colorPicked(_ cell: SubjectTableViewCell, color: UIColor)
+    func colorPicked(_ cell: SubjectTableViewCell, color: String)
 }
 
 protocol SubjectSelectedDelegate {
@@ -38,12 +38,22 @@ class SubjectTableViewCell: UITableViewCell {
     }
     
     @IBAction func checkSubject(_ sender: UIButton) {
-        if checkSubject.imageView?.alpha == 1{
-            checkSubject.imageView?.alpha = 0
+        if checkSubject.image(for: .normal) == UIImage(systemName: "checkmark"){
+            checkSubject.setImage(UIImage(systemName: "xmark"), for: .normal)
+            checkSubject.tintColor = UIColor.red
             selectedSubjectDelegate?.markSubjectSelected(self, selected: false)
+            subjectName.isEnabled = false
+            subjectName.alpha = 0.5
+            subjectColor.isEnabled = false
+            subjectColor.alpha = 0.5
         }else {
-            checkSubject.imageView?.alpha = 1
+            checkSubject.setImage(UIImage(systemName: "checkmark"), for: .normal)
+            checkSubject.tintColor = UIColor(named: "AccentColor")
             selectedSubjectDelegate?.markSubjectSelected(self, selected: true)
+            subjectName.isEnabled = true
+            subjectName.alpha = 1
+            subjectColor.isEnabled = true
+            subjectColor.alpha = 1
         }
     }
     
@@ -55,6 +65,20 @@ class SubjectTableViewCell: UITableViewCell {
 extension SubjectTableViewCell: UIColorPickerViewControllerDelegate {
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
         subjectColor.backgroundColor = color
-        subjectColorDelegate?.colorPicked(self, color: color)
+        subjectColorDelegate?.colorPicked(self, color: viewController.description[30..<41])
+    }
+}
+
+extension String {
+    subscript(_ range: CountableRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+        let end = index(start, offsetBy: min(self.count - range.lowerBound,
+                                             range.upperBound - range.lowerBound))
+        return String(self[start..<end])
+    }
+
+    subscript(_ range: CountablePartialRangeFrom<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+         return String(self[start...])
     }
 }

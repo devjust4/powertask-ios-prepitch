@@ -508,10 +508,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wS-aa-gAb">
-                                                    <rect key="frame" x="310" y="8.5" width="44" height="31"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="31" id="7kL-rs-ysn"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="310" y="11" width="44" height="26"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="checkmark" catalog="system"/>
                                                     <connections>
@@ -542,9 +539,9 @@
                                                 <constraint firstItem="CYh-H4-hEc" firstAttribute="centerY" secondItem="JaB-zx-1wc" secondAttribute="centerY" id="FZ4-xa-311"/>
                                                 <constraint firstItem="Bok-UA-nQq" firstAttribute="leading" secondItem="CYh-H4-hEc" secondAttribute="trailing" constant="10" id="Lrc-MG-nIQ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="Bok-UA-nQq" secondAttribute="bottom" id="Q3a-mz-2FQ"/>
-                                                <constraint firstItem="6wS-aa-gAb" firstAttribute="top" secondItem="JaB-zx-1wc" secondAttribute="top" constant="8.5" id="R1g-it-sgv"/>
-                                                <constraint firstAttribute="bottom" secondItem="6wS-aa-gAb" secondAttribute="bottom" constant="8.5" id="fdE-Cl-Bny"/>
-                                                <constraint firstAttribute="trailing" secondItem="6wS-aa-gAb" secondAttribute="trailing" constant="20" symbolic="YES" id="mwH-Ns-yxE"/>
+                                                <constraint firstItem="6wS-aa-gAb" firstAttribute="top" secondItem="JaB-zx-1wc" secondAttribute="topMargin" id="R1g-it-sgv"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="6wS-aa-gAb" secondAttribute="bottom" id="fdE-Cl-Bny"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="6wS-aa-gAb" secondAttribute="trailing" id="mwH-Ns-yxE"/>
                                                 <constraint firstItem="6wS-aa-gAb" firstAttribute="leading" secondItem="Bok-UA-nQq" secondAttribute="trailing" constant="20" id="q1p-FK-urA"/>
                                                 <constraint firstItem="Bok-UA-nQq" firstAttribute="top" secondItem="JaB-zx-1wc" secondAttribute="topMargin" id="sfu-II-wBm"/>
                                             </constraints>
@@ -878,7 +875,7 @@
                     <connections>
                         <outlet property="subjectsCollection" destination="TXf-J4-kP0" id="zqW-n7-jDV"/>
                         <outlet property="timeTable" destination="Wjb-Gf-kIw" id="p36-vd-s0S"/>
-                        <segue destination="vmN-0G-6Nt" kind="presentation" identifier="toMain" modalPresentationStyle="fullScreen" id="Ybo-2l-al7"/>
+                        <segue destination="vmN-0G-6Nt" kind="presentation" identifier="GoToMain" modalPresentationStyle="fullScreen" id="Ybo-2l-al7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywW-K4-9Nq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

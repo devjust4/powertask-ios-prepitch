@@ -7,6 +7,7 @@
 
 import UIKit
 import SPIndicator
+import DynamicColor
 
 class FirstPeriodConfigViewController: UIViewController {
     var periodName: String?
@@ -29,10 +30,18 @@ class FirstPeriodConfigViewController: UIViewController {
     
     @IBAction func nextScreen(_ sender: Any) {
         if let periodName = periodName, let periodStartDate = periodStartDate, let periodEndDate = periodEndDate, let selectedSubjects = selectedSubjects {
+            for subject in selectedSubjects {
+                print("---\(subject.name)")
+                print("***\(subject.color)")
+                print(":::\(subject.id)")
+            }
             var firstPeriod = PTPeriod(name: periodName, startDate: periodStartDate, endDate: periodEndDate, subjects: selectedSubjects)
             NetworkingProvider.shared.createPeriod(period: firstPeriod) { periodId in
                 firstPeriod.id = periodId
-                PTUser.shared.periods?.append(firstPeriod)
+                PTUser.shared.periods = [firstPeriod]
+                print(firstPeriod)
+                print(PTUser.shared.name)
+                print(PTUser.shared.periods)
                 let image = UIImage.init(systemName: "calendar.badge.plus")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Periodo agregado", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)
@@ -43,20 +52,12 @@ class FirstPeriodConfigViewController: UIViewController {
                 let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)
-                
-                if let pageController = self.parent as? OnBoardingViewController {
-                    pageController.goNext()
-                }
-                
-                
             }
         } else {
             let image = UIImage.init(systemName: "rectangle.and.pencil.and.ellipsis")!.withTintColor(.red, renderingMode: .alwaysOriginal)
             let indicatorView = SPIndicatorView(title: "Rellena todos los datos", preset: .custom(image))
             indicatorView.present(duration: 3, haptic: .success, completion: nil)
         }
-       
-        
     }
 }
 
@@ -135,13 +136,14 @@ extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataS
 extension FirstPeriodConfigViewController: ColorButtonPushedProtocol, PeriodSubjectTextViewProtocol, SubjectSelectedDelegate, PeriodDatePickerProtocol, PeriodNameTextFieldProtocol {
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
+        colorViewController.supportsAlpha = false
         colorViewController.delegate = cell
         self.present(colorViewController, animated: true, completion: nil)
     }
     
-    func colorPicked(_ cell: SubjectTableViewCell, color: UIColor) {
+    func colorPicked(_ cell: SubjectTableViewCell, color: String) {
         if let index = newPeriodTable.indexPath(for: cell)?.row {
-            PTUser.shared.subjects![index].color = color.hexString()
+            PTUser.shared.subjects![index].color = color
         }
     }
     

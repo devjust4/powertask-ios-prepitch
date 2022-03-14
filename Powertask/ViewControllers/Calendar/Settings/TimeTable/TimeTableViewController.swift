@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SPIndicator
 
 class TimeTableViewController: UIViewController {
 
@@ -30,24 +31,20 @@ class TimeTableViewController: UIViewController {
                 period.startDate > Date.now && period.endDate < Date.now
             })
         }
-        if let currentPeriod = currentPeriod {
-            NetworkingProvider.shared.listBlocks(period: currentPeriod) { blocks in
-                PTUser.shared.blocks = blocks
-            } failure: { msg in
-                print("error")
-            }
-
-        }
-      
-
-        
-       
 
         NetworkingProvider.shared.listSubjects() { subjects in
             PTUser.shared.subjects = subjects
-            self.blocks = self.filterAllBlocks(blocks: PTUser.shared.blocks)
-            self.timeTable.reloadData()
-            self.subjectsCollection.reloadData()
+            let actualPeriods = self.getActualPeriods(periods: PTUser.shared.periods)
+            if let actualPeriods = self.getActualPeriods(periods: PTUser.shared.periods), !actualPeriods.isEmpty {
+                currentPeriod = actualPeriods[0]
+                self.blocks = self.filterAllBlocks(blocks: actualPeriods[0].blocks)
+                self.timeTable.reloadData()
+                self.subjectsCollection.reloadData()
+            } else {
+                let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                let indicatorView = SPIndicatorView(title: "No hay horario", preset: .custom(image))
+                indicatorView.present(duration: 3, haptic: .error, completion: nil)
+            }
         } failure: { error in
             print(error)
         }
@@ -56,6 +53,11 @@ class TimeTableViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         
+    }
+    
+    func getActualPeriods(periods: [PTPeriod]?) -> [PTPeriod]? {
+        guard let periods = periods else { return nil }
+        return periods.filter({ period in DateInterval(start: period.startDate, end: period.endDate).contains(Date.now) })
     }
     
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{

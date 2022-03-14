@@ -35,9 +35,7 @@ class CalendarsViewController: UIViewController {
         calendarView.appearance.titleSelectionColor = UIColor.white
         calendarView.appearance.eventSelectionColor = UIColor.lightGray
         swipeAction()
-        
-        PTUser.shared.apiToken = "$2y$10$Oaa9Ru97IfSHS43aMsNMLOSbmOICXGdjgAdq6yqy711MNukn4aWkG"
-        
+                
         NetworkingProvider.shared.listEvents { events in
             PTUser.shared.events = events
             self.selectedDateEvents = self.getEventForDate(date: Date.now, events: events)
@@ -107,7 +105,6 @@ class CalendarsViewController: UIViewController {
             let endDate = event.value.startDate.formatted(date: .complete, time: .omitted)
             // print("selección \(selectedDate) empieza: \(startDate) termina: \(endDate) ")
             if startDate <= selectedDate && endDate >= selectedDate {
-                print("true")
                 return true
             } else {
                 return false

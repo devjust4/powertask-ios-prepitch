@@ -20,14 +20,3 @@ struct PTBlock: Codable {
     }
 }
 
-struct PTSendableBlock: Codable {
-    var timeStart: Double
-    var timeEnd: Double
-    var subjectID: Int
-    
-    init(timeStart: Double, timeEnd: Double, subjectID: Int) {
-        self.timeStart = timeStart
-        self.timeEnd = timeEnd
-        self.subjectID = subjectID
-    }
-}
