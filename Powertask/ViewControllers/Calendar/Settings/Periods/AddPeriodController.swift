@@ -66,6 +66,8 @@ class AddPeriodController: UIViewController {
                 } else {
                     userIsEditing = false
                     editPeriod.title = "Editar"
+                    print("--- period time \(period.startDate.timeIntervalSince1970)")
+                    print("--- period date \(period.startDate)")
                     if let isNewPeriod = isNewPeriod, isNewPeriod{
                         NetworkingProvider.shared.createPeriod(period: period) { periodId in
                             self.period!.id = periodId
@@ -97,11 +99,12 @@ class AddPeriodController: UIViewController {
  
                     }
                 }
-            } else {
+            }
+        } else {
                 userIsEditing =  true
                 editPeriod.title = "Guardar"
             }
-        }
+        
         periodTableView.reloadData()
     }
 }

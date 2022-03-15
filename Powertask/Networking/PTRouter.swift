@@ -168,13 +168,13 @@ enum PTRouter {
         }
         
         return ["name": period.name,
-                "date_start": String(period.startDate.timeIntervalSince1970),
-                "date_end": String(period.endDate.timeIntervalSince1970),
+                "date_start": String(period.startDate.timeIntervalSinceReferenceDate),
+                "date_end": String(period.endDate.timeIntervalSinceReferenceDate),
         ]
 
 
     case .createSession(let session):
-        if let taskId = session.task?.id {
+        if let taskId = session.task {
             return ["quantity": String(session.quantity),
                     "duration": String(session.duration),
                     "total_time": String(session.duration),

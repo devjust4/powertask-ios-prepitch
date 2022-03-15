@@ -11,6 +11,7 @@ import SPIndicator
 class TimeTableConfigViewController: UIViewController {
     @IBOutlet weak var timeTable: UITableView!
     @IBOutlet weak var subjectsCollection: UICollectionView!
+    @IBOutlet weak var finishButton: UIButton!
     let weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     var blocks:  [Int : [PTBlock]]?
     var subjects: [PTSubject]?
@@ -28,6 +29,7 @@ class TimeTableConfigViewController: UIViewController {
         if var period = PTUser.shared.periods?[0], let blocks = blocks {
             // FIXME: CHAPUZA COJONUDA. ARREGLAR!!
             // TODO: Desactivar botón mientras se guarda el periodo, o realizar la acción en segundo plano
+            finishButton.isEnabled = false
             let mapBlocks = blocks.values.map({$0})
             period.blocks = mapBlocks.flatMap {$0}
             PTUser.shared.periods?[0] = period
@@ -39,6 +41,7 @@ class TimeTableConfigViewController: UIViewController {
                     indicatorView.present(duration: 3, haptic: .success, completion: nil)
                     self.performSegue(withIdentifier: "GoToMain", sender: nil)
                 } failure: { msg in
+                    self.finishButton.isEnabled = true
                     let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
                     let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
                     indicatorView.present(duration: 3, haptic: .success, completion: nil)

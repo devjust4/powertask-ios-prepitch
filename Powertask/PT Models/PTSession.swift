@@ -13,5 +13,12 @@ struct PTSession: Codable {
     var quantity: Int
     var duration: Int
     var totalTime: Int
-    var task: PTTask?
+    var task: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, quantity, duration, task
+        case totalTime = "total_time"
+    }
+    
 }
+

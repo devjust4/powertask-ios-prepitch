@@ -462,7 +462,7 @@ class NetworkingProvider {
     }
     
     public func editPeriod(period: PTPeriod,success: @escaping (_ msg: String?)->(), failure: @escaping (_ msg: String?)->()) {
- 
+        print("--- justo antes de enviar vale \(period.startDate.timeIntervalSince1970)")
         var parameters: Parameters {
             ["name": period.name,
                     "date_start": String(period.startDate.timeIntervalSince1970),
@@ -471,8 +471,10 @@ class NetworkingProvider {
                     "blocks" : period.blocks ?? "Sin bloques",
             ]
         }
+        
         sessionManager.request("http://powertask.kurokiji.com/public/api/period/edit/\(period.id ?? 0)", method: .put, parameters: period, encoder: JSONParameterEncoder.default).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
-            print(response.debugDescription)
+            print("--- body \(response.request?.httpBody?.debugDescription)")
+            print(NSString(data: (response.request?.httpBody)!, encoding: String.Encoding.utf8.rawValue))
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:

@@ -7,7 +7,6 @@
 
 import UIKit
 import FSCalendar
-import EventKit
 import UIColorHexSwift
 import GoogleSignIn
 import SPIndicator
@@ -357,6 +356,7 @@ extension CalendarsViewController: NewEventProtocol {
     func SaveNewEvent(event: PTEvent, isNewEvent: Bool) {
         if isNewEvent {
             NetworkingProvider.shared.createEvent(event: event) { id in
+                if PTUser.shared.events == nil { PTUser.shared.events = [:] }
                 PTUser.shared.events!["\(id)"] = event
                 PTUser.shared.events!["\(id)"]?.id = id
                 PTUser.shared.savePTUser()
@@ -389,13 +389,18 @@ extension CalendarsViewController: NewEventProtocol {
 }
 
 extension Date {
-    func contains(dateToCheck: Date, date1: Date, date2: Date) -> Bool {
-       // let dateToCheckInterval = DateInterval(start: <#T##Date#>, end: <#T##Date#>)
-        return true
-    }
-    
-    func isContained(date1: Date, date2: Date, dateToCheck: Date) -> Bool {
-        
-        return true
-    }
+//    func contains(dateToCheck: Date, date1: Date, date2: Date) -> Bool {
+//        let start = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: dateToCheck)!
+//        let end = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: dateToCheck)!
+//        let dateToCheckInterval = DateInterval(start: start, end: end)
+//        let intervalFromDates = DateInterval(start: date1, end: date2)
+//        let intervalResult = dateToCheckInterval.compare(intervalFromDates)
+//        intervalResult
+//
+//    }
+//
+//    func isContained(date1: Date, date2: Date, dateToCheck: Date) -> Bool {
+//
+//        return true
+//    }
 }

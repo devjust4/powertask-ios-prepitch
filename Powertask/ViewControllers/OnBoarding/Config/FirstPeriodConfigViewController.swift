@@ -14,6 +14,7 @@ class FirstPeriodConfigViewController: UIViewController {
     var periodStartDate: Date?
     var periodEndDate: Date?
     var selectedSubjects: [PTSubject]?
+    @IBOutlet weak var nextView: UIButton!
     @IBOutlet weak var newPeriodTable: UITableView!
     
     override func viewDidLoad() {
@@ -30,18 +31,11 @@ class FirstPeriodConfigViewController: UIViewController {
     
     @IBAction func nextScreen(_ sender: Any) {
         if let periodName = periodName, let periodStartDate = periodStartDate, let periodEndDate = periodEndDate, let selectedSubjects = selectedSubjects {
-            for subject in selectedSubjects {
-                print("---\(subject.name)")
-                print("***\(subject.color)")
-                print(":::\(subject.id)")
-            }
+            nextView.isEnabled = false
             var firstPeriod = PTPeriod(name: periodName, startDate: periodStartDate, endDate: periodEndDate, subjects: selectedSubjects)
             NetworkingProvider.shared.createPeriod(period: firstPeriod) { periodId in
                 firstPeriod.id = periodId
                 PTUser.shared.periods = [firstPeriod]
-                print(firstPeriod)
-                print(PTUser.shared.name)
-                print(PTUser.shared.periods)
                 let image = UIImage.init(systemName: "calendar.badge.plus")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Periodo agregado", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)
@@ -49,6 +43,7 @@ class FirstPeriodConfigViewController: UIViewController {
                     pageController.goNext()
                 }
             } failure: { msg in
+                self.nextView.isEnabled = true
                 let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
                 let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
                 indicatorView.present(duration: 3, haptic: .success, completion: nil)

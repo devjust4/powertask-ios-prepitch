@@ -23,7 +23,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        PTUser.shared.apiToken = "$2y$10$3p6m.5sxDoRsOdssk.Dz0u9RZ1FfqfKEdwfc/pFH2.E.PsrYvDGM2"
         NetworkingProvider.shared.getWidgetData { widgetsInfo in
             PTUser.shared.widgets = widgetsInfo
             self.widgetsCollectionView.reloadData()
