@@ -126,7 +126,6 @@ extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataS
                 cell.subjectName.isEnabled = true
                 cell.subjectColor.isEnabled = true
                 cell.checkSubject.isEnabled = true
-                cell.checkSubject.setImage(UIImage(systemName: "checkmark"), for: .normal)
                 return cell
             }
         }
