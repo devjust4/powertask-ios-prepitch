@@ -20,12 +20,12 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
         periodsTableView.dataSource = self
         periodsTableView.delegate = self
         
-        confirmationAction.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
+        confirmationAction.addAction(UIAlertAction(title: "Borrar", style: .destructive, handler: { action in
             _ = self.periodsTableView.indexPathForSelectedRow
             self.deleteRow(deleteindexpath: self.deleteindexpath!)
             
         }))
-        confirmationAction.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        confirmationAction.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,7 +140,11 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func deleteRow (deleteindexpath: IndexPath){
         if let index = PTUser.shared.periods?.firstIndex(where: { period in
-            period.id == actualPeriod?[deleteindexpath.row].id
+            if deleteindexpath.section == 0 {
+                return period.id == actualPeriod?[deleteindexpath.row].id
+            } else {
+                return period.id == previousPeriod?[deleteindexpath.row].id
+            }
         }) {
             
             PTUser.shared.savePTUser()
