@@ -29,7 +29,7 @@ class AddPeriodController: UIViewController {
         selectedSubjects = period?.subjects
         subjects = PTUser.shared.subjects
         if let isNewPeriod = isNewPeriod, isNewPeriod {
-            period = PTPeriod(id: nil, name: "Periodo nuevo", startDate: Date.now, endDate: Date.now, subjects: [], blocks: nil)
+            period = PTPeriod(id: nil, name: "", startDate: Date.now, endDate: Date.now, subjects: [], blocks: nil)
             selectedSubjects = []
             userIsEditing = true
             editPeriod.title = "Guardar"
@@ -62,6 +62,7 @@ class AddPeriodController: UIViewController {
                         NetworkingProvider.shared.createPeriod(period: period!) { periodId in
                             self.period!.id = periodId
                             PTUser.shared.periods?.append(self.period!)
+                            self.delegate?.updateList()
                             let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                             let indicatorView = SPIndicatorView(title: "Periodo añadido", preset: .custom(image))
                             indicatorView.present(duration: 3, haptic: .success, completion: nil)
@@ -69,28 +70,26 @@ class AddPeriodController: UIViewController {
                             
                         }
                         self.isNewPeriod = false
-                        delegate?.updateList()
-
+                        
                     } else {
-                        if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
-                            period!.id == userPeriod.id
-                        }) {
-                            PTUser.shared.periods?[index] = period!
-                        }
-                        PTUser.shared.savePTUser()
                         if let period = period {
-                            NetworkingProvider.shared.editPeriod(period: period) { msg in
-                                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
-                                let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
-                                indicatorView.present(duration: 3, haptic: .success, completion: nil)
-                            } failure: { msg in
-                               
+                            if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
+                                period.id == userPeriod.id
+                            }) {
+                                NetworkingProvider.shared.editPeriod(period: period) { msg in
+                                    PTUser.shared.periods?[index] = period
+                                    PTUser.shared.savePTUser()
+                                    self.delegate?.updateList()
+                                    let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                                    let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
+                                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                                } failure: { msg in
+                                    
+                                } 
                             }
-                            delegate?.updateList()
                         }
                     }
                 }
-                
             } else {
                 userIsEditing =  true
                 editPeriod.title = "Guardar"
@@ -186,7 +185,7 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                         cell.subjectColor.isEnabled = false
                         cell.subjectName.alpha = 1
                         cell.subjectColor.alpha = 1
-
+                        
                     }
                 } else {
                     cell.checkSubject.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -214,19 +213,19 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
 
 extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate {
     func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool) {
-            if let subjectIndex = periodTableView.indexPath(for: cell)?.row {
-                if selected {
-                    if let subject = subjects?[subjectIndex] {
-                        selectedSubjects?.append(subject)
-                    }
-                } else {
-                    if let subjectToRemove = subjects?[subjectIndex], let indexToRemove = selectedSubjects?.firstIndex(where: { subject in
-                        subject.id == subjectToRemove.id
-                    }) {
-                        selectedSubjects?.remove(at: indexToRemove)
-                    }
+        if let subjectIndex = periodTableView.indexPath(for: cell)?.row {
+            if selected {
+                if let subject = subjects?[subjectIndex] {
+                    selectedSubjects?.append(subject)
                 }
-                period!.subjects = selectedSubjects
+            } else {
+                if let subjectToRemove = subjects?[subjectIndex], let indexToRemove = selectedSubjects?.firstIndex(where: { subject in
+                    subject.id == subjectToRemove.id
+                }) {
+                    selectedSubjects?.remove(at: indexToRemove)
+                }
+            }
+            period!.subjects = selectedSubjects
         }
     }
     

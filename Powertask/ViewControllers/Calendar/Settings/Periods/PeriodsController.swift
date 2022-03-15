@@ -166,11 +166,11 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
             if sender == nil {
                 controller?.isNewPeriod = true
                 controller?.userIsEditing = true
+                controller?.delegate = self
             } else {
-                if let indexpath = periodsTableView.indexPathForSelectedRow {
                     controller?.isNewPeriod = false
                     controller?.period = sender as? PTPeriod
-                }
+                    controller?.delegate = self
             }
         }
     }
@@ -183,6 +183,7 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
 
 extension PeriodsController: UpdatePeriodList {
     func updateList(){
+        print(PTUser.shared.periods?.count)
         self.actualPeriod = self.getActualPeriods(periods: PTUser.shared.periods)
         self.previousPeriod = self.getPastPeriods(periods: PTUser.shared.periods)
         periodsTableView.reloadData()
