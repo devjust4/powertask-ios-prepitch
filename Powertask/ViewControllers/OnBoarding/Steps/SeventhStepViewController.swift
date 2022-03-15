@@ -42,11 +42,13 @@ class SeventhStepViewController: UIViewController {
     @objc func dataLoaded(_ notification: NSNotification) {
         dataLoaded = true
         if loadingView.isHidden == false {
-            if let pageController = self.parent as? OnBoardingViewController {
-                pageController.goNext()
+            if PTUser.shared.new! {
+                if let pageController = self.parent as? OnBoardingViewController {
+                    pageController.goNext()
+                }
+            } else {
+                performSegue(withIdentifier: "GoToMain", sender: nil)
             }
         }
     }
-    
-    
 }

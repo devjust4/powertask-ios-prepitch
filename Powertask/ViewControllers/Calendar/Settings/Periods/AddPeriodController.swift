@@ -29,7 +29,7 @@ class AddPeriodController: UIViewController {
         selectedSubjects = period?.subjects
         subjects = PTUser.shared.subjects
         if let isNewPeriod = isNewPeriod, isNewPeriod {
-            period = PTPeriod(id: nil, name: "", startDate: Date.now, endDate: Date.now, subjects: [], blocks: nil)
+            period = PTPeriod(id: nil, name: "Nombre del periodo", startDate: Date.now, endDate: Date.now, subjects: [], blocks: nil)
             selectedSubjects = []
             userIsEditing = true
             editPeriod.title = "Guardar"
@@ -49,17 +49,25 @@ class AddPeriodController: UIViewController {
     
     
     @IBAction func editPeriod(_ sender: Any) {
-        if let editing = userIsEditing {
-            if editing {
-                if let noSubjects = period?.subjects?.isEmpty, noSubjects {
+        if let editing = userIsEditing, editing {
+            if let period = period {
+                if let noSubjects = period.subjects?.isEmpty, noSubjects {
                     let image = UIImage.init(systemName: "xmark.circle")!.withTintColor(.red, renderingMode: .alwaysOriginal)
                     let indicatorView = SPIndicatorView(title: "Debes tener al menos una asignatura", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .error, completion: nil)
+                } else if period.name == "" {
+                    let image = UIImage.init(systemName: "rectangle.and.pencil.and.ellipsis")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Debes asignar un nombre al periodo", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .error, completion: nil)
+                } else if period.startDate.timeIntervalSince1970 >= period.endDate.timeIntervalSince1970 {
+                    let image = UIImage.init(systemName: "xmark.circle")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Comprueba las fechas", preset: .custom(image))
                     indicatorView.present(duration: 3, haptic: .error, completion: nil)
                 } else {
                     userIsEditing = false
                     editPeriod.title = "Editar"
                     if let isNewPeriod = isNewPeriod, isNewPeriod{
-                        NetworkingProvider.shared.createPeriod(period: period!) { periodId in
+                        NetworkingProvider.shared.createPeriod(period: period) { periodId in
                             self.period!.id = periodId
                             PTUser.shared.periods?.append(self.period!)
                             self.delegate?.updateList()
@@ -72,7 +80,6 @@ class AddPeriodController: UIViewController {
                         self.isNewPeriod = false
                         
                     } else {
-                        if let period = period {
                             if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
                                 period.id == userPeriod.id
                             }) {
@@ -87,7 +94,7 @@ class AddPeriodController: UIViewController {
                                     
                                 } 
                             }
-                        }
+ 
                     }
                 }
             } else {

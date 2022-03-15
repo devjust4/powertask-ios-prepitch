@@ -183,7 +183,6 @@ class PeriodsController: UIViewController, UITableViewDataSource, UITableViewDel
 
 extension PeriodsController: UpdatePeriodList {
     func updateList(){
-        print(PTUser.shared.periods?.count)
         self.actualPeriod = self.getActualPeriods(periods: PTUser.shared.periods)
         self.previousPeriod = self.getPastPeriods(periods: PTUser.shared.periods)
         periodsTableView.reloadData()
