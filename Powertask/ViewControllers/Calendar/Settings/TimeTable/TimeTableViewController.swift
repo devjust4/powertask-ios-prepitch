@@ -9,13 +9,14 @@ import UIKit
 import SPIndicator
 
 class TimeTableViewController: UIViewController {
-
+    
     @IBOutlet weak var timeTable: UITableView!
     @IBOutlet weak var subjectsCollection: UICollectionView!
-    var subjects: [PTSubject]?
-    var blocks:  [Int : [PTBlock]]?
-    var colors: [UIColor]?
     let weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+    var blocks:  [Int : [PTBlock]]?
+    var subjects: [PTSubject]?
+    var currentPeriod: PTPeriod?
+    var timeTableEdited: Bool?
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -23,36 +24,41 @@ class TimeTableViewController: UIViewController {
         subjectsCollection.dataSource = self
         timeTable.dataSource = self
         timeTable.delegate = self
+        timeTableEdited = false
         //subjects = MockUser.user.subjects
         //blocks = filterAllBlocks(blocks: MockUser.user.blocks)
-        var currentPeriod: PTPeriod?
         if let periods = PTUser.shared.periods {
             currentPeriod = periods.first(where: { period in
-                period.startDate > Date.now && period.endDate < Date.now
+                period.startDate.timeIntervalSince1970 < Date.now.timeIntervalSince1970 && period.endDate.timeIntervalSince1970 > Date.now.timeIntervalSince1970
             })
         }
-
-        NetworkingProvider.shared.listSubjects() { subjects in
-            PTUser.shared.subjects = subjects
-            let actualPeriods = self.getActualPeriods(periods: PTUser.shared.periods)
-            if let actualPeriods = self.getActualPeriods(periods: PTUser.shared.periods), !actualPeriods.isEmpty {
-                currentPeriod = actualPeriods[0]
-                self.blocks = self.filterAllBlocks(blocks: actualPeriods[0].blocks)
-                self.timeTable.reloadData()
-                self.subjectsCollection.reloadData()
-            } else {
-                let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
-                let indicatorView = SPIndicatorView(title: "No hay horario", preset: .custom(image))
-                indicatorView.present(duration: 3, haptic: .error, completion: nil)
-            }
-        } failure: { error in
-            print(error)
-        }
-        
-        
+        subjects = currentPeriod?.subjects
+        blocks = filterAllBlocks(blocks: currentPeriod?.blocks)
+        print("---El periodo es \(currentPeriod)")
+        print("---Los bloques son \(blocks)")
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
-        
+        if var period = currentPeriod, let blocks = blocks, timeTableEdited! {
+            let mapBlocks = blocks.values.map({$0})
+            period.blocks = mapBlocks.flatMap {$0}
+            let index = PTUser.shared.periods?.firstIndex(where: { period in
+                period.id == currentPeriod!.id
+            })
+            if let index = index {
+                PTUser.shared.periods?[index] = period
+                PTUser.shared.savePTUser()
+                NetworkingProvider.shared.editPeriod(period: period) { msg in
+                    let image = UIImage.init(systemName: "calendar.badge.plus")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Horario guardado", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                } failure: { msg in
+                    let image = UIImage.init(systemName: "calendar.badge.exclamationmark")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Error del servidor", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                }
+            }
+        }
     }
     
     func getActualPeriods(periods: [PTPeriod]?) -> [PTPeriod]? {
@@ -68,13 +74,13 @@ class TimeTableViewController: UIViewController {
     
     func filterAllBlocks(blocks: [PTBlock]?) -> [Int : [PTBlock]]? {
         if let blocks = blocks {
-            let monday = filterBlockByDay(blocks: blocks, weekDay: 1)
-            let thuesday = filterBlockByDay(blocks: blocks, weekDay: 2)
-            let wednesday = filterBlockByDay(blocks: blocks, weekDay: 3)
-            let tursday = filterBlockByDay(blocks: blocks, weekDay: 4)
-            let friday = filterBlockByDay(blocks: blocks, weekDay: 5)
-            let saturday = filterBlockByDay(blocks: blocks, weekDay: 6)
-            let sunday = filterBlockByDay(blocks: blocks, weekDay: 7)
+            let monday = filterBlockByDay(blocks: blocks, weekDay: 0)
+            let thuesday = filterBlockByDay(blocks: blocks, weekDay: 1)
+            let wednesday = filterBlockByDay(blocks: blocks, weekDay: 2)
+            let tursday = filterBlockByDay(blocks: blocks, weekDay: 3)
+            let friday = filterBlockByDay(blocks: blocks, weekDay: 4)
+            let saturday = filterBlockByDay(blocks: blocks, weekDay: 5)
+            let sunday = filterBlockByDay(blocks: blocks, weekDay: 6)
             return [0 : monday, 1 : thuesday, 2 : wednesday, 3 : tursday, 4 : friday, 5 : saturday, 6 : sunday]
         } else {
             return [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
@@ -85,7 +91,7 @@ class TimeTableViewController: UIViewController {
 extension TimeTableViewController: UICollectionViewDragDelegate {
     // Codifica el elemento seleccionado para poder ser arrastrado
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        guard let subjects = PTUser.shared.subjects else {
+        guard let subjects = subjects else {
             // TODO: Esto no es muy elegante. Pensar soluciones
             return [UIDragItem(itemProvider: NSItemProvider())]
         }
@@ -99,8 +105,8 @@ extension TimeTableViewController: UICollectionViewDragDelegate {
 extension TimeTableViewController: UICollectionViewDataSource {
     // Cuenta el número de asignaturas y se lo pasa a la colección
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let subjects = PTUser.shared.subjects {
-             return subjects.count
+        if let subjects = subjects {
+            return subjects.count
         } else {
             return 0
         }
@@ -108,9 +114,10 @@ extension TimeTableViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // carga cada una de las celdas con la info necesaria
-        if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
+        if let subjects = subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
-            cell.subjectBackground.backgroundColor = UIColor(subjects[indexPath.row].color)
+            cell.subjectBackground.layer.borderColor = UIColor(subjects[indexPath.row].color).cgColor
+            cell.subjectBackground.layer.borderWidth = 3
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
         } else {
@@ -129,8 +136,8 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // TODO: QUE ES ESTO?
-        if let count = blocks?[section]?.count {
+        // TODO: QUE ES ESTO?
+        if let blocks = blocks, let count = blocks[section]?.count {
             return count + 1
             //+ 1
             
@@ -160,8 +167,9 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
 extension TimeTableViewController: TimeTableDelegate {
     func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
-                blocks![indexPath.section]![indexPath.row].subject = newSubject
+            blocks![indexPath.section]![indexPath.row].subject = newSubject
         }
+        timeTableEdited = true
     }
     
     func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?) {
@@ -172,9 +180,9 @@ extension TimeTableViewController: TimeTableDelegate {
             }
             if let endDate = endDate {
                 blocks![indexPath.section]![indexPath.row].timeEnd = endDate
-                print(endDate)
             }
         }
+        timeTableEdited = true
     }
     
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
@@ -183,16 +191,18 @@ extension TimeTableViewController: TimeTableDelegate {
             timeTable.beginUpdates()
             timeTable.insertRows(at: [IndexPath(row: indexPath.row + 1, section: indexPath.section)], with: .automatic)
             timeTable.endUpdates()
+            timeTableEdited = true
         }
     }
     
     func deleteBlock(_ cell: TimeTableTableViewCell) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section]?[indexPath.row] {
-           // blocks![indexPath.section]![indexPath.row].subject = nil
+            // blocks![indexPath.section]![indexPath.row].subject = nil
             blocks![indexPath.section]!.remove(at: indexPath.row)
             timeTable.beginUpdates()
             timeTable.deleteRows(at: [indexPath], with: .automatic)
             timeTable.endUpdates()
+            timeTableEdited = true
         }
     }
     

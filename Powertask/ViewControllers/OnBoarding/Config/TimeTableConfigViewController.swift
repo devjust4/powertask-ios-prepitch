@@ -13,9 +13,7 @@ class TimeTableConfigViewController: UIViewController {
     @IBOutlet weak var subjectsCollection: UICollectionView!
     let weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     var blocks:  [Int : [PTBlock]]?
-    var colors: [UIColor]?
     var subjects: [PTSubject]?
-    var sendableBlocks: [PTBlock]?
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -29,8 +27,11 @@ class TimeTableConfigViewController: UIViewController {
     @IBAction func endConfig(_ sender: Any) {
         if var period = PTUser.shared.periods?[0], let blocks = blocks {
             // FIXME: CHAPUZA COJONUDA. ARREGLAR!!
+            // TODO: Desactivar botón mientras se guarda el periodo, o realizar la acción en segundo plano
             let mapBlocks = blocks.values.map({$0})
             period.blocks = mapBlocks.flatMap {$0}
+            PTUser.shared.periods?[0] = period
+            PTUser.shared.savePTUser()
             if let blocks = period.blocks, !blocks.isEmpty {
                 NetworkingProvider.shared.editPeriod(period: period) { msg in
                     let image = UIImage.init(systemName: "calendar.badge.plus")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
@@ -85,7 +86,6 @@ extension TimeTableConfigViewController: UICollectionViewDataSource {
         if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
             cell.subjectBackground.layer.borderColor = UIColor(subjects[indexPath.row].color).cgColor
-            //cell.subjectBackground.backgroundColor = UIColor(subjects[indexPath.row].color)
             cell.subjectBackground.layer.borderWidth = 3
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
