@@ -74,7 +74,6 @@ class TimeTableTableViewCell: UITableViewCell {
     
     //TODO: esto hace falta? es funcional?
     override func prepareForReuse() {
-        print("preparando para uso")
         cellSubject = nil
         if let subject = cellSubject {
             //self.subjectDropZone.backgroundColor = UIColor(subject.color)

@@ -51,46 +51,52 @@ class AddPeriodController: UIViewController {
     @IBAction func editPeriod(_ sender: Any) {
         if let editing = userIsEditing {
             if editing {
-                userIsEditing = false
-                editPeriod.title = "Editar"
-                periodTableView.reloadData()
-                if let isNewPeriod = isNewPeriod, isNewPeriod{
-                    NetworkingProvider.shared.createPeriod(period: period!) { periodId in
-                        self.period!.id = periodId
-                        PTUser.shared.periods?.append(self.period!)
-                        let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
-                        let indicatorView = SPIndicatorView(title: "Periodo añadido", preset: .custom(image))
-                        indicatorView.present(duration: 3, haptic: .success, completion: nil)
-                    } failure: { msg in
-                        
-                    }
-                    self.isNewPeriod = false
-                    delegate?.updateList()
-
+                if let noSubjects = period?.subjects?.isEmpty, noSubjects {
+                    let image = UIImage.init(systemName: "xmark.circle")!.withTintColor(.red, renderingMode: .alwaysOriginal)
+                    let indicatorView = SPIndicatorView(title: "Debes tener al menos una asignatura", preset: .custom(image))
+                    indicatorView.present(duration: 3, haptic: .error, completion: nil)
                 } else {
-                    if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
-                        period!.id == userPeriod.id
-                    }) {
-                        PTUser.shared.periods?[index] = period!
-                    }
-                    PTUser.shared.savePTUser()
-                    if let period = period {
-                        NetworkingProvider.shared.editPeriod(period: period) { msg in
+                    userIsEditing = false
+                    editPeriod.title = "Editar"
+                    if let isNewPeriod = isNewPeriod, isNewPeriod{
+                        NetworkingProvider.shared.createPeriod(period: period!) { periodId in
+                            self.period!.id = periodId
+                            PTUser.shared.periods?.append(self.period!)
                             let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
-                            let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
+                            let indicatorView = SPIndicatorView(title: "Periodo añadido", preset: .custom(image))
                             indicatorView.present(duration: 3, haptic: .success, completion: nil)
                         } failure: { msg in
-                           
+                            
                         }
+                        self.isNewPeriod = false
                         delegate?.updateList()
+
+                    } else {
+                        if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
+                            period!.id == userPeriod.id
+                        }) {
+                            PTUser.shared.periods?[index] = period!
+                        }
+                        PTUser.shared.savePTUser()
+                        if let period = period {
+                            NetworkingProvider.shared.editPeriod(period: period) { msg in
+                                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                                let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
+                                indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                            } failure: { msg in
+                               
+                            }
+                            delegate?.updateList()
+                        }
                     }
                 }
+                
             } else {
                 userIsEditing =  true
                 editPeriod.title = "Guardar"
-                periodTableView.reloadData()
             }
         }
+        periodTableView.reloadData()
     }
 }
 
@@ -173,9 +179,14 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                     if userIsEditing! {
                         cell.subjectName.isEnabled = true
                         cell.subjectColor.isEnabled = true
+                        cell.subjectName.alpha = 1
+                        cell.subjectColor.alpha = 1
                     } else {
                         cell.subjectName.isEnabled = false
                         cell.subjectColor.isEnabled = false
+                        cell.subjectName.alpha = 1
+                        cell.subjectColor.alpha = 1
+
                     }
                 } else {
                     cell.checkSubject.setImage(UIImage(systemName: "xmark"), for: .normal)
