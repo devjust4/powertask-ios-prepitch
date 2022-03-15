@@ -14,30 +14,29 @@ class SeventhStepViewController: UIViewController {
         super.viewDidLoad()
         let dataLoadedNotification = Notification.Name("DataDonwload")
         NotificationCenter.default.addObserver(self, selector: #selector(dataLoaded(_:)), name: dataLoadedNotification, object: nil)
+        
+        let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        leftSwipe.direction = .left
+        view.addGestureRecognizer(leftSwipe)
+
     }
     
-    @IBAction func beginTheApp(_ sender: Any) {
-        
-        // Si están los datos:
-        // Si es new ve a next
-        // No es new ve a main
-        // Si no están los datos
-        // mostrar pantalla de carga
-        
-        
-        
-        if PTUser.shared.subjects != nil {
-            if let new = PTUser.shared.new, new {
-                if let pageController = self.parent as? OnBoardingViewController {
-                    pageController.goNext()
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer)
+    {
+        if sender.direction == .left
+        {
+            if PTUser.shared.subjects != nil {
+                if let new = PTUser.shared.new, new {
+                    if let pageController = self.parent as? OnBoardingViewController {
+                        pageController.goNext()
+                    }
+                } else {
+                    performSegue(withIdentifier: "GoToMain", sender: nil)
                 }
             } else {
-                performSegue(withIdentifier: "GoToMain", sender: nil)
+                loadingView.isHidden = false
             }
-        } else {
-            loadingView.isHidden = false
         }
-        
     }
     
     @objc func dataLoaded(_ notification: NSNotification) {
