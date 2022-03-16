@@ -112,7 +112,7 @@ extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataS
             let cell = tableView.dequeueReusableCell(withIdentifier: "subjectCell", for: indexPath) as! SubjectTableViewCell
             if let subject = PTUser.shared.subjects?[indexPath.row] {
                 cell.subjectName.text = subject.name
-                cell.subjectColor.backgroundColor = UIColor(subject.color)
+                cell.subjectColor.backgroundColor = UIColor(hexString: subject.color)
                 cell.checkSubject.alpha = 1
                 cell.subjectName.isEnabled = true
                 cell.subjectColorDelegate = self

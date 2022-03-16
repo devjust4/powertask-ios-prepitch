@@ -66,8 +66,6 @@ class AddPeriodController: UIViewController {
                 } else {
                     userIsEditing = false
                     editPeriod.title = "Editar"
-                    print("--- period time \(period.startDate.timeIntervalSince1970)")
-                    print("--- period date \(period.startDate)")
                     if let isNewPeriod = isNewPeriod, isNewPeriod{
                         NetworkingProvider.shared.createPeriod(period: period) { periodId in
                             self.period!.id = periodId
@@ -179,7 +177,7 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
             
             if let subjectForCell = subjects?[indexPath.row] {
                 cell.subjectName.text = subjectForCell.name
-                cell.subjectColor.backgroundColor = UIColor(subjectForCell.color)
+                cell.subjectColor.backgroundColor = UIColor(hexString: subjectForCell.color)
                 if let bool = period?.subjects?.contains(where: { subject in
                     return subject.id == subjectForCell.id
                 }), bool {
@@ -258,6 +256,7 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
         colorViewController.delegate = cell
+        colorViewController.supportsAlpha = false
         self.present(colorViewController, animated: true, completion: nil)
     }
 }
@@ -299,8 +298,8 @@ extension AddPeriodController: PeriodNameTextFieldProtocol, PeriodDatePickerProt
     func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
         if let text = editingText {
             period?.name = text
-            
         }
     }
 }
+
 

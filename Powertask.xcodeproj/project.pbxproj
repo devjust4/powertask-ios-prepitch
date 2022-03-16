@@ -50,6 +50,7 @@
 		797849232791866000EB8C4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 797849222791866000EB8C4C /* Assets.xcassets */; };
 		797849262791866000EB8C4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797849242791866000EB8C4C /* LaunchScreen.storyboard */; };
 		79865F1127D61262004FB0B4 /* DataLoadinProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */; };
+		798B064427E12E94004F1254 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = 798B064327E12E94004F1254 /* SwiftHEXColors */; };
 		79BD0D8027D0A39A00849B4B /* OldCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */; };
 		79BD0D8527D2859F00849B4B /* SessionTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D8327D2859F00849B4B /* SessionTimeCollectionViewCell.swift */; };
 		79BD0D8627D2859F00849B4B /* SessionTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79BD0D8427D2859F00849B4B /* SessionTimeCollectionViewCell.xib */; };
@@ -184,6 +185,7 @@
 			files = (
 				79FB7F8727CE25200052D818 /* Alamofire in Frameworks */,
 				7908766E27BFA8B300E9D0A4 /* Alamofire in Frameworks */,
+				798B064427E12E94004F1254 /* SwiftHEXColors in Frameworks */,
 				79168CF027BA8E9700BBA389 /* FSCalendar in Frameworks */,
 				792EA9CF27DF4BEB009D9063 /* DynamicColor in Frameworks */,
 				79581B4D27C9699E002837DA /* UIColorHexSwift in Frameworks */,
@@ -497,6 +499,7 @@
 				79FB7F8627CE25200052D818 /* Alamofire */,
 				79C6471D27D36F2E000CB0E9 /* SPIndicator */,
 				792EA9CE27DF4BEB009D9063 /* DynamicColor */,
+				798B064327E12E94004F1254 /* SwiftHEXColors */,
 			);
 			productName = Powertask;
 			productReference = 797849132791865F00EB8C4C /* Powertask.app */;
@@ -534,6 +537,7 @@
 				79FB7F8527CE25200052D818 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				79C6471C27D36F2E000CB0E9 /* XCRemoteSwiftPackageReference "SPIndicator" */,
 				792EA9CD27DF4BEB009D9063 /* XCRemoteSwiftPackageReference "DynamicColor" */,
+				798B064227E12E94004F1254 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */,
 			);
 			productRefGroup = 797849142791865F00EB8C4C /* Products */;
 			projectDirPath = "";
@@ -898,6 +902,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		798B064227E12E94004F1254 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/thii/SwiftHEXColors.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		79C6471C27D36F2E000CB0E9 /* XCRemoteSwiftPackageReference "SPIndicator" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ivanvorobei/SPIndicator.git";
@@ -941,6 +953,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 79581B4B27C9699E002837DA /* XCRemoteSwiftPackageReference "UIColor-Hex-Swift" */;
 			productName = UIColorHexSwift;
+		};
+		798B064327E12E94004F1254 /* SwiftHEXColors */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 798B064227E12E94004F1254 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */;
+			productName = SwiftHEXColors;
 		};
 		79C6471D27D36F2E000CB0E9 /* SPIndicator */ = {
 			isa = XCSwiftPackageProductDependency;

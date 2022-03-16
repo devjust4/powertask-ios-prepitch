@@ -65,7 +65,9 @@ class SubjectTableViewCell: UITableViewCell {
 extension SubjectTableViewCell: UIColorPickerViewControllerDelegate {
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
         subjectColor.backgroundColor = color
-        subjectColorDelegate?.colorPicked(self, color: viewController.description[30..<41])
+        print(viewController.description)
+        print(viewController.description[30..<40])
+        subjectColorDelegate?.colorPicked(self, color: color.toHexString())
     }
 }
 

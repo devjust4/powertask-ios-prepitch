@@ -223,7 +223,7 @@ extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
         }
         for exam in examnEvents {
             if let color = exam.subject?.color {
-                colors.append(UIColor(color))
+                colors.append(UIColor(hexString: color))
             }
         }
         for _ in personalEvents {
@@ -303,7 +303,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "eventRow") as? EventTableViewCell
                 cell?.selectedBackgroundView = backgroundView
                 cell?.eventTitle.text = event.name
-                cell?.eventColor.backgroundColor = UIColor(event.subject?.color ?? "#00000")
+                cell?.eventColor.backgroundColor = UIColor(hexString: event.subject?.color ?? "#ffffff")
                 cell?.eventInfo.text = getCellInfo(allDay: event.allDay, startDate:  event.startDate, endDate: event.endDate)
                 return cell!
             }

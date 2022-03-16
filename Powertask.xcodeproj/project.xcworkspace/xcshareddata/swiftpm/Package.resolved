@@ -73,6 +73,15 @@
       }
     },
     {
+      "identity" : "swifthexcolors",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thii/SwiftHEXColors.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "02cc013d32bc3d4eba45ece5a84256a6e70a6e41"
+      }
+    },
+    {
       "identity" : "uicolor-hex-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeahdongcn/UIColor-Hex-Swift",

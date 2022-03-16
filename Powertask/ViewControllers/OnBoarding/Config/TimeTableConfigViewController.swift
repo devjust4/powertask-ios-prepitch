@@ -88,7 +88,7 @@ extension TimeTableConfigViewController: UICollectionViewDataSource {
         // carga cada una de las celdas con la info necesaria
         if let subjects = PTUser.shared.subjects, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subjectCollectionCell", for: indexPath) as? SubjectCollectionViewCell {
             cell.subjectName.text = subjects[indexPath.row].name
-            cell.subjectBackground.layer.borderColor = UIColor(subjects[indexPath.row].color).cgColor
+            cell.subjectBackground.layer.borderColor = UIColor(hexString: subjects[indexPath.row].color).cgColor
             cell.subjectBackground.layer.borderWidth = 3
             cell.subjectBackground.layer.cornerRadius = 17
             return cell
