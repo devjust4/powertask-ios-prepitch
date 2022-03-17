@@ -43,15 +43,8 @@ class CalendarsViewController: UIViewController {
         } failure: { msg in
             print(msg)
         }
-        
-        
-        
-        
-        // TODO: Convertir titulo a boton para volver a la pagina de la fecha actual
-        
-        
-        
-        // TODO: Pasar esto a una función
+
+        // Preparando el menú en el que se selecciona que tipo de evento se desea crear
         let eventMenu = UIAction(title: "Examen", image: UIImage(systemName: "doc.plaintext")) { (action) in
             self.instantiateNewEventController(eventType: EventType.exam, isNewEvent: true, event: nil)
         }
@@ -79,9 +72,14 @@ class CalendarsViewController: UIViewController {
         } failure: { msg in
             print(msg)
         }
-        
     }
     
+    // MARK: - Supporting Fuctions
+    /// Está función instancia el controlador de crear/editar evento
+    ///
+    /// - Parameter eventType: El tipo de evento que se quiere crear según el enum EventType.
+    /// - Parameter isNewEvent: Booleano que controla si es un evento nuevo o no.
+    /// - Parameter event: El evento que se desea obtener.
     func instantiateNewEventController(eventType: EventType, isNewEvent: Bool, event: PTEvent?) {
         if let viewController = storyboard?.instantiateViewController(withIdentifier: "newEventView") as? NewEventViewController {
             viewController.delegate = self
@@ -91,16 +89,17 @@ class CalendarsViewController: UIViewController {
                 viewController.event = event
             }
             viewController.selectedDate = calendarView.selectedDate
-            print(viewController.selectedDate)
             self.present(viewController, animated: true, completion: nil)
         }
     }
+    
+    /// Filtra los eventos pasados como un diccionario según la fecha dada y devuelve el array de eventos de dicho día
+    ///
+    /// - Parameter date: El día para el que se quiere obtener los eventos.
+    /// - Parameter events: El diccionario de eventos que se desea filtrar.
+    /// - Returns: Array de eventos.
     func getEventForDate(date: Date, events: [String : PTEvent]) -> [PTEvent]{
-        //        let selectedEvents = events.filter { event in
-        //            return DateInterval(start: event.value.startDate, end: event.value.endDate).contains(date)
-        //let selectedDate = date.formatToString(using: .justDay)
         let mapEvents = events.values.map({$0})
-        
         let start = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: date)!
         let end = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date)!
         let dateToCheckInterval = DateInterval(start: start, end: end)
@@ -122,6 +121,12 @@ class CalendarsViewController: UIViewController {
         return sortedEvents
     }
     
+    /// Crea el texto que se mostrará en el evento.
+    ///
+    /// - Parameter allDay: Booleano que controla si el evento discurre durante todo el día.
+    /// - Parameter startDate: Fecha en la que el evento inicia.
+    /// - Parameter endDate: Fecha en la que el evento termina.
+    /// - Returns: String con el texto a mostrar.
     func getCellInfo(allDay: Int, startDate: Date, endDate: Date) -> String{
         let dayFormatter = DateFormatter()
         dayFormatter.dateFormat = "dd/MM/YY"
@@ -141,6 +146,8 @@ class CalendarsViewController: UIViewController {
         }
     }
     
+    /// Añade los gestos necesarios para controlar el tipo de calendario a mostrar entre mes/semana.
+    ///
     func swipeAction() {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
         swipeUp.direction = .up
@@ -162,7 +169,7 @@ class CalendarsViewController: UIViewController {
     }
 }
 
-// MARK:- Calendar Delegate and DataSource
+// MARK: - Funciones relativas al calendario
 extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         print(date)
@@ -230,7 +237,7 @@ extension CalendarsViewController: FSCalendarDelegate, FSCalendarDataSource, FSC
     }
 }
 
-// MARK:- TableView Delegate and DataSource
+// MARK: - Funciones relativas a la tabla que muestra los eventos
 extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let events = selectedDateEvents else { return 1 }
@@ -243,7 +250,6 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let backgroundView = UIView()
-        // FIXME: Refactorizar esto
         backgroundView.backgroundColor = UIColor(named: "AccentColor")
         if let _ = selectedDateEvents, selectedDateEvents!.isEmpty {
             let cell = tableView.dequeueReusableCell(withIdentifier: "noEventsCell") as! NoEventsTableViewCell
@@ -307,7 +313,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            if let event = self.selectedDateEvents?[indexPath.row], let superEvent = PTUser.shared.events?["\(event.id!)"]{
+            if let event = self.selectedDateEvents?[indexPath.row], let _ = PTUser.shared.events?["\(event.id!)"]{
                 PTUser.shared.events?.removeValue(forKey: "\(event.id!)")
                 self.selectedDateEvents = self.getEventForDate(date: self.calendarView.selectedDate!, events: PTUser.shared.events!)
                 self.calendarView.reloadData()
@@ -323,7 +329,6 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
                 } failure: { msg in
                     print("errror eliminando")
                 }
-                
             } else {
                 print("no hay evento coincidente")
             }
@@ -331,6 +336,7 @@ extension CalendarsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - Funciones de la celda
 extension CalendarsViewController: NewEventProtocol {
     func SaveNewEvent(event: PTEvent, isNewEvent: Bool) {
         if isNewEvent {
@@ -350,8 +356,6 @@ extension CalendarsViewController: NewEventProtocol {
             }
         } else {
             NetworkingProvider.shared.editEvent(event: event) { msg in
-                // TODO: Revisar porque no se está recargando bien la lista
-                // TODO: Idear un método para que se actualicen siempre los dias
                 // FIXME: Que pasa cuando el evento no se ha creado en la base datos y no tiene id?
                 PTUser.shared.events!["\(event.id!)"] = event
                 self.selectedDateEvents = self.getEventForDate(date: self.calendarView.selectedDate!, events: PTUser.shared.events!)
