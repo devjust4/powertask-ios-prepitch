@@ -15,6 +15,7 @@ class TimeTableConfigViewController: UIViewController {
     let weekDays = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"]
     var blocks:  [Int : [PTBlock]]?
     var subjects: [PTSubject]?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -27,8 +28,7 @@ class TimeTableConfigViewController: UIViewController {
     
     @IBAction func endConfig(_ sender: Any) {
         if var period = PTUser.shared.periods?[0], let blocks = blocks {
-            // FIXME: CHAPUZA COJONUDA. ARREGLAR!!
-            // TODO: Desactivar botón mientras se guarda el periodo, o realizar la acción en segundo plano
+
             finishButton.isEnabled = false
             let mapBlocks = blocks.values.map({$0})
             period.blocks = mapBlocks.flatMap {$0}
@@ -53,6 +53,12 @@ class TimeTableConfigViewController: UIViewController {
             }
         }
     }
+    // MARK: - Supporting functions
+    /// Devuelve un array de bloques según el `weekay` pasado.
+    ///
+    /// - Parameter blocks: Array de bloques.
+    /// - Parameter weekday: Día de la semana del que se quieren obtener los bloques [0-6].
+    /// - Returns: Array de bloques.
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
             block.day == weekDay
@@ -60,11 +66,11 @@ class TimeTableConfigViewController: UIViewController {
     }
 }
 
+// MARK: - Funciones para draguear las asignaturas
 extension TimeTableConfigViewController: UICollectionViewDragDelegate {
     // Codifica el elemento seleccionado para poder ser arrastrado
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         guard let subjects = PTUser.shared.subjects else {
-            // TODO: Esto no es muy elegante. Pensar soluciones
             return [UIDragItem(itemProvider: NSItemProvider())]
         }
         let item = subjects[indexPath.row]
@@ -74,6 +80,7 @@ extension TimeTableConfigViewController: UICollectionViewDragDelegate {
     }
 }
 
+// MARK: - Funciones de la colección de asignaturas
 extension TimeTableConfigViewController: UICollectionViewDataSource {
     // Cuenta el número de asignaturas y se lo pasa a la colección
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -98,6 +105,8 @@ extension TimeTableConfigViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - Funciones de la tabla de bloques
+
 extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return weekDays.count
@@ -108,8 +117,8 @@ extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // TODO: QUE ES ESTO?
         if let blocks = blocks, let count = blocks[section]?.count {
+            // Se suma uno para dejar uno vacío para añadir nuevos bloques
             return count + 1
         } else {
             return 1
@@ -134,25 +143,9 @@ extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDeleg
     }
 }
 
+// MARK: - Funciones relativas a los protocolos de la celda
+
 extension TimeTableConfigViewController: TimeTableDelegate {
-    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
-        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
-                blocks![indexPath.section]![indexPath.row].subject = newSubject
-        }
-    }
-    
-    func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?) {
-        //TODO: OJO! Revisar que el bloque existe
-        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
-            if let startDate = startDate {
-                blocks![indexPath.section]![indexPath.row].timeStart = startDate
-            }
-            if let endDate = endDate {
-                blocks![indexPath.section]![indexPath.row].timeEnd = endDate
-            }
-        }
-    }
-    
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let subject = newSubject {
             blocks![indexPath.section]?.append(PTBlock(timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
@@ -172,5 +165,20 @@ extension TimeTableConfigViewController: TimeTableDelegate {
         }
     }
     
+    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
+        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
+                blocks![indexPath.section]![indexPath.row].subject = newSubject
+        }
+    }
     
+    func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?) {
+        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
+            if let startDate = startDate {
+                blocks![indexPath.section]![indexPath.row].timeStart = startDate
+            }
+            if let endDate = endDate {
+                blocks![indexPath.section]![indexPath.row].timeEnd = endDate
+            }
+        }
+    }
 }

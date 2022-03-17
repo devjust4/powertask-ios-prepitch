@@ -439,54 +439,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "40817477-CE3D-42EF-AE3B-7C5B7C4D4913"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Powertask/ViewControllers/OnBoarding/Config/TimeTableConfigViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "addNewBlock(_:newSubject:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4F75D0FD-FFFB-423F-86AE-61032CE9B312"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Powertask/ViewControllers/OnBoarding/Config/TimeTableConfigViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "changeBlockDate(_:startDate:endDate:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1CE9D04E-A5F5-4DCD-A3BC-0D5594126A3E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Powertask/ViewControllers/OnBoarding/Config/TimeTableConfigViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "deleteBlock(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "CC1AD3D4-8446-412D-B721-6D85424F2300"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -862,10 +814,10 @@
             filePath = "Powertask/ViewControllers/OnBoarding/Config/TimeTableConfigViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "collectionView(_:itemsForBeginning:at:)"
-            landmarkType = "7">
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "TimeTableConfigViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -878,8 +830,8 @@
             filePath = "Powertask/ViewControllers/OnBoarding/Config/TimeTableConfigViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
             <Locations>
