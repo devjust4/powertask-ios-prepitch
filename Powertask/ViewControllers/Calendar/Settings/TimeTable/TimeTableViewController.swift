@@ -17,6 +17,7 @@ class TimeTableViewController: UIViewController {
     var subjects: [PTSubject]?
     var currentPeriod: PTPeriod?
     var timeTableEdited: Bool?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         subjectsCollection.dragDelegate = self
@@ -25,8 +26,7 @@ class TimeTableViewController: UIViewController {
         timeTable.dataSource = self
         timeTable.delegate = self
         timeTableEdited = false
-        //subjects = MockUser.user.subjects
-        //blocks = filterAllBlocks(blocks: MockUser.user.blocks)
+
         if let periods = PTUser.shared.periods {
             currentPeriod = periods.first(where: { period in
                 period.startDate.timeIntervalSince1970 < Date.now.timeIntervalSince1970 && period.endDate.timeIntervalSince1970 > Date.now.timeIntervalSince1970
@@ -34,11 +34,10 @@ class TimeTableViewController: UIViewController {
         }
         subjects = currentPeriod?.subjects
         blocks = filterAllBlocks(blocks: currentPeriod?.blocks)
-        print("---El periodo es \(currentPeriod)")
-        print("---Los bloques son \(blocks)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        // Recoge el diccionario de bloques, lo aplana como array y lo envía al servidor
         if var period = currentPeriod, let blocks = blocks, timeTableEdited! {
             let mapBlocks = blocks.values.map({$0})
             period.blocks = mapBlocks.flatMap {$0}
@@ -61,17 +60,22 @@ class TimeTableViewController: UIViewController {
         }
     }
     
-    func getActualPeriods(periods: [PTPeriod]?) -> [PTPeriod]? {
-        guard let periods = periods else { return nil }
-        return periods.filter({ period in DateInterval(start: period.startDate, end: period.endDate).contains(Date.now) })
-    }
-    
+    // MARK: - Supporting functions
+    /// Devuelve un array de bloques según el `weekay` pasado.
+    ///
+    /// - Parameter blocks: Array de bloques.
+    /// - Parameter weekday: Día de la semana del que se quieren obtener los bloques [0-6].
+    /// - Returns: Array de bloques.
     func filterBlockByDay(blocks: [PTBlock] ,weekDay: Int) -> [PTBlock]{
         return blocks.filter { block in
             block.day == weekDay
         }
     }
     
+    /// Prepara los bloques pasados ordenandolos por día de la semana.
+    ///
+    /// - Parameter blocks: Array de bloques opcional.
+    /// - Returns: Diccionario de arrays de bloques cuya clabe coincide con el día de la semana.
     func filterAllBlocks(blocks: [PTBlock]?) -> [Int : [PTBlock]]? {
         if let blocks = blocks {
             let monday = filterBlockByDay(blocks: blocks, weekDay: 0)
@@ -88,11 +92,10 @@ class TimeTableViewController: UIViewController {
     }
 }
 
+// MARK: - Funciones para draguear las asignaturas
 extension TimeTableViewController: UICollectionViewDragDelegate {
-    // Codifica el elemento seleccionado para poder ser arrastrado
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         guard let subjects = subjects else {
-            // TODO: Esto no es muy elegante. Pensar soluciones
             return [UIDragItem(itemProvider: NSItemProvider())]
         }
         let item = subjects[indexPath.row]
@@ -102,6 +105,7 @@ extension TimeTableViewController: UICollectionViewDragDelegate {
     }
 }
 
+// MARK: - Funciones de la colección de asignaturas
 extension TimeTableViewController: UICollectionViewDataSource {
     // Cuenta el número de asignaturas y se lo pasa a la colección
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -126,6 +130,7 @@ extension TimeTableViewController: UICollectionViewDataSource {
     }
 }
 
+// MARK: - Funciones de la tabla de bloques
 extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return weekDays.count
@@ -136,11 +141,9 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: QUE ES ESTO?
         if let blocks = blocks, let count = blocks[section]?.count {
+            // Se suma uno para dejar uno vacío para añadir nuevos bloques
             return count + 1
-            //+ 1
-            
         } else {
             return 1
         }
@@ -164,27 +167,8 @@ extension TimeTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Funciones relativas a los protocolos de la celda
 extension TimeTableViewController: TimeTableDelegate {
-    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
-        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
-            blocks![indexPath.section]![indexPath.row].subject = newSubject
-        }
-        timeTableEdited = true
-    }
-    
-    func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?) {
-        //TODO: OJO! Revisar que el bloque existe
-        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
-            if let startDate = startDate {
-                blocks![indexPath.section]![indexPath.row].timeStart = startDate
-            }
-            if let endDate = endDate {
-                blocks![indexPath.section]![indexPath.row].timeEnd = endDate
-            }
-        }
-        timeTableEdited = true
-    }
-    
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section], let subject = newSubject {
             blocks?[indexPath.section]?.append(PTBlock(timeStart: Date.now, timeEnd: Date.now, day: indexPath.section, subject: subject))
@@ -206,5 +190,22 @@ extension TimeTableViewController: TimeTableDelegate {
         }
     }
     
+    func changeSubject(_ cell: TimeTableTableViewCell, newSubject: PTSubject) {
+        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
+            blocks![indexPath.section]![indexPath.row].subject = newSubject
+        }
+        timeTableEdited = true
+    }
     
+    func changeBlockDate(_ cell: TimeTableTableViewCell, startDate: Date?, endDate: Date?) {
+        if let indexPath = timeTable.indexPath(for: cell), let _ = blocks?[indexPath.section] {
+            if let startDate = startDate {
+                blocks![indexPath.section]![indexPath.row].timeStart = startDate
+            }
+            if let endDate = endDate {
+                blocks![indexPath.section]![indexPath.row].timeEnd = endDate
+            }
+        }
+        timeTableEdited = true
+    }
 }
