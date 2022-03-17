@@ -151,9 +151,10 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         if let allDay = allDay, allDay {
                             cell.datePicker.datePickerMode = .date
                         }
-                        cell.datePicker.minimumDate = Date.now
                         if let startDate = eventStartDate {
                             cell.datePicker.date = startDate
+                        } else if let selectedDate = selectedDate {
+                            cell.datePicker.date = selectedDate
                         }
                         cell.label.text = "Empieza"
                         cell.delegate = self
@@ -167,7 +168,6 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         if let allDay = allDay, allDay {
                             cell.datePicker.datePickerMode = .date
                         }
-                        cell.datePicker.minimumDate = Date.now
                         if let startDate = eventStartDate {
                             cell.datePicker.date = startDate
                         } else if let selectedDate = selectedDate {
@@ -183,7 +183,6 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                         if let allDay = allDay, allDay {
                             cell.datePicker.datePickerMode = .date
                         }
-                        cell.datePicker.minimumDate = Date.now
                         if let endDate = eventEndDate {
                             cell.datePicker.date = endDate
                         } else if let selectedDate = selectedDate {
@@ -200,7 +199,6 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
                     if let allDay = allDay, allDay {
                         cell.datePicker.datePickerMode = .date
                     }
-                    cell.datePicker.minimumDate = Date.now
                     if let endDate = eventEndDate {
                         cell.datePicker.date = endDate
                     } else if let selectedDate = selectedDate {
@@ -269,14 +267,19 @@ extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegat
     
     func didSelectDate(_ cell: DatePickerTableViewCell, dateSelected: Date) {
         // TODO: Evitar este truco con las fechas y mostrar en rojo cuando se seleccione erroneamente
-        if eventStartDate == nil {
-            eventStartDate = dateSelected
-        } else {
-            if eventStartDate! > dateSelected {
-                eventEndDate = eventStartDate
-                eventStartDate = dateSelected
+        if let indexPath = eventDetailsTable.indexPath(for: cell) {
+            if eventType == .personal {
+                if indexPath.row == 2 {
+                    eventStartDate = dateSelected
+                } else if indexPath.row == 3 {
+                    eventEndDate = dateSelected
+                }
             } else {
-                eventEndDate = dateSelected
+                if indexPath.row == 1 {
+                    eventStartDate = dateSelected
+                } else if indexPath.row == 2 {
+                    eventEndDate = dateSelected
+                }
             }
         }
     }

@@ -28,6 +28,10 @@ struct PTEvent: Codable {
 
 
 enum EventType: String, Comparable, Codable  {
+    case vacation
+    case exam
+    case personal
+    
     static func < (lhs: EventType, rhs: EventType) -> Bool {
         switch lhs {
         case .personal, .exam:
@@ -40,8 +44,4 @@ enum EventType: String, Comparable, Codable  {
             return false
         }
     }
-    
-    case vacation
-    case exam
-    case personal
 }

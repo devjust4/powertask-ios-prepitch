@@ -34,7 +34,7 @@ class CalendarsViewController: UIViewController {
         calendarView.appearance.titleSelectionColor = UIColor.white
         calendarView.appearance.eventSelectionColor = UIColor.lightGray
         swipeAction()
-                
+        
         NetworkingProvider.shared.listEvents { events in
             PTUser.shared.events = events
             self.selectedDateEvents = self.getEventForDate(date: Date.now, events: events)
@@ -91,6 +91,7 @@ class CalendarsViewController: UIViewController {
                 viewController.event = event
             }
             viewController.selectedDate = calendarView.selectedDate
+            print(viewController.selectedDate)
             self.present(viewController, animated: true, completion: nil)
         }
     }
@@ -98,48 +99,26 @@ class CalendarsViewController: UIViewController {
         //        let selectedEvents = events.filter { event in
         //            return DateInterval(start: event.value.startDate, end: event.value.endDate).contains(date)
         //let selectedDate = date.formatToString(using: .justDay)
-        let selectedDate = date.formatted(date: .complete, time: .omitted)
-        let selectedEvents = events.filter { event in
-            let startDate = event.value.startDate.formatted(date: .complete, time: .omitted)
-            let endDate = event.value.startDate.formatted(date: .complete, time: .omitted)
-            // print("selección \(selectedDate) empieza: \(startDate) termina: \(endDate) ")
-            if startDate <= selectedDate && endDate >= selectedDate {
+        let mapEvents = events.values.map({$0})
+        
+        let start = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: date)!
+        let end = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date)!
+        let dateToCheckInterval = DateInterval(start: start, end: end)
+        
+        let selectedEvents = mapEvents.filter { event in
+            dateToCheckInterval.intersects(DateInterval(start: event.startDate, end: event.endDate))
+        }
+        
+        let sortedEvents = selectedEvents.sorted { event1, event2 in
+            if Bool(truncating: event1.allDay as NSNumber)  {
                 return true
+            }
+            if event1.type == event2.type {
+                return event1.startDate > event2.startDate
             } else {
-                return false
+                return event1.type > event2.type
             }
         }
-        
-        let events2 = selectedEvents.values
-        
-        let sortedTypes = events2.sorted { event1, event2 in
-            // festivo
-            // todo el dia
-            // examen
-            //eventos normales
-            return event1.type > event2.type
-            
-//            if event1.type == event2.type {
-//                return event1.startDate > event2.startDate
-//            } else {
-//                return event1.type > event2.type
-//            }
-        }
-        
-        let sortedEvents = sortedTypes.sorted { event1, event2 in
-            // festivo
-            // todo el dia
-            // examen
-            //eventos normales
-            return event1.startDate > event2.startDate
-            
-//            if event1.type == event2.type {
-//                return event1.startDate > event2.startDate
-//            } else {
-//                return event1.type > event2.type
-//            }
-        }
-        
         return sortedEvents
     }
     
@@ -386,21 +365,4 @@ extension CalendarsViewController: NewEventProtocol {
             }
         }
     }
-}
-
-extension Date {
-//    func contains(dateToCheck: Date, date1: Date, date2: Date) -> Bool {
-//        let start = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: dateToCheck)!
-//        let end = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: dateToCheck)!
-//        let dateToCheckInterval = DateInterval(start: start, end: end)
-//        let intervalFromDates = DateInterval(start: date1, end: date2)
-//        let intervalResult = dateToCheckInterval.compare(intervalFromDates)
-//        intervalResult
-//
-//    }
-//
-//    func isContained(date1: Date, date2: Date, dateToCheck: Date) -> Bool {
-//
-//        return true
-//    }
 }
