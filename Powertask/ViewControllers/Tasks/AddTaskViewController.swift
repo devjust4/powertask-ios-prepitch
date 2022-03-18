@@ -19,6 +19,7 @@ class AddTaskViewController: UIViewController {
     var subject: PTSubject?
     var subtasks: [PTSubtask]?
     var delegate: SaveNewTaskProtocol?
+    var newTask: Bool?
     
     @IBOutlet weak var editButton: UIBarButtonItem!
     
@@ -63,11 +64,10 @@ class AddTaskViewController: UIViewController {
         subtaskTable.delegate = self
         subtaskTable.dataSource = self
         
-       
         // MARK: - Data injection
         if let task = userTask {
             
-            if task.googleId == nil {
+            if task.google_id == nil {
                 handoverDatePicker.isHidden = true
                 handoverDateLabel.isHidden = true
                 handoverDateLabelToSubjectLabel.isActive = false
@@ -79,6 +79,8 @@ class AddTaskViewController: UIViewController {
                 descriptionLabelToNote.isActive = false
                 descriptionLabelToStartdateLabel.isActive = true
                 markTextfieldToStartDatePicker.isActive = false
+            }else{
+                doneButton.isHidden = true
             }
             
             taskNameTextField.text = task.name
@@ -94,10 +96,12 @@ class AddTaskViewController: UIViewController {
                 subjectButton.tintColor = UIColor(hex: subject.color)
             }
             if let dueDate = task.startDate {
+//                startDatePicker.setDate(Date(timeIntervalSince1970: TimeInterval(dueDate)), animated: false)
                 startDatePicker.setDate(dueDate, animated: false)
             }
             if let handoverDate = task.handoverDate {
-                handoverDatePicker.setDate(handoverDate, animated: false)
+//                handoverDatePicker.setDate(Date(timeIntervalSince1970: TimeInterval(handoverDate)), animated: false)
+                startDatePicker.setDate(handoverDate, animated: false)
             }
             if Bool(truncating: task.completed as NSNumber){
                 doneButton.setImage(Constants.taskDoneImage, for: .normal)
@@ -105,6 +109,10 @@ class AddTaskViewController: UIViewController {
             } else {
                 doneButton.setImage(Constants.taskUndoneImage, for: .normal)
                 doneButton.tintColor = .black
+            }
+            
+            if let mark = task.mark{
+                markTextField.text = String(mark)
             }
         } else {
             userIsEdditing = true
@@ -135,6 +143,12 @@ class AddTaskViewController: UIViewController {
             doneButton.setImage(Constants.taskUndoneImage, for: .normal)
             doneButton.tintColor = .black
             userTask!.completed = 0
+            NetworkingProvider.shared.toggleTask(task: task) { taskCompleted in
+                print("toggle ok")
+            } failure: { msg in
+                print("error toggle")
+            }
+
         } else {
             doneButton.setImage(Constants.taskDoneImage, for: .normal)
             doneButton.tintColor = Constants.appColor
@@ -148,6 +162,24 @@ class AddTaskViewController: UIViewController {
             saveData()
             configInterfaceWhileEdditiing(isEdditing: false)
             userIsEdditing = false
+            
+            if newTask == true {
+                if let task = userTask{
+                    NetworkingProvider.shared.createTask(task: task, success: { taskId in
+                        print("task create")
+                    }, failure: { msg in
+                        print("error creaating task")
+                    })
+                }
+            }else{
+                if let task = userTask{
+                    NetworkingProvider.shared.editTask(task: task) { msg in
+                        print("task save")
+                    } failure: { msg in
+                        print("error saving task")
+                    }
+                }
+            }
         } else {
             configInterfaceWhileEdditiing(isEdditing: true)
             userIsEdditing = true
@@ -199,16 +231,27 @@ class AddTaskViewController: UIViewController {
             userTask!.description = descriptionTextView.text
             // TODO: Controlar nota FLOAT?
             userTask!.mark = Float(markTextField.text ?? "00")
+            print(handoverDatePicker.date)
             userTask!.handoverDate = handoverDatePicker.date
-            
+//            Int(handoverDatePicker.date.timeIntervalSince1970)
+            print(userTask?.handoverDate)
             if !startDatePicker.isHidden {
                 userTask!.startDate = startDatePicker.date
+//                Int(startDatePicker.date.timeIntervalSince1970)
             }
             // TODO: falta perform date
         } else {
-
-            //userTask = PTTask(name: taskNameTextField.text ?? "Tarea sin nombre", completed: false, subject: subject ?? PTSubject(name: "Sin Asignatura", color: .gray), description: descriptionTextView.text! , mark: 00, startDate: Date.now, subtasks: subtasks ?? [])
-            userTask = PTTask(id: nil, googleId: nil, name: taskNameTextField.text ?? "Tarea sin nombre", startDate: nil, handoverDate: nil, mark: nil, description: descriptionTextView.text!, completed: 0, subject: subject, studentId: nil, subtasks: subtasks ?? [])
+            userTask!.name = taskNameTextField.text ?? "Tarea sin nombre"
+            userTask!.description = descriptionTextView.text
+            userTask!.mark = Float(markTextField.text ?? "00")
+            print(handoverDatePicker.date)
+            userTask!.handoverDate = handoverDatePicker.date
+//            Int(handoverDatePicker.date.timeIntervalSince1970)
+            print(userTask?.handoverDate)
+            if !startDatePicker.isHidden {
+                userTask!.startDate = startDatePicker.date
+//                Int(startDatePicker.date.timeIntervalSince1970)
+            }
             delegate?.appendNewTask(newTask: userTask!)
         }
     }

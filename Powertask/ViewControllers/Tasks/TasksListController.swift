@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TasksListController: UITableViewController {
 
     var userTasks: [PTTask]?
     var subjects: [PTSubject]?
-
+    
+    
     @IBOutlet var tasksTableView: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var addButton: UIBarButtonItem!
@@ -19,8 +21,26 @@ class TasksListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // MARK: - Mock data
-        subjects = [PTSubject(name: "iOS", color: "#444321"), PTSubject(name: "Acceso a datos", color: "#453234"), PTSubject(name: "ingles", color: "#356433")]
-        //userTasks = MockUser.user.tasks
+//        subjects = [PTSubject(name: "iOS", color: "#444321"), PTSubject(name: "Acceso a datos", color: "#453234"), PTSubject(name: "ingles", color: "#356433")]
+//        //userTasks = MockUser.user.tasks
+
+        
+        NetworkingProvider.shared.listTasks { tasks in
+            PTUser.shared.tasks = tasks
+            self.userTasks = PTUser.shared.tasks
+            PTUser.shared.savePTUser()
+            self.tasksTableView.reloadData()
+            print(tasks)
+        } failure: { msg in
+            print("ERROR-tasks")
+        }
+        
+        NetworkingProvider.shared.listSubjects { subjects in
+            PTUser.shared.subjects = subjects
+            self.subjects = PTUser.shared.subjects
+        } failure: { error in
+            print("ERROR-subjects")
+        }
     }
     
             
@@ -36,17 +56,18 @@ class TasksListController: UITableViewController {
             if let indexpath = tableView.indexPathForSelectedRow {
                 let controller = segue.destination as? AddTaskViewController
                 controller?.userTask = userTasks![indexpath.row]
-                print("ok")
+            }else{
+                let controller = segue.destination as? AddTaskViewController
+                controller?.newTask = true
+                print("true")
             }
         }
     }
    
     @IBAction func addNewTask(_ sender: Any) {
-        if let viewController = storyboard?.instantiateViewController(withIdentifier: "NewTask") as? AddTaskViewController {
-            viewController.delegate = self
-            navigationController?.pushViewController(viewController, animated: true)
-        }
+        performSegue(withIdentifier: "showTaskDetail", sender: self)
     }
+    
 }
 
 // MARK: - TableView Extension
@@ -72,7 +93,8 @@ extension TasksListController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tasks = userTasks {
+        if let tasks = PTUser.shared.tasks {
+            print(tasks.count)
             return tasks.count
         }
         return 0
@@ -87,8 +109,15 @@ extension TasksListController {
             let delete = UIContextualAction(style: .normal, title: "Borrar") { (action, view, completion) in
                 if let _ = self.userTasks {
                     self.userTasks?.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
                 }
-                self.tableView.deleteRows(at: [indexPath], with: .left)
+                
+//                NetworkingProvider.shared.deleteTask(task: userTasks) { msg in
+//                    print("removed")
+//                } failure: { msg in
+//                    print("error removing task")
+//                }
+
             }
             delete.backgroundColor =  UIColor(named: "DestructiveColor")
         
@@ -106,6 +135,13 @@ extension TasksListController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath) as! UserTaskTableViewCell
         if let task = userTasks?[indexPath.row] {
+            if task.google_id == nil{
+                cell.doneButton.configuration?.baseForegroundColor = UIColor.black
+                cell.doneButton.isEnabled = false
+            }else{
+                cell.doneButton.configuration?.baseForegroundColor = UIColor.systemGray4
+                cell.doneButton.isEnabled = false
+            }
             cell.taskNameLabel.text = task.name
             cell.taskDone = Bool(truncating: task.completed as NSNumber)
             cell.taskDoneDelegate = self
@@ -115,6 +151,7 @@ extension TasksListController {
                 cell.doneButton.setImage(Constants.taskUndoneImage, for: .normal)
             }
             if let date = task.startDate{
+//                var datePicker = (Date(timeIntervalSince1970: TimeInterval(date)))
                 cell.taskDueDateLabel.text = date.formatted(date: .long, time: .omitted)
             }
             // TODO: Pensar manera de diferenciar asignaturas
@@ -123,4 +160,5 @@ extension TasksListController {
         return cell
     }
 }
+
 

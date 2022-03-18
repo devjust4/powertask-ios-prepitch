@@ -19,14 +19,16 @@ class PTRequestInterceptor: RequestInterceptor {
     ) {
         var urlRequest = urlRequest
         if let apiToken = PTUser.shared.apiToken {
-            urlRequest.setValue(apiToken, forHTTPHeaderField: "api-token")
+            urlRequest.setValue("$2y$10$78jyP4gn0/W/Amm.NtAOKu9VmaXqsTS/ywwI/gEeRWRX6yU/A52ie", forHTTPHeaderField: "api-token")
         }
+        urlRequest.setValue("$2y$10$78jyP4gn0/W/Amm.NtAOKu9VmaXqsTS/ywwI/gEeRWRX6yU/A52ie", forHTTPHeaderField: "api-token")
+
         
         if let googleToken = GIDSignIn.sharedInstance.currentUser?.authentication.accessToken {
-            urlRequest.setValue(googleToken, forHTTPHeaderField: "token")
+            urlRequest.setValue("ya29.A0ARrdaM8zx51zsM1R7wQopg_ndnbcTVhTwbtjD2M6Z7D2mGZ6VoVvwYU_SqBxe3g8fISBQwS_ohFabYakiy1UesMPxNmY7fODP7dYxp0piSHWI_to7Y_RJBWTFKhV_T7j_qEeBDvV7YGW2VNMt4CHRmMYMHOw", forHTTPHeaderField: "token")
         }
+        urlRequest.setValue("ya29.A0ARrdaM8zx51zsM1R7wQopg_ndnbcTVhTwbtjD2M6Z7D2mGZ6VoVvwYU_SqBxe3g8fISBQwS_ohFabYakiy1UesMPxNmY7fODP7dYxp0piSHWI_to7Y_RJBWTFKhV_T7j_qEeBDvV7YGW2VNMt4CHRmMYMHOw", forHTTPHeaderField: "token")
         
-        urlRequest.setValue("1", forHTTPHeaderField: "new")
         
         completion(.success(urlRequest))
     }

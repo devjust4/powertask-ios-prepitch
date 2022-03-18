@@ -151,6 +151,7 @@ class NetworkingProvider {
     // MARK: - Task Requests
     public func listTasks(success: @escaping (_ tasks: [PTTask])->(), failure: @escaping (_ msg: String?)->()) {
         sessionManager.request(PTRouter.listTasks).validate(statusCode: statusOk).responseDecodable(of: PTResponse.self) { response in
+            print(response.debugDescription)
             if let httpCode = response.response?.statusCode {
                 switch httpCode {
                 case 200:
@@ -170,6 +171,8 @@ class NetworkingProvider {
                 default:
                     failure("There is a problem connecting to the server")
                 }
+                
+                print(httpCode)
             }
         }
     }

@@ -96,6 +96,7 @@ class LandscapeManager {
         PTUser.shared.events = userFromDefaults.events
         PTUser.shared.tasks = userFromDefaults.tasks
         PTUser.shared.sessions = userFromDefaults.sessions
+        print(PTUser.self)
     }
 }
 
