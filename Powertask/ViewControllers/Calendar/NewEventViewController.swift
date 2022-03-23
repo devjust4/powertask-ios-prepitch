@@ -71,6 +71,7 @@ class NewEventViewController: UIViewController {
         }
     }
     
+    // Función de guardado de eventos
     @IBAction func saveEvent(_ sender: Any) {
         if let eventType = eventType, let eventName = eventName, let startDate = eventStartDate, let endDate = eventEndDate {
             if eventType != EventType.exam && eventSubject != nil {
@@ -97,6 +98,7 @@ class NewEventViewController: UIViewController {
     }
 }
 
+// MARK: - Funciones de la tabla
 extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         if let type = eventType {
@@ -120,7 +122,6 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 return 3
             }
-            return 0
         } else {
             return 1
         }
@@ -248,7 +249,9 @@ extension NewEventViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: - Funciones delegadas de las celdas
 extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegate, CellDatePickerProtocol, CellTextViewProtocol, CellButtonSubjectDelegate {
+    
     func subjectSelected(_ subject: PTSubject) {
         eventSubject = subject
     }
@@ -266,7 +269,6 @@ extension NewEventViewController: CellTextFieldProtocol, CellButtonPushedDelegat
     }
     
     func didSelectDate(_ cell: DatePickerTableViewCell, dateSelected: Date) {
-        // TODO: Evitar este truco con las fechas y mostrar en rojo cuando se seleccione erroneamente
         if let indexPath = eventDetailsTable.indexPath(for: cell) {
             if eventType == .personal {
                 if indexPath.row == 2 {

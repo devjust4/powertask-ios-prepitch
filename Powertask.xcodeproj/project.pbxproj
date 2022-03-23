@@ -51,7 +51,6 @@
 		797849262791866000EB8C4C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 797849242791866000EB8C4C /* LaunchScreen.storyboard */; };
 		79865F1127D61262004FB0B4 /* DataLoadinProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */; };
 		798B064427E12E94004F1254 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = 798B064327E12E94004F1254 /* SwiftHEXColors */; };
-		79BD0D8027D0A39A00849B4B /* OldCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */; };
 		79BD0D8527D2859F00849B4B /* SessionTimeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D8327D2859F00849B4B /* SessionTimeCollectionViewCell.swift */; };
 		79BD0D8627D2859F00849B4B /* SessionTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79BD0D8427D2859F00849B4B /* SessionTimeCollectionViewCell.xib */; };
 		79BD0D8927D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BD0D8727D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.swift */; };
@@ -136,7 +135,6 @@
 		797849252791866000EB8C4C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		797849272791866000EB8C4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79865F1027D61262004FB0B4 /* DataLoadinProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadinProgressViewController.swift; sourceTree = "<group>"; };
-		79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldCalendarView.swift; sourceTree = "<group>"; };
 		79BD0D8327D2859F00849B4B /* SessionTimeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTimeCollectionViewCell.swift; sourceTree = "<group>"; };
 		79BD0D8427D2859F00849B4B /* SessionTimeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SessionTimeCollectionViewCell.xib; sourceTree = "<group>"; };
 		79BD0D8727D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysUntilPeriodEndsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -381,7 +379,6 @@
 			isa = PBXGroup;
 			children = (
 				79708FA62791F64900E42731 /* CalendarsViewController.swift */,
-				79BD0D7F27D0A39A00849B4B /* OldCalendarView.swift */,
 				79168CF327BAF14F00BBA389 /* NewEventViewController.swift */,
 				79168CED27BA899900BBA389 /* Settings */,
 			);
@@ -628,7 +625,6 @@
 				79C6472427D38865000CB0E9 /* SeventhStepViewController.swift in Sources */,
 				79DDD5DD27CD4CE000235AE0 /* FourthStepViewController.swift in Sources */,
 				7953C33127A934CF00ADE027 /* UserSubtaskTableViewCell.swift in Sources */,
-				79BD0D8027D0A39A00849B4B /* OldCalendarView.swift in Sources */,
 				79168CEA27BA885700BBA389 /* TextFieldTableViewCell.swift in Sources */,
 				79BD0D8527D2859F00849B4B /* SessionTimeCollectionViewCell.swift in Sources */,
 				B6D9640327B08BBF00F8259D /* PeriodNameTableViewCell.swift in Sources */,

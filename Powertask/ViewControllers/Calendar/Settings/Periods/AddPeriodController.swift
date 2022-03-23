@@ -47,7 +47,8 @@ class AddPeriodController: UIViewController {
         }
     }
     
-    
+    // MARK: - Navigation
+    // Valida los datos introducidos, pinta la pantalla según la edición esté activa y envia la petición al servidor.
     @IBAction func editPeriod(_ sender: Any) {
         if let editing = userIsEditing, editing {
             if let period = period {
@@ -80,33 +81,33 @@ class AddPeriodController: UIViewController {
                         self.isNewPeriod = false
                         
                     } else {
-                            if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
-                                period.id == userPeriod.id
-                            }) {
-                                NetworkingProvider.shared.editPeriod(period: period) { msg in
-                                    PTUser.shared.periods?[index] = period
-                                    PTUser.shared.savePTUser()
-                                    self.delegate?.updateList()
-                                    let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
-                                    let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
-                                    indicatorView.present(duration: 3, haptic: .success, completion: nil)
-                                } failure: { msg in
-                                    
-                                } 
+                        if let index = PTUser.shared.periods?.firstIndex(where: { userPeriod in
+                            period.id == userPeriod.id
+                        }) {
+                            NetworkingProvider.shared.editPeriod(period: period) { msg in
+                                PTUser.shared.periods?[index] = period
+                                PTUser.shared.savePTUser()
+                                self.delegate?.updateList()
+                                let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
+                                let indicatorView = SPIndicatorView(title: "Periodo guardado", preset: .custom(image))
+                                indicatorView.present(duration: 3, haptic: .success, completion: nil)
+                            } failure: { msg in
+                                
                             }
- 
+                        }
                     }
                 }
             }
         } else {
-                userIsEditing =  true
-                editPeriod.title = "Guardar"
-            }
+            userIsEditing =  true
+            editPeriod.title = "Guardar"
+        }
         
         periodTableView.reloadData()
     }
 }
 
+// MARK: - Funciones de la tabla que compone la vista
 extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -141,7 +142,6 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "dateCell", for: indexPath) as! DateTableViewCell
-        //        indexDate = indexPath
         if indexPath.section == 0{
             if indexPath.row == 0{
                 let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as! NameTableViewCell
@@ -193,8 +193,8 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
                         cell.subjectColor.isEnabled = false
                         cell.subjectName.alpha = 1
                         cell.subjectColor.alpha = 1
-                        
                     }
+                    
                 } else {
                     cell.checkSubject.setImage(UIImage(systemName: "xmark"), for: .normal)
                     cell.checkSubject.tintColor = UIColor.red
@@ -219,7 +219,46 @@ extension AddPeriodController: UITableViewDataSource, UITableViewDelegate{
     }
 }
 
-extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate {
+extension AddPeriodController: PeriodNameTextFieldProtocol, PeriodDatePickerProtocol, PeriodSubjectTextViewProtocol, ColorButtonPushedProtocol, UIColorPickerViewControllerDelegate, SubjectSelectedDelegate{
+    
+    // Recibe la celda que ha sido editada y el texto que se ha introducido dentro de su textField.
+    func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?) {
+        if let index = periodTableView.indexPath(for: cell)?.row {
+            PTUser.shared.subjects?[index].name = editingText!
+            if let indexInSelectedSubjects = selectedSubjects?.firstIndex(where: { subject in
+                subject.id == PTUser.shared.subjects?[index].id
+            }) {
+                selectedSubjects?[indexInSelectedSubjects].name = editingText!
+            }
+            if let indexInPeriodSubject = period?.subjects?.firstIndex(where: { subject in
+                subject.id == PTUser.shared.subjects?[index].id
+            }) {
+                period?.subjects?[indexInPeriodSubject].name = editingText!
+            }
+        }
+    }
+    
+    // Recibe la celda que ha sido editada y la fecha introducida en su datePicker
+    func didDateEndEditing(_ cell: DateTableViewCell, editingDate: Date?) {
+        let indexPath = periodTableView.indexPath(for: cell)
+        if let index = indexPath?.row, let date = editingDate {
+            if index == 1{
+                period?.startDate = date
+            }
+            if index == 2{
+                period?.endDate = date
+            }
+        }
+    }
+    
+    // Recibe la celda que ha sido editada y el texto que se ha introducido dentro de su textView.
+    func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
+        if let text = editingText {
+            period?.name = text
+        }
+    }
+    
+    // Recibe la celda de la signatura seleccionada/deseleccionada y su valor (seleccionado o no)
     func markSubjectSelected(_ cell: SubjectTableViewCell, selected: Bool) {
         if let subjectIndex = periodTableView.indexPath(for: cell)?.row {
             if selected {
@@ -237,6 +276,7 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
         }
     }
     
+    // Recibe la celda de la asignatura cuyo color se ha modificado y el color seleccionado en formato hexadecimal como un String
     func colorPicked(_ cell: SubjectTableViewCell, color: String) {
         if let index = periodTableView.indexPath(for: cell)?.row {
             PTUser.shared.subjects?[index].color = color
@@ -253,52 +293,12 @@ extension AddPeriodController: ColorButtonPushedProtocol, UIColorPickerViewContr
         }
     }
     
+    // Instancia el colorPicker del sistema
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
         colorViewController.delegate = cell
         colorViewController.supportsAlpha = false
         self.present(colorViewController, animated: true, completion: nil)
-    }
-}
-
-extension AddPeriodController: PeriodNameTextFieldProtocol, PeriodDatePickerProtocol, PeriodSubjectTextViewProtocol{
-    
-    func didTextEndEditing(_ cell: SubjectTableViewCell, editingText: String?) {
-        //        let indexPath = periodTableView.indexPath(for: cell)
-        //        if let index = indexPath?.row, let text = editingText{
-        //            period?.subjects?[index].name = text
-        //        }
-        if let index = periodTableView.indexPath(for: cell)?.row {
-            PTUser.shared.subjects?[index].name = editingText!
-            if let indexInSelectedSubjects = selectedSubjects?.firstIndex(where: { subject in
-                subject.id == PTUser.shared.subjects?[index].id
-            }) {
-                selectedSubjects?[indexInSelectedSubjects].name = editingText!
-            }
-            if let indexInPeriodSubject = period?.subjects?.firstIndex(where: { subject in
-                subject.id == PTUser.shared.subjects?[index].id
-            }) {
-                period?.subjects?[indexInPeriodSubject].name = editingText!
-            }
-        }
-    }
-    
-    func didDateEndEditing(_ cell: DateTableViewCell, editingDate: Date?) {
-        let indexPath = periodTableView.indexPath(for: cell)
-        if let index = indexPath?.row, let date = editingDate {
-            if index == 1{
-                period?.startDate = date
-            }
-            if index == 2{
-                period?.endDate = date
-            }
-        }
-    }
-    
-    func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
-        if let text = editingText {
-            period?.name = text
-        }
     }
 }
 

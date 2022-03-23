@@ -11,6 +11,8 @@ import UIKit
 
 class NetworkingProvider {
     static let shared = NetworkingProvider()
+    private init() {}
+    
     private let kBaseUrl = "http://powertask.kurokiji.com/public/api/"
     let statusOk = 200...499
     

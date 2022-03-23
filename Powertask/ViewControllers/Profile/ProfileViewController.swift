@@ -23,19 +23,12 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkingProvider.shared.getWidgetData { widgetsInfo in
-            PTUser.shared.widgets = widgetsInfo
-            self.widgetsCollectionView.reloadData()
-        } failure: { error in
-            print("error")
-        }
-        
+        retrieveWidgetsData()
         userIsEditing = false
         changeViewWhileEditing(isEditing: userIsEditing!)
         widgetsCollectionView.delegate = self
         widgetsCollectionView.dataSource = self
-        PTUser.shared.imageUrl = "http://powertask.kurokiji.com/public/storage/images/qdoDkmOIKftL7iavSzrTqghNwrX1u8YLhPMGdWWw.jpg"
-        PTUser.shared.name = "Daniel Torres"
+
         if let name = PTUser.shared.name {
             profileNameTextField.text = name
         }
@@ -43,24 +36,11 @@ class ProfileViewController: UIViewController {
         if let imageUrl = PTUser.shared.imageUrl, let url = URL(string: imageUrl) {
             profileImage.load(url: url)
         }
-        
-        
     }
     
-    func changeViewWhileEditing (isEditing: Bool) {
-        if isEditing {
-            profileNameTextField.borderStyle = .roundedRect
-            profileNameTextField.isEnabled = true
-            editImageButton.isHidden = false
-            editAndSaveButton.setTitle("Guardar", for: .normal)
-        } else {
-            profileNameTextField.borderStyle = .none
-            profileNameTextField.isEnabled = false
-            editImageButton.isHidden = true
-            editAndSaveButton.setTitle("Editar", for: .normal)
-        }
-    }
     
+    
+    // MARK: - Navigation
     @IBAction func uploadNewImage(_ sender: Any) {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -77,8 +57,6 @@ class ProfileViewController: UIViewController {
                 indicatorView.present(duration: 5, haptic: .error, completion: nil)
             } else {
                 PTUser.shared.name = profileNameTextField.text
-                // guardar en preferencias
-                // petición a editar perfil
                 NetworkingProvider.shared.editNameInfo(name: profileNameTextField.text!) { msg in
                     let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                     let indicatorView = SPIndicatorView(title: "Datos guardados", preset: .custom(image))
@@ -94,9 +72,34 @@ class ProfileViewController: UIViewController {
             changeViewWhileEditing(isEditing: userIsEditing!)
         }
     }
+    // MARK: - Supporting function
+    func retrieveWidgetsData() {
+        NetworkingProvider.shared.getWidgetData { widgetsInfo in
+            PTUser.shared.widgets = widgetsInfo
+            self.widgetsCollectionView.reloadData()
+        } failure: { error in
+            print("error")
+        }
+    }
+
+    func changeViewWhileEditing (isEditing: Bool) {
+        if isEditing {
+            profileNameTextField.borderStyle = .roundedRect
+            profileNameTextField.isEnabled = true
+            editImageButton.isHidden = false
+            editAndSaveButton.setTitle("Guardar", for: .normal)
+        } else {
+            profileNameTextField.borderStyle = .none
+            profileNameTextField.isEnabled = false
+            editImageButton.isHidden = true
+            editAndSaveButton.setTitle("Editar", for: .normal)
+        }
+    }
 }
 
+
 extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let file = info[.editedImage] as? UIImage
         let url = info[.imageURL] as? URL
