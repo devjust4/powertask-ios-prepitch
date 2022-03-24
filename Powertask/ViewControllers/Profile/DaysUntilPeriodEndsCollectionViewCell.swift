@@ -16,5 +16,4 @@ class DaysUntilPeriodEndsCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
     }
-
 }

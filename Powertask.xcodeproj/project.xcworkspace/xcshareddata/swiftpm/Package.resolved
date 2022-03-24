@@ -19,6 +19,7 @@
       }
     },
     {
+<<<<<<< Updated upstream
       "identity" : "dynamiccolor",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yannickl/DynamicColor.git",
@@ -28,6 +29,8 @@
       }
     },
     {
+=======
+>>>>>>> Stashed changes
       "identity" : "fscalendar",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/WenchaoD/FSCalendar.git",
@@ -73,6 +76,7 @@
       }
     },
     {
+<<<<<<< Updated upstream
       "identity" : "swifthexcolors",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/thii/SwiftHEXColors.git",
@@ -82,6 +86,8 @@
       }
     },
     {
+=======
+>>>>>>> Stashed changes
       "identity" : "uicolor-hex-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yeahdongcn/UIColor-Hex-Swift",

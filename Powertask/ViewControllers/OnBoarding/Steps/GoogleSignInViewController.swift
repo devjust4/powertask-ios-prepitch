@@ -23,11 +23,8 @@ class GoogleSignInViewController: UIViewController {
         pageControl.currentPage = 1
     }
     
-    
-    
-    
     // MARK: - Navigation
-    
+    /// Acción para lanzar el inicio de sesión con Google, además se pone en contacto con el servidor de PowerTask para registrar al usuario y recibir el token
     @IBAction func signInWithGoogle(_ sender: Any) {
         if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
             GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
@@ -35,7 +32,6 @@ class GoogleSignInViewController: UIViewController {
                     self.loadingView.isHidden = false
                     PTUser.shared.apiToken = token
                     PTUser.shared.new = new
-                    
                     if let pageController = self.parent as? OnBoardingViewController {
                         let image = UIImage.init(systemName: "checkmark.circle")!.withTintColor(UIColor(named: "AccentColor")!, renderingMode: .alwaysOriginal)
                         let indicatorView = SPIndicatorView(title: "Sesión iniciada correctamente", preset: .custom(image))
@@ -48,7 +44,6 @@ class GoogleSignInViewController: UIViewController {
                     indicatorView.present(duration: 3, haptic: .error, completion: nil)
                     return
                 }
- 
             }
         } else {
             let image = UIImage.init(systemName: "icloud.slash")!.withTintColor(.red, renderingMode: .alwaysOriginal)
@@ -56,5 +51,4 @@ class GoogleSignInViewController: UIViewController {
             indicatorView.present(duration: 3, haptic: .error, completion: nil)
         }
     }
-    
 }

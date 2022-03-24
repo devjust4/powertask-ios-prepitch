@@ -17,7 +17,6 @@
 		790BE65927BC00A8009D2706 /* PTDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65827BC00A8009D2706 /* PTDay.swift */; };
 		790BE65B27BC00BA009D2706 /* PTBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65A27BC00BA009D2706 /* PTBlock.swift */; };
 		790BE65D27BC00CA009D2706 /* PTSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65C27BC00CA009D2706 /* PTSession.swift */; };
-		790BE65F27BC00E9009D2706 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE65E27BC00E9009D2706 /* MockData.swift */; };
 		790BE66427BC1EB4009D2706 /* TimeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */; };
 		790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */; };
 		790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */; };
@@ -103,7 +102,6 @@
 		790BE65827BC00A8009D2706 /* PTDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTDay.swift; sourceTree = "<group>"; };
 		790BE65A27BC00BA009D2706 /* PTBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTBlock.swift; sourceTree = "<group>"; };
 		790BE65C27BC00CA009D2706 /* PTSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTSession.swift; sourceTree = "<group>"; };
-		790BE65E27BC00E9009D2706 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		790BE66327BC1EB4009D2706 /* TimeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableViewController.swift; sourceTree = "<group>"; };
 		790BE66627BC1F28009D2706 /* TimeTableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableTableViewCell.swift; sourceTree = "<group>"; };
 		790BE66827BC1F58009D2706 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 			isa = PBXGroup;
 			children = (
 				7908767427BFB25800E9D0A4 /* MockRequestViewController.swift */,
-				790BE65E27BC00E9009D2706 /* MockData.swift */,
 				797849152791865F00EB8C4C /* Powertask */,
 				797849142791865F00EB8C4C /* Products */,
 			);
@@ -619,7 +616,6 @@
 				797849192791865F00EB8C4C /* SceneDelegate.swift in Sources */,
 				B6D963F627ABD05200F8259D /* PTPeriod.swift in Sources */,
 				79168CE927BA885700BBA389 /* EventTableViewCell.swift in Sources */,
-				790BE65F27BC00E9009D2706 /* MockData.swift in Sources */,
 				B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */,
 				79BD0D8927D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.swift in Sources */,
 				79C6472427D38865000CB0E9 /* SeventhStepViewController.swift in Sources */,

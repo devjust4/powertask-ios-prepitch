@@ -9,6 +9,7 @@ import UIKit
 import GoogleSignIn
 import SPIndicator
 
+// Spopes de Google Classroom necesarios para solicitar los datos desde el servidor
 let scopes = ["https://www.googleapis.com/auth/classroom.courses",
               "https://www.googleapis.com/auth/classroom.courses.readonly",
               "https://www.googleapis.com/auth/classroom.course-work.readonly",
@@ -21,6 +22,8 @@ class GoogleClassroomPermissionViewController: UIViewController {
         super.viewDidLoad()
     }
 
+    // MARK: - Navigation
+    /// Comprueba que el usuario tenga conexión, después comrpueba los permisos de Google y si el usuario no ha aprobado a la aplicación, muestra la pantalla para que la autorice
     @IBAction func authorize(_ sender: Any) {
         if  let networkReacheable = PTNetworkReachability.shared.reachabilityManager?.isReachable, networkReacheable {
             requestScopes(scopes: scopes) {
@@ -39,7 +42,6 @@ class GoogleClassroomPermissionViewController: UIViewController {
                     PTUser.shared.events = user.events
                     PTUser.shared.savePTUser()
                     LandscapeManager.shared.isFirstLaunch = true
-                    
                 } failure: { error in
                     print("error en la descarga incial")
                 }
@@ -62,7 +64,9 @@ class GoogleClassroomPermissionViewController: UIViewController {
         }
     }
     
-
+    /// Presenta la pantalla de solictud de Scopes de Google
+    ///
+    /// - Parameters: Un array de strings con cada scope de Google solicitado
     func requestScopes(scopes: [String], success: @escaping ()->(), failure: @escaping ()->()) {
         GIDSignIn.sharedInstance.addScopes(scopes, presenting: self) { user, error in
             guard error == nil else {
@@ -79,5 +83,4 @@ class GoogleClassroomPermissionViewController: UIViewController {
             }
         }
     }
-    
 }

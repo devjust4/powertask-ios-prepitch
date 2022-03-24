@@ -151,6 +151,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "2DDA2686-E9B9-4F1D-80CD-35D7E386B146"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -232,6 +233,9 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3D005BEE-4E11-4FC2-BF12-A724DA74C631"
+=======
+            uuid = "61940633-78C4-480B-9EB7-72EE045DE8E7"
+>>>>>>> Stashed changes
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -263,6 +267,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "0E7862FC-CAD1-4C89-B79D-7BB7E43E1DBF"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -392,6 +397,9 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "01F5649C-EA2F-41B4-91E3-595842CFF9E4"
+=======
+            uuid = "3D005BEE-4E11-4FC2-BF12-A724DA74C631"
+>>>>>>> Stashed changes
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -407,6 +415,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+<<<<<<< Updated upstream
             uuid = "7FBC96B3-BD6B-4BF3-AC8C-C570F6792A9A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -440,6 +449,9 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E78ACCEF-E034-4026-9695-09BB26C6A09B"
+=======
+            uuid = "0E7862FC-CAD1-4C89-B79D-7BB7E43E1DBF"
+>>>>>>> Stashed changes
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -782,10 +794,17 @@
             filePath = "Powertask/ViewControllers/Calendar/NewEventViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
+=======
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "isThereUserData"
+            landmarkType = "24">
+>>>>>>> Stashed changes
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -798,9 +817,15 @@
             filePath = "Powertask/ViewControllers/Calendar/Settings/TimeTable/TimeTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
+<<<<<<< Updated upstream
             startingLineNumber = "36"
             endingLineNumber = "36"
             landmarkName = "viewDidLoad()"
+=======
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "viewDidAppear(_:)"
+>>>>>>> Stashed changes
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

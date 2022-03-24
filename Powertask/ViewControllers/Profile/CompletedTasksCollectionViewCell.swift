@@ -15,5 +15,4 @@ class CompletedTasksCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         self.layer.cornerRadius = 20
     }
-
 }

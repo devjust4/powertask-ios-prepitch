@@ -9,18 +9,14 @@ import UIKit
 import SPIndicator
 
 class ProfileViewController: UIViewController {
-
     @IBOutlet weak var profileImage: CircularImageView!
     @IBOutlet weak var profileNameTextField: UITextField!
     @IBOutlet weak var editImageButton: UIButton!
     @IBOutlet var uploadProgress: UIProgressView!
     @IBOutlet weak var editAndSaveButton: UIButton!
     @IBOutlet weak var widgetsCollectionView: UICollectionView!
-    
-    
     var userIsEditing: Bool?
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         retrieveWidgetsData()

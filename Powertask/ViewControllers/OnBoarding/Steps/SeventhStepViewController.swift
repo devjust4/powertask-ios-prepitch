@@ -14,17 +14,14 @@ class SeventhStepViewController: UIViewController {
         super.viewDidLoad()
         let dataLoadedNotification = Notification.Name("DataDonwload")
         NotificationCenter.default.addObserver(self, selector: #selector(dataLoaded(_:)), name: dataLoadedNotification, object: nil)
-        
         let leftSwipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
         leftSwipe.direction = .left
         view.addGestureRecognizer(leftSwipe)
-
     }
     
-    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer)
-    {
-        if sender.direction == .left
-        {
+    @objc func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        // Se mueve a la siguiente pantalla si ya se han cargado los datos, si no muestra una ventana de carga
+        if sender.direction == .left {
             if PTUser.shared.subjects != nil {
                 if let new = PTUser.shared.new, new {
                     if let pageController = self.parent as? OnBoardingViewController {
@@ -39,6 +36,7 @@ class SeventhStepViewController: UIViewController {
         }
     }
     
+    // Se lanza cuando los datos ya han sido descargados desde el servidor
     @objc func dataLoaded(_ notification: NSNotification) {
         dataLoaded = true
         if loadingView.isHidden == false {

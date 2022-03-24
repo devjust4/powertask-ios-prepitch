@@ -21,7 +21,7 @@ class FirstPeriodConfigViewController: UIViewController {
         super.viewDidLoad()
         newPeriodTable.delegate = self
         newPeriodTable.dataSource = self
-    selectedSubjects = []
+        selectedSubjects = []
         if let subjects = PTUser.shared.subjects {
             for subject in subjects {
                 selectedSubjects?.append(subject)
@@ -29,6 +29,8 @@ class FirstPeriodConfigViewController: UIViewController {
         }
     }
     
+    // MARK: - Navigation
+    // Recoge la información de pantalla, crea un periodo nuevo y lo envía al servidor
     @IBAction func nextScreen(_ sender: Any) {
         if let periodName = periodName, let periodStartDate = periodStartDate, let periodEndDate = periodEndDate, let selectedSubjects = selectedSubjects {
             nextView.isEnabled = false
@@ -56,6 +58,7 @@ class FirstPeriodConfigViewController: UIViewController {
     }
 }
 
+// MARK: - Funciones de la tabla
 extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -129,6 +132,7 @@ extension FirstPeriodConfigViewController: UITableViewDelegate, UITableViewDataS
     }
 }
 
+// MARK: - Funciones delegadas de las celdas
 extension FirstPeriodConfigViewController: ColorButtonPushedProtocol, PeriodSubjectTextViewProtocol, SubjectSelectedDelegate, PeriodDatePickerProtocol, PeriodNameTextFieldProtocol {
     func instanceColorPicker(_ cell: SubjectTableViewCell) {
         let colorViewController = UIColorPickerViewController()
@@ -176,6 +180,4 @@ extension FirstPeriodConfigViewController: ColorButtonPushedProtocol, PeriodSubj
     func didTextEndEditing(_ cell: NameTableViewCell, editingText: String?) {
         periodName = editingText
     }
-    
-    
 }

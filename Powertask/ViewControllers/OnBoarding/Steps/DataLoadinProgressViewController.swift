@@ -13,9 +13,7 @@ class DataLoadinProgressViewController: UIViewController {
         super.viewDidLoad()
 
         if PTUser.shared.subjects != nil {
-            
+
         }
     }
-    
-
 }

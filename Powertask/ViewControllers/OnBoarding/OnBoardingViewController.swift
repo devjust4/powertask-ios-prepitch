@@ -9,6 +9,7 @@ import UIKit
 
 class OnBoardingViewController: UIPageViewController {
     
+    // Lista de todos los controladores que pertenecen al OnBoarding
     private var viewControllerList: [UIViewController] = {
         let storyboard = UIStoryboard.onboarding
         let firstVC = storyboard.instantiateViewController(withIdentifier: "FirstStep")
@@ -27,18 +28,19 @@ class OnBoardingViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Setea los viewControllers para este PageViewController
         self.setViewControllers([viewControllerList[0]], direction: .forward, animated: false, completion: nil)
     }
     
-    
+    /// Pasa al siguiente controlador de la lista
     func goNext() {
         if currentIndex + 1 < viewControllerList.count {
             self.setViewControllers([self.viewControllerList[self.currentIndex + 1]], direction: .forward, animated: true, completion: nil)
             currentIndex += 1
-            print(currentIndex)
         }
     }
     
+    /// Vuelve al controlador anterior de la lista
     func goBack() {
         if currentIndex - 1 > 0 {
             self.setViewControllers([self.viewControllerList[self.currentIndex - 1]], direction: .reverse, animated: true)

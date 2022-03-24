@@ -26,9 +26,10 @@ class TimeTableConfigViewController: UIViewController {
         blocks = [0 : [], 1 : [], 2 : [], 3 : [], 4 : [], 5 : [], 6 : []]
     }
     
+    // MARK: - Navigation
+    // Recoge los datos de la pantalla, edita el bloque actual y lo envía al servidor
     @IBAction func endConfig(_ sender: Any) {
         if var period = PTUser.shared.periods?[0], let blocks = blocks {
-
             finishButton.isEnabled = false
             let mapBlocks = blocks.values.map({$0})
             period.blocks = mapBlocks.flatMap {$0}
@@ -106,7 +107,6 @@ extension TimeTableConfigViewController: UICollectionViewDataSource {
 }
 
 // MARK: - Funciones de la tabla de bloques
-
 extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return weekDays.count
@@ -143,8 +143,7 @@ extension TimeTableConfigViewController: UITableViewDataSource, UITableViewDeleg
     }
 }
 
-// MARK: - Funciones relativas a los protocolos de la celda
-
+// MARK: - Funciones delegadas de las celdas
 extension TimeTableConfigViewController: TimeTableDelegate {
     func addNewBlock(_ cell: TimeTableTableViewCell, newSubject: PTSubject?) {
         if let indexPath = timeTable.indexPath(for: cell), let subject = newSubject {
