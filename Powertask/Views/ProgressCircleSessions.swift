@@ -18,7 +18,7 @@ struct ContentView: View {
         VStack(spacing: 25) {
             ZStack {
                 Circle()
-                    .stroke(Color.gray.opacity(0.2), style: StrokeStyle(lineWidth: lineWith, lineCap: .round))
+                    .stroke(Color.green.opacity(0.2), style: StrokeStyle(lineWidth: lineWith, lineCap: .round))
             }.frame(width: radius * 4, height: radius * 4)
         }
     }
