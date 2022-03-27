@@ -79,6 +79,11 @@
 		79DEE2CF27972F4A00F79E83 /* PTTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2CE27972F4A00F79E83 /* PTTask.swift */; };
 		79DEE2D12797399D00F79E83 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEE2D02797399D00F79E83 /* Constants.swift */; };
 		79FB7F8727CE25200052D818 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 79FB7F8627CE25200052D818 /* Alamofire */; };
+		B63BB5BA27EB9C3800642E83 /* SessionsConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BB5B927EB9C3800642E83 /* SessionsConfigurationCell.swift */; };
+		B63BB5BC27EC649200642E83 /* SessionsTasks.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BB5BB27EC649200642E83 /* SessionsTasks.swift */; };
+		B63BB5BE27EC660F00642E83 /* SessionsTasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BB5BD27EC660F00642E83 /* SessionsTasksCell.swift */; };
+		B63BB5C027F0B92B00642E83 /* ProgressCircleSessionsActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BB5BF27F0B92A00642E83 /* ProgressCircleSessionsActive.swift */; };
+		B63BB5C227F0BC0400642E83 /* SessionsCountdownActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63BB5C127F0BC0400642E83 /* SessionsCountdownActive.swift */; };
 		B64E49D727D81B39009EEA3B /* Sessions.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B64E49D627D81B39009EEA3B /* Sessions.storyboard */; };
 		B64E49FB27D82904009EEA3B /* ProgressCircleSessions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */; };
 		B6D963EE27AB0F2400F8259D /* CalendarSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */; };
@@ -90,6 +95,8 @@
 		B6D963FF27B049C500F8259D /* PeriodSubjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D963FE27B049C500F8259D /* PeriodSubjectTableViewCell.swift */; };
 		B6D9640127B04E4C00F8259D /* PeriodDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D9640027B04E4C00F8259D /* PeriodDateTableViewCell.swift */; };
 		B6D9640327B08BBF00F8259D /* PeriodNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D9640227B08BBF00F8259D /* PeriodNameTableViewCell.swift */; };
+		B6E59C2C27E8AD380004EA84 /* SessionsCountDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E59C2B27E8AD380004EA84 /* SessionsCountDown.swift */; };
+		B6E59C2E27EB95150004EA84 /* SessionsConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E59C2D27EB95150004EA84 /* SessionsConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -161,6 +168,11 @@
 		79DEE2CA2797256700F79E83 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 		79DEE2CE27972F4A00F79E83 /* PTTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTTask.swift; sourceTree = "<group>"; };
 		79DEE2D02797399D00F79E83 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B63BB5B927EB9C3800642E83 /* SessionsConfigurationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsConfigurationCell.swift; sourceTree = "<group>"; };
+		B63BB5BB27EC649200642E83 /* SessionsTasks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsTasks.swift; sourceTree = "<group>"; };
+		B63BB5BD27EC660F00642E83 /* SessionsTasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsTasksCell.swift; sourceTree = "<group>"; };
+		B63BB5BF27F0B92A00642E83 /* ProgressCircleSessionsActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleSessionsActive.swift; sourceTree = "<group>"; };
+		B63BB5C127F0BC0400642E83 /* SessionsCountdownActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCountdownActive.swift; sourceTree = "<group>"; };
 		B64E49D627D81B39009EEA3B /* Sessions.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sessions.storyboard; sourceTree = "<group>"; };
 		B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircleSessions.swift; sourceTree = "<group>"; };
 		B6D963ED27AB0F2400F8259D /* CalendarSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsController.swift; sourceTree = "<group>"; };
@@ -172,6 +184,8 @@
 		B6D963FE27B049C500F8259D /* PeriodSubjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodSubjectTableViewCell.swift; sourceTree = "<group>"; };
 		B6D9640027B04E4C00F8259D /* PeriodDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodDateTableViewCell.swift; sourceTree = "<group>"; };
 		B6D9640227B08BBF00F8259D /* PeriodNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodNameTableViewCell.swift; sourceTree = "<group>"; };
+		B6E59C2B27E8AD380004EA84 /* SessionsCountDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsCountDown.swift; sourceTree = "<group>"; };
+		B6E59C2D27EB95150004EA84 /* SessionsConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +310,7 @@
 		7978492D2791866C00EB8C4C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B63BB5B727EB9BA600642E83 /* Sessions */,
 				798542FE27BA878F0085BEC9 /* Calendars */,
 				7953C32F27A934AA00ADE027 /* Tasks */,
 				797849242791866000EB8C4C /* LaunchScreen.storyboard */,
@@ -303,6 +318,7 @@
 				79DDD5D027CD3CED00235AE0 /* OnBoarding.storyboard */,
 				B64E49D627D81B39009EEA3B /* Sessions.storyboard */,
 				B64E49FA27D82904009EEA3B /* ProgressCircleSessions.swift */,
+				B63BB5BF27F0B92A00642E83 /* ProgressCircleSessionsActive.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -402,6 +418,10 @@
 			isa = PBXGroup;
 			children = (
 				79708FAA2791F67300E42731 /* SessionsViewController.swift */,
+				B6E59C2B27E8AD380004EA84 /* SessionsCountDown.swift */,
+				B6E59C2D27EB95150004EA84 /* SessionsConfiguration.swift */,
+				B63BB5BB27EC649200642E83 /* SessionsTasks.swift */,
+				B63BB5C127F0BC0400642E83 /* SessionsCountdownActive.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -446,6 +466,23 @@
 				79C6473027D3C3A0000CB0E9 /* TimeTableConfigViewController.swift */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		B63BB5B727EB9BA600642E83 /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				B63BB5B827EB9BC400642E83 /* Cells */,
+			);
+			path = Sessions;
+			sourceTree = "<group>";
+		};
+		B63BB5B827EB9BC400642E83 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B63BB5B927EB9C3800642E83 /* SessionsConfigurationCell.swift */,
+				B63BB5BD27EC660F00642E83 /* SessionsTasksCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		B6D963FA27ABEBD400F8259D /* PeriodsCells */ = {
@@ -566,6 +603,7 @@
 				790BE66727BC1F28009D2706 /* TimeTableTableViewCell.swift in Sources */,
 				79168CE827BA885700BBA389 /* ButtonTableViewCell.swift in Sources */,
 				B6D963FD27B03DFE00F8259D /* AddPeriodController.swift in Sources */,
+				B63BB5BA27EB9C3800642E83 /* SessionsConfigurationCell.swift in Sources */,
 				7953C32C27A8359400ADE027 /* PTSubject.swift in Sources */,
 				79DEE2CF27972F4A00F79E83 /* PTTask.swift in Sources */,
 				79DEE2D12797399D00F79E83 /* Constants.swift in Sources */,
@@ -574,11 +612,15 @@
 				79DEE2C92797002C00F79E83 /* UserTaskTableViewCell.swift in Sources */,
 				B6D9640127B04E4C00F8259D /* PeriodDateTableViewCell.swift in Sources */,
 				79C6472F27D3C387000CB0E9 /* FirstPeriodConfigViewController.swift in Sources */,
+				B6E59C2E27EB95150004EA84 /* SessionsConfiguration.swift in Sources */,
 				79DDD5D527CD4C6900235AE0 /* GoogleSignInViewController.swift in Sources */,
 				797849172791865F00EB8C4C /* AppDelegate.swift in Sources */,
 				79DDD5DF27CD4DC500235AE0 /* ConciergeViewController.swift in Sources */,
 				7953C32E27A8469100ADE027 /* SubjectSelectorViewController.swift in Sources */,
+				B63BB5BC27EC649200642E83 /* SessionsTasks.swift in Sources */,
 				790BE65927BC00A8009D2706 /* PTDay.swift in Sources */,
+				B63BB5C027F0B92B00642E83 /* ProgressCircleSessionsActive.swift in Sources */,
+				B63BB5C227F0BC0400642E83 /* SessionsCountdownActive.swift in Sources */,
 				79708FA72791F64900E42731 /* CalendarsViewController.swift in Sources */,
 				B6D963F827ABEB2700F8259D /* PeriodsTableViewCell.swift in Sources */,
 				79DDD5CB27CCF85A00235AE0 /* PTRequestLogger.swift in Sources */,
@@ -596,6 +638,7 @@
 				797849212791865F00EB8C4C /* Powertask.xcdatamodeld in Sources */,
 				79C6472227D38812000CB0E9 /* GoogleClassroomPermissionViewController.swift in Sources */,
 				790BE66927BC1F58009D2706 /* SubjectCollectionViewCell.swift in Sources */,
+				B63BB5BE27EC660F00642E83 /* SessionsTasksCell.swift in Sources */,
 				79BD0D8D27D288B700849B4B /* CompletedTasksCollectionViewCell.swift in Sources */,
 				79DDD5DB27CD4CCB00235AE0 /* FifthStepViewController.swift in Sources */,
 				790BE65B27BC00BA009D2706 /* PTBlock.swift in Sources */,
@@ -610,6 +653,7 @@
 				797849192791865F00EB8C4C /* SceneDelegate.swift in Sources */,
 				B6D963F627ABD05200F8259D /* PTPeriod.swift in Sources */,
 				79168CE927BA885700BBA389 /* EventTableViewCell.swift in Sources */,
+				B6E59C2C27E8AD380004EA84 /* SessionsCountDown.swift in Sources */,
 				790BE65F27BC00E9009D2706 /* MockData.swift in Sources */,
 				B6D963F227AB121100F8259D /* PeriodsController.swift in Sources */,
 				79BD0D8927D2879200849B4B /* DaysUntilPeriodEndsCollectionViewCell.swift in Sources */,

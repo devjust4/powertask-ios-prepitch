@@ -25,9 +25,9 @@ class PTRequestInterceptor: RequestInterceptor {
 
         
         if let googleToken = GIDSignIn.sharedInstance.currentUser?.authentication.accessToken {
-            urlRequest.setValue("ya29.A0ARrdaM8zx51zsM1R7wQopg_ndnbcTVhTwbtjD2M6Z7D2mGZ6VoVvwYU_SqBxe3g8fISBQwS_ohFabYakiy1UesMPxNmY7fODP7dYxp0piSHWI_to7Y_RJBWTFKhV_T7j_qEeBDvV7YGW2VNMt4CHRmMYMHOw", forHTTPHeaderField: "token")
+            urlRequest.setValue("ya29.A0ARrdaM9agAGhyqv4yMf0_ak6dVdHL7khADktvSOnD9FB2oCRqDwPo89wBVfd0-UhnkrQMVaebiviQNEU95-Zv-Il5YxJiLjNuHfPxiL6zKsTqKfwCVUdkRSBeGXNQEpdmP0n6r-0mX5M9VkQz2dxaTeqH76nQFtarcRPkDmiZ_YcteIqPek", forHTTPHeaderField: "token")
         }
-        urlRequest.setValue("ya29.A0ARrdaM8zx51zsM1R7wQopg_ndnbcTVhTwbtjD2M6Z7D2mGZ6VoVvwYU_SqBxe3g8fISBQwS_ohFabYakiy1UesMPxNmY7fODP7dYxp0piSHWI_to7Y_RJBWTFKhV_T7j_qEeBDvV7YGW2VNMt4CHRmMYMHOw", forHTTPHeaderField: "token")
+        urlRequest.setValue("ya29.A0ARrdaM9agAGhyqv4yMf0_ak6dVdHL7khADktvSOnD9FB2oCRqDwPo89wBVfd0-UhnkrQMVaebiviQNEU95-Zv-Il5YxJiLjNuHfPxiL6zKsTqKfwCVUdkRSBeGXNQEpdmP0n6r-0mX5M9VkQz2dxaTeqH76nQFtarcRPkDmiZ_YcteIqPek", forHTTPHeaderField: "token")
         
         
         completion(.success(urlRequest))
